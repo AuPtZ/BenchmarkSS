@@ -1,0 +1,567 @@
+#
+# This is a Shiny web application. You can run the application by clicking
+# the 'Run App' button above.
+#
+# Find out more about building applications with Shiny here:
+#
+#    http://shiny.rstudio.com/
+#
+# update time: 2023/1/16
+
+library(shiny)
+# library(rintrojs)
+library(shinyjs)
+library(shinythemes)
+library(shinyWidgets)
+library(shinyBS)
+library(shinycssloaders)
+library(shinylogs)
+library(future)
+library(promises)
+library(htmltools)
+plan(multisession)
+plan(future.callr::callr)
+
+shinyOptions(cache = cachem::cache_mem(max_size = 1000e6))
+options(shiny.sanitize.errors = TRUE)
+
+ui <- tagList( #needed for shinyjs
+  useShinyjs(),  # Include shinyjs
+  useSweetAlert(), 
+  navbarPage(id = "intabset", #needed for landing page
+             # title = "BCSS",
+             title = div(tags$a(img(src="LOGO.png", height=50)),
+                         style = "position: relative; top: -15px;"), # Navigation bar
+             windowTitle = "Signature Search Polestar", #title for browser tab
+             theme = shinytheme("cerulean"), #Theme of the app (blue navbar)
+             collapsible = TRUE, #tab panels collapse into menu in small screens
+             header = tags$head(includeCSS("www/styles.css"), # CSS styles
+                                HTML("<html lang='en'>"),
+                                tags$link(rel="shortcut icon", href="favicon.ico"), #Icon for browser tab
+                                HTML("<base target='_blank'>"),
+                                # cookie_box
+                                ),
+             ###############################################.
+             ## Landing page ----
+             ###############################################.
+             tabPanel(
+               title = "Home", icon = icon("home"),
+               mainPanel(width = 12, # style="margin-left:4%; margin-right:4%",
+                         
+                         fluidRow(column(7,(h3("Signature Search Polestar", style="margin-top:1px;"))),
+                                  (column(4,actionButton("btn_landing",
+                                                         label="Help: Take tour of the tool",
+                                                         icon=icon('question-circle'),class="down")))),
+                         # 第一行
+                         fluidRow(
+
+                           column(6, class="landing-page-column",br(), #spacing
+                                  lp_main_box(image_name= "landing_button_time_trend",
+                                              button_name = 'jump_to_bm', title_box = "Benchmark",
+                                              description = 'Evalutaion of Signature Search methods based on annotation')),
+                           
+                           column(6, class="landing-page-column",br(), #spacing
+                                  lp_main_box(image_name= "landing_button_time_trend",
+                                              button_name = 'jump_to_rb', title_box = "Robustness",
+                                              description = 'Evalutaion of Signature Search methods without annotation')),
+
+                         ),
+
+                         # 第二行
+                         fluidRow(
+                           
+                           #Table box
+                           column(6, class="landing-page-column",
+                                  br(), #spacing
+                                  
+                                  lp_main_box(image_name= "landing_button_data_table",
+                                              button_name = 'jump_to_sm', title_box = "Applicaiton",
+                                              description = 'Query drugs by Signature Search'),
+                                  
+                           ),
+                           
+                           #Table box
+                           column(6, class="landing-page-column", br(), #spacing
+                                  lp_main_box(image_name= "landing_button_other_profile",
+                                              button_name = 'jump_to_an', title_box = "Annotation",
+                                              description = 'Get annotation of Drugs'),
+                                  
+                           ),
+                         ),
+
+                         # 第三行
+                         fluidRow(
+                           #Table box
+                           column(6, class="landing-page-column", br(), #spacing
+                                  lp_main_box(image_name= "landing_button_technical_resources",
+                                              button_name = 'jump_to_jc', title_box = "Job Center",
+                                              description = 'Retrieve your query result'),
+                                  
+                           ),
+                           # data page
+                           column(6, class="landing-page-column",br(), #spacing
+                                  lp_main_box(image_name= "landing_button_related_links",
+                                              button_name = 'jump_to_dt', title_box = "Data",
+                                              description = 'Download data and scripts')
+                           ),
+                           
+                         ),
+                         
+               ) #main Panel bracket
+             ),# tab panel bracket
+             ###############################################.
+             ## Benchmark ----
+             ###############################################.
+             tabPanel("Benchmark", icon = icon("chart-area"), value = "benchmark",
+                      sidebarLayout(  
+                        sidebarPanel( width = 4,
+                          id= "bm_input",
+
+                          pickerInput("sel_experiment", label = "Step 1. Set drug profiles", 
+                                      choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
+                                      ),
+                          downloadButton("dl_drug_ann_bm","Download Blank Annotation", class = "btn-success"),
+                          
+                          shiny::br(),
+                          shiny::br(),
+                          awesomeCheckboxGroup("sel_ss", 
+                                             "Step 2. Select what type of Signature Search you want to test:",
+                                             choices=ss_list,
+                                             selected = list("SS_Xsum","SS_CMap")
+                                             
+                          ),
+                          
+                          shiny::br(),
+                          
+                          fileInput(
+                            inputId = "file_sig",
+                            label = "Step 3: upload signature for performance",
+                            buttonLabel = "Browse...",
+                            placeholder = "No file selected",
+                            accept = c(".csv",".txt")
+                          ),
+                          shiny::br(),
+                          
+                          fileInput(
+                            inputId = "file_IC50",
+                            label = "Step 4a: upload annotated drugs (AUC)",
+                            buttonLabel = "Browse...",
+                            placeholder = "No file selected",
+                            accept = c(".csv",".txt")
+                          ),
+                          
+                          shiny::br(),
+                          fileInput(
+                            inputId = "file_FDA",
+                            label = "Step 4b: upload annotated drugs (ES)",
+                            buttonLabel = "Browse...",
+                            placeholder = "No file selected",
+                            accept = c(".csv",".txt")
+                          ),
+                          
+                          
+                          actionButton("runBM", "Run", class = "btn-success"),
+                          actionButton("reset","Reset"),
+
+                          
+                        ), # end of side pannel
+                        
+                        mainPanel(id= "bm_out",
+                                  uiOutput(outputId = "display_bm") %>% withSpinner(),
+                        )
+                      ) # slidelayout
+             ), #Tab panel bracket
+             
+             ###############################################.
+             ## Robustness ----
+             ###############################################.
+             tabPanel("Robustness", icon = icon("chart-area"), value = "robustness",
+                      sidebarLayout(  
+                        sidebarPanel( width = 4,
+                                      id= "rb_input",
+                                      
+                                      pickerInput("sel_experiment_rb", label = "Step 1. Set drug profiles", 
+                                                  choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
+                                      ),
+
+                                      shiny::br(),
+                                      awesomeCheckboxGroup("sel_ss_rb",
+                                                           "Step 2. Select Signature Search:",
+                                                           choices=ss_list,
+                                                           selected = list("SS_Xsum","SS_CMap","SS_GESA","SS_ZhangScore","SS_XCos")
+                                      ),
+                                      shiny::br(),
+                                      actionButton("runRB", "Run", class = "btn-success"),
+                                      actionButton("reset_rb","Reset"),
+                        ), # end of side pannel
+                        mainPanel(id= "rb_out",
+                                  uiOutput(outputId = "display_rb") %>% withSpinner()
+                        ),
+                      ) # slidelayout
+             ), #Tab panel bracket
+             
+             ###############################################.
+             ## Application ----
+             ###############################################.
+             tabPanel("Application", icon = icon("list-ul"), value = "singlemethod",
+                      sidebarLayout( 
+                        sidebarPanel(  width = 4,
+                          id= "sm_input",
+                          # 设定网页模块
+                          pickerInput(inputId = "sel_model_sm", label = "Step 1. Select module", 
+                                      choices = list("Single method" = "singlemethod", 
+                                                     "SS cross" = "SS_cross", 
+                                                     "SS all" = "SS_all"), 
+                                      selected = "singlemethod"),
+                          shiny::br(),
+                          
+                          # 设定三个子页面的状态
+                          # 单个模块界面，只要确定选择哪个算法就行
+                          conditionalPanel(
+                            condition = "input.sel_model_sm == 'singlemethod' | input.sel_model_sm == 'SS_cross'" ,
+                            awesomeRadio("sel_ss_sm",
+                                         "Step 2. Select method",
+                                         choices=ss_list,
+                                         selected = list("SS_Xsum")
+                            ),
+                          ),
+                          
+                          # 交叉模块，需要确定选择哪个算法
+                          # （目前来看和single算法一致，此处预留拓展空间）
+                          # conditionalPanel(
+                          #   condition = "" ,
+                          #   radioButtons("sel_ss_sm",
+                          #                "Step 2. Select method",
+                          #                choices=ss_list,
+                          #                selected = list("SS_Xsum"),
+                          #   ),
+                          # ),
+                          
+                          # 全部运算模块
+                          # 需要，选择算法，设定汇总排序的区域
+                          conditionalPanel(
+                            condition = "input.sel_model_sm == 'SS_all'" ,
+                            awesomeCheckboxGroup("sel_all_sm", 
+                                               "Step 2a. Select methods (at least 2)",
+                                               choices=ss_list,
+                                               selected = list("SS_Xsum","SS_CMap"),
+                                               
+                            ),
+                            awesomeRadio("sel_direct_sm", 
+                                         "Step 2b. Select direct to show:",
+                                         choices=sm_direct,inline = T,
+                                         selected = list("Down")
+                            ),
+                          ),
+                          
+                          # 确定选择哪个算法作为比较基准
+                          shiny::br(),
+                          pickerInput("sel_experiment_sm", label = "Step 3. Set drug profiles", 
+                                      choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
+                                      ),
+
+                          shiny::br(),
+                          
+                          conditionalPanel(
+                            condition = "input.sel_model_sm == 'SS_all' | input.sel_model_sm == 'singlemethod'" ,
+                            # 上传signature (普通情况)
+                            fileInput(
+                              inputId = "file_sig_sm",
+                              label = "Step 4: upload signature",
+                              buttonLabel = "Browse...",
+                              placeholder = "No file selected",
+                              accept = c(".csv",".txt")
+                            ),
+                          ),
+                          
+                          conditionalPanel(
+                            condition = "input.sel_model_sm == 'SS_cross'" ,
+                            # 上传signature (特殊情况)
+                            textInput("file_name1", label = "Step 4a: upload signature 1", value = "Signature1"),
+                            fileInput(
+                              inputId = "file_sig_sm1",
+                              label = "",
+                              buttonLabel = "Browse...",
+                              placeholder = "No file selected",
+                              accept = c(".csv",".txt")
+                            ),
+                            textInput("file_name2",label = "Step 4b: upload signature 2", value = "Signature2"),
+                            fileInput(
+                              inputId = "file_sig_sm2",
+                              label = "",
+                              buttonLabel = "Browse...",
+                              placeholder = "No file selected",
+                              accept = c(".csv",".txt")
+                          ),
+                          ),
+                          # 设定使用排序多少的内容进行计算？
+                          numericInput("sel_topn_sm", label = "Step 5. Set read gene num(topN)", 
+                                       value = 150, min = 50, max = 489),
+                          
+                          shiny::br(),
+                          actionButton("runSM", "Run", class = "btn-success"),
+                          actionButton("reset_sm","Reset"),
+                          
+                        ),
+                        mainPanel( id= "sm_out",
+                          uiOutput(outputId = "display_sm") %>% withSpinner()
+                        ),
+
+                      )
+             ), #Tab panel bracket
+             ###############################################.
+             ## Annotation ---- 
+             ###############################################.
+             tabPanel("Annotation", icon = icon("table"), value = "annotation",
+                      sidebarLayout( 
+                        sidebarPanel(  width = 4,
+                                       id = "an_page",
+                                       shiny::p(
+                                         br(),
+                                         "Select a cancer and download annotations.",
+                                         br(),
+                                         "The drug annotation are display on the right table.",
+                                         br(),
+                                         "Here are two types of annotation files for different methods.",
+                                         br(),
+                                       ),
+                                       selectInput("an_input","Select cancer",
+                                                   choices = disinfo_vector,
+                                                   selected = "PRAD"),
+                                       selectInput("an_input_type","Select annotation type",
+                                                   choices = c("Area Under Curve(AUC)" = "AUC",
+                                                               "Enrichment Score(ES)" = "ES"),
+                                                   selected = "AUC"),
+                                       shiny::br(),
+                                       downloadButton("run_AN","Download annotations", class = "btn-success"),
+                        ),
+                        mainPanel(id= "an_out",
+                                  uiOutput(outputId = "display_an") %>% withSpinner(),
+                                  dataTableOutput("display_an_tb")
+
+                        ), # main panel bracket
+                      ),
+                      
+             ), #Tab panel bracket
+             
+             
+             
+             ###############################################.
+             ## Job Center ---- 
+             ###############################################.
+             tabPanel("Job Center", icon = icon("signal"), value = "jobcenter",
+                      sidebarLayout( 
+                        sidebarPanel(  width = 4,
+                          id = "job_page",
+                          textInput("jobid_input", label = "Input Jobid", value = "demo1"),
+                          shiny::br(),
+                          actionButton("jobid_get","Retrieve", class = "btn-success"),
+                          shiny::p(
+                            br(),
+                            "Here we provide some jobid for demo result presentation.",
+                            br(),
+                            strong("BEN1673757786WRK")," for Benchmark(Both AUC and ES)",
+                            br(),
+                            strong("APP1665835183CJF")," for Application(Single method)",
+                            br(),
+                            strong("APP1673711282IHW")," for Application(SS_all)",
+                            br(),
+                            strong("APP1673711120BKD")," for Application(SS_cross)", # APP1673762652RIC
+                            br(),
+                          )
+
+                        ),
+                        mainPanel(id= "jc_out",
+                                  tableOutput("display_jc_info"),
+                                  uiOutput(outputId = "display_jc") %>% withSpinner()
+                        ), # main panel bracket
+                      ),
+
+             ), #Tab panel bracket
+             ###############################################.
+             ## Data ----
+             ###############################################.
+             tabPanel("Data", icon = icon("table"), value = "datapage",
+                      #Sidepanel for filtering data
+                      mainPanel(id= "jc_out",
+                                fluidRow(
+                                  column(3,
+                                         # "sidebar1"
+                                  ),
+                                  column(7,
+                                         shiny::h3("Download demo file for perform jobs"),
+                                         downloadButton("dl_demo","Download Demo", class = "btn-success"),
+                                         downloadButton("dl_script","Download Script", class = "btn-success"),
+                                         shiny::br(),
+                                         shiny::h3("Download curated drug expression profile"),
+                                         pickerInput("sel_experiment_dl", label = "Select drug profiles", 
+                                                     choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
+                                         ),
+                                         downloadButton("dl_drug_exp","Download Drug Profiles", class = "btn-success"),
+                                         downloadButton("dl_drug_ann","Download Drug Annotation", class = "btn-success"),
+                                  ),
+                                  column(2,
+                                         # "sidebar2"
+                                  )
+                                ),
+                      ) # main panel bracket
+             ), #Tab panel bracket
+             
+             ###############################################.             
+             ##############NavBar Menu----
+             ###############################################.
+             #Starting navbarMenu to have tab with dropdown list
+             navbarMenu("Info", icon = icon("info-circle"),
+                        ###############################################.
+                        ## About ----
+                        ###############################################.
+
+                        tabPanel("Help", value = "help",
+                                 fluidRow(
+                                   column(1,
+                                          # "sidebar1"
+                                   ),
+                                   column(10,
+                                          navlistPanel(
+                                            "Help info",
+                                            tabPanel("Q1: Why we built SSP?",
+                                                     uiOutput(outputId = "display_Q1") %>% withSpinner()
+                                            ),
+                                            tabPanel("Q2: How to use Benchmark and interpret the results?",
+                                                     uiOutput(outputId = "display_Q2") %>% withSpinner()
+                                            ),
+                                            tabPanel("Q3: How to use Robustness and interpret the results?",
+                                                     uiOutput(outputId = "display_Q3") %>% withSpinner()
+                                            ),
+
+                                            tabPanel("Q4: How to query drug in Application and interpret the results?",
+                                                     uiOutput(outputId = "display_Q4") %>% withSpinner()
+                                            ),
+                                            tabPanel("Q5: How to download data?",
+                                                     uiOutput(outputId = "display_Q5") %>% withSpinner()
+                                            ),
+                                            tabPanel("Q6: How to get job result again?",
+                                                     uiOutput(outputId = "display_Q6") %>% withSpinner()
+                                            ),
+                                            widths = c(3,9)
+                                          ),
+                                   ),
+                                   column(1,
+                                          # "sidebar2"
+                                   )
+                                 ),
+
+
+                                 ),#Tab panel
+
+                        tabPanel("About", value = "about",
+
+                                 fluidRow(
+                                   column(3,
+                                          # "sidebar1"
+                                   ),
+                                   column(6,
+                                          uiOutput(outputId = "display_about") %>% withSpinner()
+
+                                   ),
+                                   column(3,
+                                          # "sidebar2"
+                                   )
+                                 ),
+
+                        ),#Tab panel
+                        ###############################################.
+
+             ),# NavbarMenu bracket
+  ), #Bracket  navbarPage
+
+  div(style = "margin-bottom: 45px;"), # this adds breathing space between content and footer
+  ###############################################.             
+  ##############Footer----    
+  ###############################################.
+  # Copyright warning
+  tags$footer(column(6, "This website is free and open to all users and there is no login requirement."),
+              column(2, tags$a(href="mailto:jbzhangs@foxmail.com", tags$b("Contact us!"),
+                               class="externallink", style = "color: white; text-decoration: none")),
+              style = "
+   position:fixed;
+   text-align:center;
+   left: 0;
+   bottom:0;
+   width:100%;
+   z-index:1000;
+   height:40px; /* Height of the footer */
+   color: white;
+   padding: 10px;
+   font-weight: bold;
+   background-color: #1995dc"
+  )
+  ################################################.
+) #bracket tagList
+###END
+
+###############################################.             
+##############Server----    
+###############################################.
+server <- function(input, output, session) {
+  ###############################################.
+  ## Sourcing tab code  ----
+  ###############################################.
+  # Sourcing file with server code
+  source(file.path("benchmark_tab.R"),  local = TRUE)$value # benchmark tab
+  source(file.path("robustness_tab.R"),  local = TRUE)$value # robustness tab
+  source(file.path("singlemethod_tab.R"),  local = TRUE)$value # application tab
+  source(file.path("jobcenter_tab.R"),  local = TRUE)$value # jobcenter tab
+  source(file.path("data_tab.R"),  local = TRUE)$value # data tab
+  source(file.path("info_tab.R"),  local = TRUE)$value # info tab
+  
+  ### 2023年10月1日新增部分 ###
+  source(file.path("annotation_tab.R"),  local = TRUE)$value # annotation tab
+  ### 2023年10月1日新增部分 ###
+  
+
+  observeEvent(input$jump_to_bm, {
+    updateTabsetPanel(session, "intabset", selected = "benchmark")
+  })
+  
+  observeEvent(input$jump_to_rb, {
+    updateTabsetPanel(session, "intabset", selected = "robustness")
+  })
+  
+  observeEvent(input$jump_to_sm, {
+    updateTabsetPanel(session, "intabset", selected = "singlemethod")
+  })
+  
+  ### 2023年10月1日新增部分 ###
+  observeEvent(input$jump_to_an, {
+    updateTabsetPanel(session, "intabset", selected = "annotation")
+  })
+  ### 2023年10月1日新增部分end ###
+  
+  observeEvent(input$jump_to_jc, {
+    updateTabsetPanel(session, "intabset", selected = "jobcenter")
+  })
+  
+  observeEvent(input$jump_to_dt, {
+    updateTabsetPanel(session, "intabset", selected = "datapage")
+  })
+  
+  # 重置
+  observeEvent(input$btn_landing, {
+    updateTabsetPanel(session, "intabset", selected = "help")
+  })
+  
+
+}
+
+
+
+
+
+
+
+###############################################.             
+##############Running Code----    
+###############################################.
+# Run the application 
+shinyApp(ui = ui, server = server)
