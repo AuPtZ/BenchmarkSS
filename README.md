@@ -48,10 +48,10 @@ Signature Search Polestar (SSP) is a webserver integrating the largest uniform d
 
 #### Installation
 
-This site provide core code in SSP.
-A full demo (18G) needs to be download manually via below link
-http://work.biotcm.net:20002/down/tZzQfL9ltGkO.gz
-download and unzip the file, and run beforerun.R for essential packages installment
+This site provide core code in SSP. 
+A full demo (18G) needs to be download manually via below link 
+http://work.biotcm.net:20002/down/tZzQfL9ltGkO.gz 
+download and unzip the file, and run beforerun.R for essential packages installment 
 then run the app.R file in Rstudio
 
 
