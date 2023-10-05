@@ -33,7 +33,8 @@ output$dl_demo <- downloadHandler(
              c("demo/drug_annotation_ES.txt",
                "demo/drug_annotation_AUC.txt",
                "demo/signature.txt",
-               "demo/signature2.txt"),
+               "demo/signature2.txt",
+               "demo/manual of SSP V2.pdf"),
              mode = "cherry-pick")
   }
 )
@@ -48,3 +49,4 @@ output$dl_script <- downloadHandler(
              mode = "cherry-pick")
   }
 )
+

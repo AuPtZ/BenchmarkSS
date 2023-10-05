@@ -19,25 +19,44 @@ Signature Search Polestar (SSP) is a webserver integrating the largest uniform d
 #### Software Architecture
 
 ```
+├── annotation_tab.R
 ├── app.R
 ├── beforerun.R
 ├── benchmark_tab.R
 ├── cache
+│   ├── BM
+│   ├── SM
+│   └── SS
 ├── data_preload
+│   ├── annotation
+│   ├── drugexp
+│   ├── nulldistribution
+│   ├── others
+│   └── robustness
 ├── data_tab.R
 ├── demo
+│   ├── drug_annotation_AUC.txt
+│   ├── drug_annotation_ES.txt
+│   ├── signature2.txt
+│   └── signature.txt
 ├── demoLoop.txt
 ├── info_tab.R
 ├── jobcenter_tab.R
 ├── LICENSE
+├── maintain
 ├── NULLprocessing
 ├── R
+│   ├── global.R
+│   ├── SS.R
+│   ├── Utils_BM.R
+│   ├── Utils_RB.R
+│   └── Utils_SM.R
 ├── README.md
 ├── results
+│   └── resinfo.db
 ├── robustness_tab.R
 ├── selfloop.R
 ├── sessioninfo.rdata
-├── sessionInfo.txt
 ├── singlemethod_tab.R
 ├── SSP.Rproj
 └── www
@@ -48,10 +67,10 @@ Signature Search Polestar (SSP) is a webserver integrating the largest uniform d
 
 #### Installation
 
-This site provide core code in SSP. 
-A full demo (18G) needs to be download manually via below link 
-http://work.biotcm.net:20002/down/tZzQfL9ltGkO.gz 
-download and unzip the file, and run beforerun.R for essential packages installment 
+This site provide core code in SSP.  
+A full demo (18G) needs to be download manually via below link:  
+http://work.biotcm.net:20002/down/tZzQfL9ltGkO.gz  
+download and unzip the file, and run beforerun.R for essential packages installment  
 then run the app.R file in Rstudio
 
 

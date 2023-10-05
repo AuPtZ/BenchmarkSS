@@ -1,4 +1,19 @@
-
+output$dl_manual_pdf <- downloadHandler(
+  # filename = "manual of SSP V2.pdf",
+  # content = function(file) {
+  #   file.copy("manual of SSP V2.pdf", file)
+  # }
+  
+  filename = function() {
+    return("manual of SSP.pdf")
+  },
+  content = function(file) {
+    file.copy("demo/manual of SSP V2.pdf", file)
+    # zip::zip(zipfile = file,
+    #          c("demo/manual of SSP V2.pdf"),
+    #          mode = "cherry-pick")
+  }
+)
 
 
 output$display_about =  renderUI({
@@ -26,6 +41,7 @@ output$display_about =  renderUI({
 # Q1: why we built SSP?
 output$display_Q1 = renderUI({
   tagList(
+    downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
     shiny::h3("Why we built SSP?"),
     shiny::p("The growing interest in human genes and accessibility of high-throughput technologies directly lead to exponential increase data size in pharmacotranscriptomic profiles.",br(),
              "Profile-based method has been widely used for screening drugs and identifying molecular actions of drugs, which could remarkably enhance novel drug-disease pair discovery without relying on drug- or disease-specific prior knowledge. ",
@@ -59,6 +75,7 @@ output$display_Q1 = renderUI({
 # Q2: how to benchmark/robustness?
 output$display_Q2 = renderUI({
   tagList(
+    downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
     shiny::h3("How to use Benchmark and interpret the results?"),
     shiny::p("It is very easy to use Benchmark as it only requires at most 3 files, a signature (necessary), and drug annotations for AUC or enrichment score (ES) (at least one of them).",
              br(),
@@ -106,6 +123,7 @@ output$display_Q2 = renderUI({
 # Q3: how to interpret the result?
 output$display_Q3 = renderUI({
   tagList(
+    downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
     shiny::h3("How to use Robustness and interpret the results?"),
     shiny::p("Robustness provides a pre-computed result of each SS method at different topN. It is useful when there are insufficient annotation for drugs.",
              br(),
@@ -157,6 +175,7 @@ output$display_Q3 = renderUI({
 output$display_Q4 = renderUI({
 
   tagList(
+    downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
     shiny::h3("How to query drug in Application and interpret the results?"),
     shiny::p(withMathJax(),
 
@@ -210,6 +229,7 @@ output$display_Q4 = renderUI({
 # Q5: how to download data?
 output$display_Q5 = renderUI({
   tagList(
+    downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
     shiny::h3("How to download curated data?"),
     shiny::p("To download data, please navigate to the data page for curated data.")
   )
@@ -219,6 +239,7 @@ output$display_Q5 = renderUI({
 # Q6: how to get job result again?
 output$display_Q6 = renderUI({
   tagList(
+    downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
     shiny::h3("How to get job result again?"),
     shiny::p("To regain job results, please navigate to the job center page and enter your job ID.",
              br(),

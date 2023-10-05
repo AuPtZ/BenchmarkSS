@@ -389,6 +389,8 @@ ui <- tagList( #needed for shinyjs
                                          # "sidebar1"
                                   ),
                                   column(7,
+                                         # shiny::h3("Download manual of SSP"),
+                                         # downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
                                          shiny::h3("Download demo file for perform jobs"),
                                          downloadButton("dl_demo","Download Demo", class = "btn-success"),
                                          downloadButton("dl_script","Download Script", class = "btn-success"),
