@@ -9,7 +9,11 @@ load("data_preload/annotation/GSDCIC50.Rdata")
 
 output$display_an <- renderUI(initial_an)
 
-output$display_an_tb <- renderDataTable(GSDCIC50 %>% dplyr::filter(TCGA_DESC == input$an_input ))
+output$display_an_tb <- renderDataTable(GSDCIC50 %>% 
+                                          dplyr::filter(TCGA_DESC == input$an_input),
+                                        server = FALSE,
+                                        options = list(scrollX = TRUE,
+                                                       fixedColumns = TRUE))
 
 
 output$run_AN <- downloadHandler(
