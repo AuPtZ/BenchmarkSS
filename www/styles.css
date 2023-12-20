@@ -50,3 +50,11 @@
 .down{ background-color:#4da6ff; color: white; background-image:none; 
        min-width: 23vh;  font-size: 14px; padding: 5px 10px; 
        margin-top: 5px; margin-left: 3px}
+       
+/*Style for tooltip */  
+.popover {
+  min-width: 20vw !important;
+  text-align: justify;
+  /* max-width: 50vw !important;  */
+}
+

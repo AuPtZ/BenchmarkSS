@@ -116,44 +116,105 @@ ui <- tagList( #needed for shinyjs
                       sidebarLayout(  
                         sidebarPanel( width = 4,
                           id= "bm_input",
-
-                          pickerInput("sel_experiment", label = "Step 1. Set drug profiles", 
+                          popify(
+                            shiny::strong(tagList("Step 1: select a pharmacotranscriptomic dataset",icon("circle-question"))),
+                            title = NULL,
+                            content = paste(
+                              "SSP contains datasets of nine tumor cell lines at ",
+                              as.character(strong("diifferent concentration and treat time.")),
+                              "<br>In general, we recommend user to select a dataset with more drugs and highly related to disease of interest"
+                              ),
+                            trigger = "click", placement = "right"
+                          ),
+                          
+                          pickerInput("sel_experiment", label = NULL, 
                                       choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
                                       ),
                           downloadButton("dl_drug_ann_bm","Download Blank Annotation", class = "btn-success"),
                           
                           shiny::br(),
+
                           shiny::br(),
-                          awesomeCheckboxGroup("sel_ss", 
-                                             "Step 2. Select what type of Signature Search you want to test:",
-                                             choices=ss_list,
-                                             selected = list("SS_Xsum","SS_CMap")
-                                             
+                          popify(
+                            shiny::strong(tagList("Step 2: Select Signature Search methods",icon("circle-question"))),
+                            title = NULL,
+                            content = paste("Please select ",
+                                            as.character(strong("at least TWO")),
+                                            "methods for benchmark. More methods mean more time.",
+                                            as.character(strong("The time for a full-seleted job is 15~30 mins"))
+                            ),
+                            trigger = "click",
+                            placement = "right"
+                          ),
+                          shiny::p(),
+                          shiny::p(),
+                          awesomeCheckboxGroup("sel_ss",
+                                               label = NULL,
+                                               choices=ss_list,
+                                               selected = list("SS_Xsum","SS_CMap")
                           ),
                           
                           shiny::br(),
-                          
+                          popify(
+                            shiny::strong(tagList("Step 3: upload disease signature",icon("circle-question"))),
+                            title = NULL,
+                            content = paste("Disease signature is a gene list (gene symbol) with logFC, and a", 
+                                          a(href = "demo/signature.txt", "demo signature file"),
+                                          "is provided. <br>If you have other identifier (e.g. EntrezID), please go to",
+                                          as.character(strong(" convertor page"))," to convert your signature."
+                            ),
+                            trigger = "click",
+                            placement = "right"
+                          ),
+
                           fileInput(
                             inputId = "file_sig",
-                            label = "Step 3: upload signature for performance",
+                            label = NULL,
                             buttonLabel = "Browse...",
                             placeholder = "No file selected",
                             accept = c(".csv",".txt")
                           ),
+                          
+
+
                           shiny::br(),
+                          
+                          popify(
+                            shiny::strong(tagList("Step 4a: upload drug annotations (for AUC)",icon("circle-question"))),
+                            title = NULL,
+                            content = paste("At least upload one type annotation in 4a or 4b, also you can upload both of them. A", 
+                                            a(href = "demo/drug_annotation_AUC.txt", "demo drug annotation for AUC"),
+                                            "is provided."
+                            ),
+                            trigger = "click",
+                            placement = "right"
+                          ),
                           
                           fileInput(
                             inputId = "file_IC50",
-                            label = "Step 4a: upload annotated drugs (AUC)",
+                            label = NULL,
                             buttonLabel = "Browse...",
                             placeholder = "No file selected",
                             accept = c(".csv",".txt")
                           ),
                           
                           shiny::br(),
+                          
+                          
+                          popify(
+                            shiny::strong(tagList("Step 4b: upload drug annotations (for ES)",icon("circle-question"))),
+                            title = NULL,
+                            content = paste("At least upload one drug annotation in 4a or 4b, also you can upload both of them. A", 
+                                            a(href = "demo/drug_annotation_ES.txt", "demo drug annotation for ES"),
+                                            "is provided."
+                            ),
+                            trigger = "click",
+                            placement = "right"
+                          ),
+                          
                           fileInput(
                             inputId = "file_FDA",
-                            label = "Step 4b: upload annotated drugs (ES)",
+                            label = NULL,
                             buttonLabel = "Browse...",
                             placeholder = "No file selected",
                             accept = c(".csv",".txt")
@@ -520,6 +581,10 @@ server <- function(input, output, session) {
   ### 2023年10月1日新增部分 ###
   source(file.path("annotation_tab.R"),  local = TRUE)$value # annotation tab
   ### 2023年10月1日新增部分 ###
+  
+  ### 2023年12月19日新增部分 ###
+  addResourcePath(prefix = "demo", directoryPath = "demo") # 添加下载路径，用于提供单独的demofile的下载！
+  ### 2023年12月19日新增部分 ###
   
 
   observeEvent(input$jump_to_bm, {

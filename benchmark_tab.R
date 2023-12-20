@@ -23,6 +23,7 @@ dir = "~/dataportal/LINCS/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.g
 # 初始化
 output$display_bm <- renderUI(initial_bm)
 
+
 # 重置
 observeEvent(input$reset, {
   reset("bm_input")
@@ -286,6 +287,16 @@ output$dl_drug_ann_bm <- downloadHandler(
     )
 
     rio::export(df_ann_export1, file,format = "tsv",row.names = F)
+  }
+)
+
+
+output$dl_solo_sig1 <- downloadHandler(
+  filename = function() {
+    return("signature.txt")
+  },
+  content = function(file) {
+    file.copy("demo/signature.txt", file)
   }
 )
 
