@@ -544,6 +544,7 @@ ui <- tagList( #needed for shinyjs
                         sidebarPanel(
                           textAreaInput("text_ct", "Step 1. Input your signature",height = "200px"),
                           actionButton("runCTdemo", "demo"),
+                          shiny::p(),
                           radioButtons("format_ct", "Step 2. Select the \"From\" ID", 
                                        inline = T,
                                        choices = c("ENTREZID", "ENSEMBL","UNIGENE","GENENAME")),

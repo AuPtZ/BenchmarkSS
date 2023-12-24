@@ -52,7 +52,7 @@ observeEvent(input$runCT, {
 
       tagList(
         shiny::h3("Result"),
-        shiny::strong(paste(ncol(rv_ct$df_ct2)/ncol(df_ct) *100 ,
+        shiny::strong(paste(round(nrow(rv_ct$df_ct2)/nrow(df_ct) *100,digits = 1) ,
                             "% were successfully mapped." )),
         shiny::strong("You may check the input and output and download by click the button."),
         downloadButton(outputId = "download_ct",
