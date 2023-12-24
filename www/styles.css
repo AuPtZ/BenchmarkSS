@@ -54,7 +54,7 @@
 /*Style for tooltip */  
 .popover {
   min-width: 20vw !important;
-  text-align: justify;
+  /* text-align: justify; */
   /* max-width: 50vw !important;  */
 }
 

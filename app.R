@@ -75,7 +75,7 @@ ui <- tagList( #needed for shinyjs
                                   br(), #spacing
                                   
                                   lp_main_box(image_name= "landing_button_data_table",
-                                              button_name = 'jump_to_sm', title_box = "Applicaiton",
+                                              button_name = 'jump_to_sm', title_box = "Application",
                                               description = 'Query drugs by Signature Search'),
                                   
                            ),
@@ -101,8 +101,8 @@ ui <- tagList( #needed for shinyjs
                            # data page
                            column(6, class="landing-page-column",br(), #spacing
                                   lp_main_box(image_name= "landing_button_related_links",
-                                              button_name = 'jump_to_dt', title_box = "Data",
-                                              description = 'Download data and scripts')
+                                              button_name = 'jump_to_ct', title_box = "Converter",
+                                              description = 'Easy convert gene identifier')
                            ),
                            
                          ),
@@ -117,7 +117,7 @@ ui <- tagList( #needed for shinyjs
                         sidebarPanel( width = 4,
                           id= "bm_input",
                           popify(
-                            shiny::strong(tagList("Step 1: select a pharmacotranscriptomic dataset",icon("circle-question"))),
+                            shiny::strong(tagList("Step 1. Select a pharmacotranscriptomic dataset",icon("circle-question"))),
                             title = NULL,
                             content = paste(
                               "SSP contains datasets of nine tumor cell lines at ",
@@ -136,7 +136,7 @@ ui <- tagList( #needed for shinyjs
 
                           shiny::br(),
                           popify(
-                            shiny::strong(tagList("Step 2: Select Signature Search methods",icon("circle-question"))),
+                            shiny::strong(tagList("Step 2. Select Signature Search methods",icon("circle-question"))),
                             title = NULL,
                             content = paste("Please select ",
                                             as.character(strong("at least TWO")),
@@ -156,9 +156,9 @@ ui <- tagList( #needed for shinyjs
                           
                           shiny::br(),
                           popify(
-                            shiny::strong(tagList("Step 3: upload disease signature",icon("circle-question"))),
+                            shiny::strong(tagList("Step 3. upload disease signature",icon("circle-question"))),
                             title = NULL,
-                            content = paste("Disease signature is a gene list (gene symbol) with logFC, and a", 
+                            content = paste("Disease signature is a gene list (gene symbol) with log2FC, and a", 
                                           a(href = "demo/signature.txt", "demo signature file"),
                                           "is provided. <br>If you have other identifier (e.g. EntrezID), please go to",
                                           as.character(strong(" convertor page"))," to convert your signature."
@@ -241,13 +241,37 @@ ui <- tagList( #needed for shinyjs
                         sidebarPanel( width = 4,
                                       id= "rb_input",
                                       
-                                      pickerInput("sel_experiment_rb", label = "Step 1. Set drug profiles", 
+                                      popify(
+                                        shiny::strong(tagList("Step 1. Select a pharmacotranscriptomic dataset",icon("circle-question"))),
+                                        title = NULL,
+                                        content = paste(
+                                          "SSP contains datasets of nine tumor cell lines at ",
+                                          as.character(strong("diifferent concentration and treat time.")),
+                                          "<br>In general, we recommend user to select a dataset with more drugs and highly related to disease of interest"
+                                        ),
+                                        trigger = "click", placement = "right"
+                                      ),
+                                      
+                                      pickerInput("sel_experiment_rb", label = NULL, 
                                                   choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
                                       ),
 
                                       shiny::br(),
+                                      
+                                      popify(
+                                        shiny::strong(tagList("Step 2. Select Signature Search:",icon("circle-question"))),
+                                        title = NULL,
+                                        content = paste(
+                                          "Robustness pre-computes the performance of signature search methods at different datasets.<br>",
+                                          as.character(strong("Just select your interested methods.")),
+                                          "<br>The methods over average(red) are reconmmended to use in application module."
+                                        ),
+                                        trigger = "click", placement = "right"
+                                      ),
+                                      shiny::p(),
+                                      shiny::p(),
                                       awesomeCheckboxGroup("sel_ss_rb",
-                                                           "Step 2. Select Signature Search:",
+                                                           NULL,
                                                            choices=ss_list,
                                                            selected = list("SS_Xsum","SS_CMap","SS_GESA","SS_ZhangScore","SS_XCos")
                                       ),
@@ -268,8 +292,23 @@ ui <- tagList( #needed for shinyjs
                       sidebarLayout( 
                         sidebarPanel(  width = 4,
                           id= "sm_input",
+                          
+                          popify(
+                            shiny::strong(tagList("Step 1. Select module:",icon("circle-question"))),
+                            title = NULL,
+                            content = paste(
+                              as.character(strong("Single Search")),
+                              " is the traditional method to query promising drugs, just like GSEA.<br>",
+                              as.character(strong("SS_all")),
+                              "query promising drugs integrating the results of all SS methods.<br>",
+                              as.character(strong("SS_corss")),
+                              " use two disease signatures to query promising drugs with ploypharmacological effects."
+                            ),
+                            trigger = "click", placement = "right"
+                          ),
+                          
                           # 设定网页模块
-                          pickerInput(inputId = "sel_model_sm", label = "Step 1. Select module", 
+                          pickerInput(inputId = "sel_model_sm", label = NULL, 
                                       choices = list("Single method" = "singlemethod", 
                                                      "SS cross" = "SS_cross", 
                                                      "SS all" = "SS_all"), 
@@ -280,8 +319,18 @@ ui <- tagList( #needed for shinyjs
                           # 单个模块界面，只要确定选择哪个算法就行
                           conditionalPanel(
                             condition = "input.sel_model_sm == 'singlemethod' | input.sel_model_sm == 'SS_cross'" ,
+                            
+                            popify(
+                              shiny::strong(tagList("Step 2. Select Signature Search method:",icon("circle-question"))),
+                              title = NULL,
+                              content = paste(
+                                "Just select one method of your interest."
+                              ),
+                              trigger = "click", placement = "right"
+                            ),
+                            shiny::p(),
                             awesomeRadio("sel_ss_sm",
-                                         "Step 2. Select method",
+                                         NULL,
                                          choices=ss_list,
                                          selected = list("SS_Xsum")
                             ),
@@ -302,14 +351,37 @@ ui <- tagList( #needed for shinyjs
                           # 需要，选择算法，设定汇总排序的区域
                           conditionalPanel(
                             condition = "input.sel_model_sm == 'SS_all'" ,
+                            
+                            popify(
+                              shiny::strong(tagList("Step 2a. Select methods",icon("circle-question"))),
+                              title = NULL,
+                              content = paste(
+                                "Please at least two methods of your interest, More methods mean more time.",
+                                as.character(strong("The time for a full-seleted job is 20~40 mins"))
+                              ),
+                              trigger = "click", placement = "right"
+                            ),
+                            shiny::p(),
+                            
                             awesomeCheckboxGroup("sel_all_sm", 
-                                               "Step 2a. Select methods (at least 2)",
+                                               "",
                                                choices=ss_list,
                                                selected = list("SS_Xsum","SS_CMap"),
                                                
                             ),
+                            
+                            popify(
+                              shiny::strong(tagList("Step 2. Select Signature Search method:",icon("circle-question"))),
+                              title = NULL,
+                              content = paste(
+                                "Just select one method of your interest."
+                              ),
+                              trigger = "click", placement = "right"
+                            ),
+                            shiny::p(),
+                            
                             awesomeRadio("sel_direct_sm", 
-                                         "Step 2b. Select direct to show:",
+                                         "Step 2b: Select direct to show:",
                                          choices=sm_direct,inline = T,
                                          selected = list("Down")
                             ),
@@ -317,7 +389,18 @@ ui <- tagList( #needed for shinyjs
                           
                           # 确定选择哪个算法作为比较基准
                           shiny::br(),
-                          pickerInput("sel_experiment_sm", label = "Step 3. Set drug profiles", 
+                          popify(
+                            shiny::strong(tagList("Step 3. Select a pharmacotranscriptomic dataset",icon("circle-question"))),
+                            title = NULL,
+                            content = paste(
+                              "SSP contains datasets of nine tumor cell lines at ",
+                              as.character(strong("diifferent concentration and treat time.")),
+                              "<br>In general, we recommend user to select a dataset with more drugs and highly related to disease of interest"
+                            ),
+                            trigger = "click", placement = "right"
+                          ),
+                          shiny::p(),
+                          pickerInput("sel_experiment_sm", label = NULL, 
                                       choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
                                       ),
 
@@ -325,10 +408,23 @@ ui <- tagList( #needed for shinyjs
                           
                           conditionalPanel(
                             condition = "input.sel_model_sm == 'SS_all' | input.sel_model_sm == 'singlemethod'" ,
+                            
+                            popify(
+                              shiny::strong(tagList("Step 4. upload signature",icon("circle-question"))),
+                              title = NULL,
+                              content = paste("Disease signature is a gene list (gene symbol) with log2FC, and a", 
+                                              a(href = "demo/signature.txt", "demo signature file"),
+                                              "is provided. <br>If you have other identifier (e.g. EntrezID), please go to",
+                                              as.character(strong(" convertor page"))," to convert your signature."
+                              ),
+                              trigger = "click",
+                              placement = "right"
+                            ),
+                            
                             # 上传signature (普通情况)
                             fileInput(
                               inputId = "file_sig_sm",
-                              label = "Step 4: upload signature",
+                              label = NULL,
                               buttonLabel = "Browse...",
                               placeholder = "No file selected",
                               accept = c(".csv",".txt")
@@ -386,10 +482,10 @@ ui <- tagList( #needed for shinyjs
                                          "Here are two types of annotation files for different methods.",
                                          br(),
                                        ),
-                                       selectInput("an_input","Select cancer",
+                                       selectInput("an_input","Step 1. Select cancer",
                                                    choices = disinfo_vector,
                                                    selected = "PRAD"),
-                                       selectInput("an_input_type","Select annotation type",
+                                       selectInput("an_input_type","Step 2. Select annotation type",
                                                    choices = c("Area Under Curve(AUC)" = "AUC",
                                                                "Enrichment Score(ES)" = "ES"),
                                                    selected = "AUC"),
@@ -440,34 +536,27 @@ ui <- tagList( #needed for shinyjs
 
              ), #Tab panel bracket
              ###############################################.
-             ## Data ----
+             ## Coverter ----
              ###############################################.
-             tabPanel("Data", icon = icon("table"), value = "datapage",
+             tabPanel("Coverter", icon = icon("table"), value = "coverter",
                       #Sidepanel for filtering data
-                      mainPanel(id= "jc_out",
-                                fluidRow(
-                                  column(3,
-                                         # "sidebar1"
-                                  ),
-                                  column(7,
-                                         # shiny::h3("Download manual of SSP"),
-                                         # downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-                                         shiny::h3("Download demo file for perform jobs"),
-                                         downloadButton("dl_demo","Download Demo", class = "btn-success"),
-                                         downloadButton("dl_script","Download Script", class = "btn-success"),
-                                         shiny::br(),
-                                         shiny::h3("Download curated drug expression profile"),
-                                         pickerInput("sel_experiment_dl", label = "Select drug profiles", 
-                                                     choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
-                                         ),
-                                         downloadButton("dl_drug_exp","Download Drug Profiles", class = "btn-success"),
-                                         downloadButton("dl_drug_ann","Download Drug Annotation", class = "btn-success"),
-                                  ),
-                                  column(2,
-                                         # "sidebar2"
-                                  )
-                                ),
-                      ) # main panel bracket
+                      sidebarLayout(
+                        sidebarPanel(
+                          textAreaInput("text_ct", "Step 1. Input your signature",height = "200px"),
+                          actionButton("runCTdemo", "demo"),
+                          radioButtons("format_ct", "Step 2. Select the \"From\" ID", 
+                                       inline = T,
+                                       choices = c("ENTREZID", "ENSEMBL","UNIGENE","GENENAME")),
+                          checkboxInput("header_check_ct", label = strong("Step 3. Header or non-header?") ,
+                                        value = TRUE),
+                          actionButton("runCT", "Convert", class = "btn-success")
+                        ),
+                        
+                        mainPanel(id= "ct_out",
+                                  uiOutput(outputId = "display_ct") %>% withSpinner()
+                        )  # main panel bracket
+                      ),
+                      
              ), #Tab panel bracket
              
              ###############################################.             
@@ -516,7 +605,32 @@ ui <- tagList( #needed for shinyjs
 
 
                                  ),#Tab panel
-
+                        tabPanel("Data", value = "data",
+                                 
+                                 fluidRow(
+                                   column(3,
+                                          # "sidebar1"
+                                   ),
+                                   column(7,
+                                          # shiny::h3("Download manual of SSP"),
+                                          # downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
+                                          shiny::h3("Download demo file for perform jobs"),
+                                          downloadButton("dl_demo","Download Demo", class = "btn-success"),
+                                          downloadButton("dl_script","Download Script", class = "btn-success"),
+                                          shiny::br(),
+                                          shiny::h3("Download curated drug expression profile"),
+                                          pickerInput("sel_experiment_dl", label = "Select drug profiles", 
+                                                      choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
+                                          ),
+                                          downloadButton("dl_drug_exp","Download Drug Profiles", class = "btn-success"),
+                                          downloadButton("dl_drug_ann","Download Drug Annotation", class = "btn-success"),
+                                   ),
+                                   column(2,
+                                          # "sidebar2"
+                                   )
+                                 ),
+                                 
+                        ),#Tab panel
                         tabPanel("About", value = "about",
 
                                  fluidRow(
@@ -533,6 +647,12 @@ ui <- tagList( #needed for shinyjs
                                  ),
 
                         ),#Tab panel
+                        
+                        
+                        
+                        
+                        
+                        
                         ###############################################.
 
              ),# NavbarMenu bracket
@@ -575,8 +695,9 @@ server <- function(input, output, session) {
   source(file.path("robustness_tab.R"),  local = TRUE)$value # robustness tab
   source(file.path("singlemethod_tab.R"),  local = TRUE)$value # application tab
   source(file.path("jobcenter_tab.R"),  local = TRUE)$value # jobcenter tab
-  source(file.path("data_tab.R"),  local = TRUE)$value # data tab
+  # source(file.path("data_tab.R"),  local = TRUE)$value # data tab
   source(file.path("info_tab.R"),  local = TRUE)$value # info tab
+  source(file.path("converter_tab.R"),  local = TRUE)$value # converter tab
   
   ### 2023年10月1日新增部分 ###
   source(file.path("annotation_tab.R"),  local = TRUE)$value # annotation tab
@@ -609,8 +730,8 @@ server <- function(input, output, session) {
     updateTabsetPanel(session, "intabset", selected = "jobcenter")
   })
   
-  observeEvent(input$jump_to_dt, {
-    updateTabsetPanel(session, "intabset", selected = "datapage")
+  observeEvent(input$jump_to_ct, {
+    updateTabsetPanel(session, "intabset", selected = "coverter")
   })
   
   # 重置
