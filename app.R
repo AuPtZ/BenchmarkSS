@@ -19,6 +19,7 @@ library(shinylogs)
 library(future)
 library(promises)
 library(htmltools)
+library(shinyalert)
 plan(multisession)
 plan(future.callr::callr)
 
@@ -28,6 +29,7 @@ options(shiny.sanitize.errors = TRUE)
 ui <- tagList( #needed for shinyjs
   useShinyjs(),  # Include shinyjs
   useSweetAlert(), 
+  useShinyalert(),
   navbarPage(id = "intabset", #needed for landing page
              # title = "BCSS",
              title = div(tags$a(img(src="LOGO.png", height=50)),
@@ -399,7 +401,6 @@ ui <- tagList( #needed for shinyjs
                             ),
                             trigger = "click", placement = "right"
                           ),
-                          shiny::p(),
                           pickerInput("sel_experiment_sm", label = NULL, 
                                       choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
                                       ),
@@ -433,26 +434,53 @@ ui <- tagList( #needed for shinyjs
                           
                           conditionalPanel(
                             condition = "input.sel_model_sm == 'SS_cross'" ,
+                            
                             # 上传signature (特殊情况)
-                            textInput("file_name1", label = "Step 4a: upload signature 1", value = "Signature1"),
+                            popify(
+                              shiny::strong(tagList("Step 4a: upload signature 1",icon("circle-question"))),
+                              title = NULL,
+                              content = paste("annotation(name) for the below signature"),
+                              trigger = "click",
+                              placement = "right"
+                            ),
+                            
+                            textInput("file_name1", label = NULL, value = "Signature1"),
                             fileInput(
                               inputId = "file_sig_sm1",
-                              label = "",
+                              label = NULL,
                               buttonLabel = "Browse...",
                               placeholder = "No file selected",
                               accept = c(".csv",".txt")
                             ),
-                            textInput("file_name2",label = "Step 4b: upload signature 2", value = "Signature2"),
+                            
+                            popify(
+                              shiny::strong(tagList("Step 4b: upload signature 2",icon("circle-question"))),
+                              title = NULL,
+                              content = paste("annotation(name) for the below signature"),
+                              trigger = "click",
+                              placement = "right"
+                            ),
+                            textInput("file_name2",label = NULL , value = "Signature2"),
                             fileInput(
                               inputId = "file_sig_sm2",
-                              label = "",
+                              label = NULL,
                               buttonLabel = "Browse...",
                               placeholder = "No file selected",
                               accept = c(".csv",".txt")
-                          ),
+                            ),
                           ),
                           # 设定使用排序多少的内容进行计算？
-                          numericInput("sel_topn_sm", label = "Step 5. Set read gene num(topN)", 
+                          popify(
+                            shiny::strong(tagList("Step 5. Set read gene num(topN)",icon("circle-question"))),
+                            title = NULL,
+                            content = paste("topN is determined by Benchmark or Robustness. <br>",
+                                            "If this score is monotonically increasing in Benchmark and Robustness, ",
+                                            "we recommend setting topN to 150."),
+                            trigger = "click",
+                            placement = "right"
+                          ),
+                          
+                          numericInput("sel_topn_sm", label = NULL, 
                                        value = 150, min = 50, max = 489),
                           
                           shiny::br(),
@@ -688,13 +716,33 @@ ui <- tagList( #needed for shinyjs
 ##############Server----    
 ###############################################.
 server <- function(input, output, session) {
+  
+  # 第一次登陆弹出提示？可有可无吧，过于麻烦了
+  # shinyalert(
+  #   title = "Welcome to SSP",
+  #   text = "Please be patient as modules load for the first time when you browse.",
+  #   size = "l", 
+  #   closeOnEsc = TRUE,
+  #   closeOnClickOutside = FALSE,
+  #   html = FALSE,
+  #   type = "success",
+  #   showConfirmButton = TRUE,
+  #   showCancelButton = FALSE,
+  #   confirmButtonText = "OK, I See",
+  #   confirmButtonCol = "#AEDEF4",
+  #   timer = 0,
+  #   imageUrl = "",
+  #   animation = TRUE
+  # )
+
+  
   ###############################################.
   ## Sourcing tab code  ----
   ###############################################.
   # Sourcing file with server code
   source(file.path("benchmark_tab.R"),  local = TRUE)$value # benchmark tab
   source(file.path("robustness_tab.R"),  local = TRUE)$value # robustness tab
-  source(file.path("singlemethod_tab.R"),  local = TRUE)$value # application tab
+  source(file.path("application_tab.R"),  local = TRUE)$value # application tab
   source(file.path("jobcenter_tab.R"),  local = TRUE)$value # jobcenter tab
   # source(file.path("data_tab.R"),  local = TRUE)$value # data tab
   source(file.path("info_tab.R"),  local = TRUE)$value # info tab
@@ -706,7 +754,8 @@ server <- function(input, output, session) {
   
   ### 2023年12月19日新增部分 ###
   addResourcePath(prefix = "demo", directoryPath = "demo") # 添加下载路径，用于提供单独的demofile的下载！
-  ### 2023年12月19日新增部分 ###
+  
+    ### 2023年12月19日新增部分 ###
   
 
   observeEvent(input$jump_to_bm, {
@@ -740,6 +789,7 @@ server <- function(input, output, session) {
     updateTabsetPanel(session, "intabset", selected = "help")
   })
   
+
 
 }
 

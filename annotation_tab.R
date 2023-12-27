@@ -10,6 +10,7 @@ load("data_preload/annotation/GSDCIC50.Rdata")
 output$display_an <- renderUI(initial_an)
 
 output$display_an_tb <- renderDataTable(GSDCIC50 %>% 
+                                          mutate(`IC50 value` = round(`IC50 value`, 5)) %>%
                                           dplyr::filter(TCGA_DESC == input$an_input),
                                         server = FALSE,
                                         options = list(scrollX = TRUE,
@@ -41,11 +42,5 @@ output$run_AN <- downloadHandler(
 )
 
 initial_an <- tagList(
-  h3("Welcome to Annotation module!"),
-  p("This module primarily offers an initial drug annotation."),
-  p("The annotation is sourced from the efficacy data of anti-cancer drugs within the GSDC database."),
-  p("It includes IC50 values for 286 drugs interacting with 30 types of cancer cell lines."),
-  p("In instances where multiple drug-cancer pairings are present, we have opted for the smallest IC50 value. "),
-  p("We categorize an IC50 value of less than 10μM as 'effective', and conversely, as 'ineffective'. "),
-  p("Within the Benchmark module, different methodologies necessitate varying formats of annotation files, hence it is crucial to select the appropriate mode prior to downloading."),
+  includeMarkdown("www/annotation_tab.md")
 )
