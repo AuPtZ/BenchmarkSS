@@ -30,6 +30,7 @@ ui <- tagList( #needed for shinyjs
   useShinyjs(),  # Include shinyjs
   useSweetAlert(), 
   useShinyalert(),
+  
   navbarPage(id = "intabset", #needed for landing page
              # title = "BCSS",
              title = div(tags$a(img(src="LOGO.png", height=50)),
@@ -717,23 +718,21 @@ ui <- tagList( #needed for shinyjs
 ###############################################.
 server <- function(input, output, session) {
   
-  # 第一次登陆弹出提示？可有可无吧，过于麻烦了
-  # shinyalert(
-  #   title = "Welcome to SSP",
-  #   text = "Please be patient as modules load for the first time when you browse.",
-  #   size = "l", 
-  #   closeOnEsc = TRUE,
-  #   closeOnClickOutside = FALSE,
-  #   html = FALSE,
-  #   type = "success",
-  #   showConfirmButton = TRUE,
-  #   showCancelButton = FALSE,
-  #   confirmButtonText = "OK, I See",
-  #   confirmButtonCol = "#AEDEF4",
-  #   timer = 0,
-  #   imageUrl = "",
-  #   animation = TRUE
-  # )
+  # 在应用启动时运行 JavaScript 代码
+  runjs("
+    if (!localStorage.getItem('visited')) {
+      Shiny.setInputValue('first_visit', true);
+      localStorage.setItem('visited', 'true');
+    }
+  ")
+  
+  observeEvent(input$first_visit, {
+    shinyalert::shinyalert(
+      title = "Welcome to SSP",
+      text = "initialization for your first visit may take 10~15s. Some buttoms may not work during this time",
+      type = "info"
+    )
+  })
 
   
   ###############################################.
