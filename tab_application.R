@@ -259,5 +259,5 @@ judge_sm <- function(){
 
 # 初始化
 initial_sm <- tagList(
-  includeMarkdown("www/application_tab.md")
+  includeMarkdown("www/tab_application.md")
 )
