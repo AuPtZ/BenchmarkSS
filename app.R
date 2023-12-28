@@ -718,7 +718,7 @@ ui <- tagList( #needed for shinyjs
 ###############################################.
 server <- function(input, output, session) {
   
-  # 在应用启动时运行 JavaScript 代码
+  # 在应用启动时运行 JavaScript 代码,判断用户是否是第一次访问？如果第一次访问，弹窗提示
   runjs("
     if (!localStorage.getItem('visited')) {
       Shiny.setInputValue('first_visit', true);
@@ -729,7 +729,7 @@ server <- function(input, output, session) {
   observeEvent(input$first_visit, {
     shinyalert::shinyalert(
       title = "Welcome to SSP",
-      text = "initialization for your first visit may take 10~15s. Some buttoms may not work during this time",
+      text = "initialization for your first visit may take 10~15s. \n Some buttoms may not work during this time",
       type = "info"
     )
   })
