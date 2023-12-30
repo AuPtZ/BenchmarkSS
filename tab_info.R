@@ -100,32 +100,7 @@ output$display_about =  renderUI({
 output$display_Q1 = renderUI({
   tagList(
     downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-    shiny::h3("Why we built SSP?"),
-    shiny::p("The growing interest in human genes and accessibility of high-throughput technologies directly lead to exponential increase data size in pharmacotranscriptomic profiles.",br(),
-             "Profile-based method has been widely used for screening drugs and identifying molecular actions of drugs, which could remarkably enhance novel drug-disease pair discovery without relying on drug- or disease-specific prior knowledge. ",
-             strong("This analysis method was named “signature search (SS)”."),
-             "Meanwhile, various SS methods were proposed, but how to find the optimal method and top differentially expressed genes (DEGs) for certain data is still challenging. ",
-             "How to find the optimal methods and parameters for different signature input and drug profiles is still challenging. ",
-             br(),
-             strong("Signature Search Polestar (SSP)"),
-             " is a webserver integrating the largest uniform drug profiles in L1000 with five state-of-the-art (XSum, CMap, GESA, ZhangScore, XCos) and provide three modules to facilitate drug repurposing:",
-             br(),
-             "1.	Benchmark: Two indices (AUC and Enrichment Score) based on drugs annotations are employed to evaluate the performance of SS methods at different top DEGs. The results indicate the best evaluation method and the top DEGs for input disease signature.",
-             br(),
-             "2.	Robustness: A robust index based on drug profiles itself is developed to evaluate the overall performance of SS methods at different top DEGs. This module is applicable when meets insufficient drug annotations.",
-             br(),
-             "3.	Application: Three tools (single method, SS_all, and SS_cross) enable user to utilize optimal SS methods with disease signatures. The results present scores of promising drug repurposing for disease signature.",
-             br(),
-             "Additionally, SSP webserver is deployed at a high performance servers for better user experience and we opensource all codes at ",
-             a("https://gitee.com/auptz/benchmark-ss",
-               herf = "https://gitee.com/auptz/benchmark-ss"),
-             ". Everyone could directly use or DIY own SSP webserver by interest.",
-             br(),
-             img(src = "imginfo0.PNG",width = "700px"),
-             
-             )
-    
-    
+    includeMarkdown("www/info_Q1.md")
   )
 })
 
@@ -134,46 +109,7 @@ output$display_Q1 = renderUI({
 output$display_Q2 = renderUI({
   tagList(
     downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-    shiny::h3("How to use Benchmark and interpret the results?"),
-    shiny::p("It is very easy to use Benchmark as it only requires at most 3 files, a signature (necessary), and drug annotations for AUC or enrichment score (ES) (at least one of them).",
-             br(),
-             "The demo file is provided on the data page, and you can simply look at them to prepare your own files.",
-             br(),
-             "Drug annotations are labels indicating whether the drug is positive and/or negative in your selected drug profile set.",
-             br(),
-             "For AUC, you should lable durgs with whether ",
-             span("Postive and Negative", style = "color:red"),
-             " (case sensitive)",
-             br(),
-             "For ES, you just need provide the name of ",
-             span("Postive", style = "color:red"),
-             " drug without labels",
-             br(),
-             strong("Please note that you are not required to provide all drug annotations, but more annotations lead to more accurate results."),
-             br(),
-             "The detailed procedure is provided in the corresponding operation page.",
-             br(),
-             shiny::p("Well, it is very easy to understand the results in SSP.",
-                      br(),
-                      strong("For the Benchmark module, here are two types of results:"),
-                      br(),
-                      "If you upload a file for the AUC method, then you will get a result like this:",
-                      br(),
-                      img(src = "imginfo1.PNG",width = "700px"),
-                      br(),
-                      img(src = "imginfo2.PNG",width = "700px"),
-                      br(),
-                      "If you upload a file for the ES method, then you will get a result like this:",
-                      br(),
-                      img(src = "imginfo3.PNG",width = "700px"),
-                      br(),
-                      strong("So, it is very easy to find the best topN and method based on the signature and drug profiles."),
-                      br(),
-                      "Notably, when ES and AUC are combined, users have to determine the best topN and method based on performance.",
-                      # br(),
-                      # strong("For Application module, we use a evaluation index."),
-             )
-             )
+    includeMarkdown("www/info_Q2.md")
   )
 })
 

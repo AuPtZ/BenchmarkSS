@@ -1,28 +1,28 @@
-Compound.name	NCT number	Clinical phase
-axitinib	NCT01210495,NCT01352728	Phase 2
-belinostat	NCT00321594	Phase 1,2
-brivanib	NCT00825955,NCT00437424,NCT00355238	Phase 1,2,3
-capecitabine	NCT00216437,NCT00464295	Phase 1,2
-celecoxib	NCT00057980,NCT00293436	Phase 1,2
-dasatinib	NCT00459108	Phase 2
-dexamethasone	NCT02987907,NCT04251715	Phase 2,3
-docetaxel	NCT00532441,NCT00006010	Phase 2
-dovitinib	NCT01232296	Phase 2
-doxorubicin	NCT01655693,NCT00083226,NCT00077389,NCT00003912,NCT00471965	Phase 2,3
-epirubicin	NCT00820053	Phase 2
-erlotinib	NCT00047333,NCT00047346	Phase 1,2
-everolimus	NCT01009801,NCT01379521,NCT01488487,NCT01005199,NCT02081755	Phase 1,2,4
-floxuridine	NCT00587067	Phase 2
-gefitinib	NCT00071994	Phase 2
-irinotecan	NCT00087282,NCT00635323,NCT00861783	Phase 1,2
-ispinesib	NCT00058487	Phase 2
-mitomycin-c	NCT00183885	Phase 2
-MK-2206	NCT01239355	Phase 2
-orantinib	NCT00784290,NCT01465464	Phase 1,2,3
-pazopanib	NCT00370513	Phase 1
-pentamidine	NCT02210182	Phase 1
-pirarubicin	NCT02585479	Phase 2,3
-sorafenib	NCT00105443	Approved
-temsirolimus	NCT01008917,NCT01079767	Phase 1,2
-thalidomide	NCT00921531,NCT00519688	Phase 2,3
-tivozanib	NCT01807156,NCT03970616	Phase 1,2
+Compound.name
+axitinib
+belinostat
+brivanib
+capecitabine
+celecoxib
+dasatinib
+dexamethasone
+docetaxel
+dovitinib
+doxorubicin
+epirubicin
+erlotinib
+everolimus
+floxuridine
+gefitinib
+irinotecan
+ispinesib
+mitomycin-c
+MK-2206
+orantinib
+pazopanib
+pentamidine
+pirarubicin
+sorafenib
+temsirolimus
+thalidomide
+tivozanib

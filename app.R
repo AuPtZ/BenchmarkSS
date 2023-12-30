@@ -677,18 +677,18 @@ ui <- tagList( #needed for shinyjs
                                  ),
 
                         ),#Tab panel
-                        
-                        
-                        
-                        
-                        
-                        
+
                         ###############################################.
 
              ),# NavbarMenu bracket
   ), #Bracket  navbarPage
 
   div(style = "margin-bottom: 45px;"), # this adds breathing space between content and footer
+  div(
+    tags$script(src="//rf.revolvermaps.com/0/0/7.js?i=5jq3pohyu8j&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;sx=0",
+                async="async"
+    ),style = "width:0%;margin:0 auto;"
+  ),
   ###############################################.             
   ##############Footer----    
   ###############################################.
@@ -729,7 +729,7 @@ server <- function(input, output, session) {
   observeEvent(input$first_visit, {
     shinyalert::shinyalert(
       title = "Welcome to SSP",
-      text = "initialization for your first visit may take 10~15s. \n Some buttoms may not work during this time",
+      text = "Some buttons may not work when first visit SSP.\n It may take 10~15s to initialization.",
       type = "info"
     )
   })

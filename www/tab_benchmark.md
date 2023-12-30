@@ -4,16 +4,16 @@ In this module, you can evaluate signature search (SS) methods based on signatur
 The Benchmark module requires the following settings:  
 
 <div style="padding: 10px; text-align: center;">
-<img src="imgbm1.png" width = "30%" height = "30%" />
+<img src="imgbm1.png" width = "70%" height = "30%" />
 </div>
 
-**1. Select Drug profiles (L1000)**
-**2. Select SS methods to test (at least two)**
-**3. A signature (header with gene and logFC) to perform test**
+**1. Select Drug profiles (L1000)**  
+**2. Select SS methods to test (at least two)**  
+**3. A signature (header with gene and logFC) to perform test**  
 **4. Drug annotations which user can download blank annotaion table of drugs by click the download button**  
 
 <div style="padding: 10px; text-align: center;">
-<img src="imgbm2.png" width = "30%" height = "30%" />
+<img src="imgbm2.png" width = "50%" height = "30%" />
 </div>
 
 **Notably, we provide two types of drug annotation methods (AUC and ES), and users must use at least one method to assess the performance of SS. It is impractical to annotate all drugs; however, the more annotations obtained, the more accurate the results will be.**  
@@ -38,7 +38,7 @@ Finally, click the Run button, and you will obtain a job ID(**jobid**), starting
 It may take approximately 15 minutes to obtain the results, but you can close the page and input the job ID in the  **job center** for later result inquiry.
 
 <div style="padding: 10px; text-align: center;">
-<img src="imgbm5.png" width = "30%" height = "30%" />
+<img src="imgbm5.png" width = "40%" height = "30%" />
 </div>
 
 For more information, please vist **Info-Help** page.

@@ -1,118 +1,118 @@
-Compound.name	IC50 value	Group
-afatinib	2.705818812	Effevtive
-amonafide	9.78	Effevtive
-amperozide	95	Ineffective
-amsacrine	5.21	Effevtive
-antimycin-a	100	Ineffective
-apigenin	70.18	Ineffective
-artesunate	12.7	Ineffective
-asiatic-acid	22.45	Ineffective
-AT-7519	0.226049324	Effevtive
-auranofin	5.6	Effevtive
-axitinib	38.7	Ineffective
-AZD-7762	0.147242133	Effevtive
-azithromycin	126.5	Ineffective
-belinostat	0.804300476	Effevtive
-benzylpenicillin	10000	Ineffective
-betulinic-acid	24.6	Ineffective
-BI-2536	0.217486749	Effevtive
-bosutinib	4.451903731	Effevtive
-brazilin	12.03	Ineffective
-brefeldin-a	0.35	Effevtive
-bufalin	0.5945	Effevtive
-BX-912	11.41184136	Ineffective
-calcitriol	50	Ineffective
-camptothecin	0.335	Effevtive
-carbamazepine	158.48932	Ineffective
-carprofen	165.95869	Ineffective
-carvedilol	17.37801	Ineffective
-celastrol	4.01	Effevtive
-celecoxib	10.03	Ineffective
-chlorambucil	111.8	Ineffective
-chloroquine	30	Ineffective
-cinobufagin	3.7775	Effevtive
-cladribine	0.04	Effevtive
-clozapine	47.86301	Ineffective
-CP-466722	4.85873511	Effevtive
-cucurbitacin-i	15.8	Ineffective
-cycloheximide	56.12	Ineffective
-dactinomycin	0.01	Effevtive
-dasatinib	8.156961175	Effevtive
-daunorubicin	4.91	Effevtive
-decitabine	20	Ineffective
-deoxycholic-acid	100	Ineffective
-docetaxel	0.2	Effevtive
-dovitinib	1.856295078	Effevtive
-doxorubicin	1.065	Effevtive
-entinostat	30.06045	Ineffective
-enzastaurin	20	Ineffective
-epirubicin	0.985	Effevtive
-erlotinib	0.12	Effevtive
-everolimus	20	Ineffective
-floxuridine	8.91	Effevtive
-fluconazole	300	Ineffective
-fluphenazine	4.38258	Effevtive
-fluvastatin	0.028	Effevtive
-gedunin	100	Ineffective
-gefitinib	10	Ineffective
-geldanamycin	0.3	Effevtive
-genistein	100	Ineffective
-imatinib	17.5	Ineffective
-irinotecan	4	Effevtive
-ispinesib	2	Effevtive
-lamivudine	10	Ineffective
-lapatinib	6.27	Effevtive
-linezolid	25	Ineffective
-lovastatin	0.079	Effevtive
-methysergide	10	Ineffective
-mitoxantrone	14.825	Ineffective
-mocetinostat	4.15	Effevtive
-mycophenolic-acid	100	Ineffective
-nimesulide	35.21	Ineffective
-nocodazole	0.6	Effevtive
-nonoxynol-9	61	Ineffective
-noscapine	1	Effevtive
-NVP-TAE684	2.349141319	Effevtive
-omeprazole	10	Ineffective
-paclitaxel	0.084	Effevtive
-palbociclib	2.067312606	Effevtive
-parachlorophenol	1700	Ineffective
-pazopanib	10.82170761	Ineffective
-PD-173074	5.417786399	Effevtive
-pentamidine	159.71	Ineffective
-perphenazine	16.2181	Ineffective
-PF-562271	5.948162579	Effevtive
-phenoxazine	204.17379	Ineffective
-PI-103	4.288722336	Effevtive
-piperlongumine	5.36167572	Effevtive
-pirarubicin	0.538558572	Effevtive
-pravastatin	7.55	Effevtive
-primaquine	101	Ineffective
-puromycin	42.08	Ineffective
-pyrimethamine	20	Ineffective
-quercetin	12	Ineffective
-raltitrexed	1.3	Effevtive
-resveratrol	79.95	Ineffective
-roscovitine	8.611321093	Effevtive
-rottlerin	20	Ineffective
-ruxolitinib	20	Ineffective
-simvastatin	3.332907427	Effevtive
-sorafenib	6.3	Effevtive
-staurosporine	6.73	Effevtive
-sulforaphane	19.47	Ineffective
-tacrolimus	100	Ineffective
-tamoxifen	14.85	Ineffective
-telmisartan	10	Ineffective
-temsirolimus	2	Effevtive
-tipifarnib	1.909551981	Effevtive
-tozasertib	63.4	Ineffective
-ubenimex	257.26	Ineffective
-vemurafenib	5.48	Effevtive
-vinblastine	0.081	Effevtive
-vincristine	0.2	Effevtive
-vinorelbine	23.12	Ineffective
-vorinostat	4.1	Effevtive
-xanthohumol	35	Ineffective
-YM-155	0.083497888	Effevtive
-zaprinast	10	Ineffective
-zolantidine	76	Ineffective
+Compound.name	Group
+afatinib	Effevtive
+amonafide	Effevtive
+amperozide	Ineffective
+amsacrine	Effevtive
+antimycin-a	Ineffective
+apigenin	Ineffective
+artesunate	Ineffective
+asiatic-acid	Ineffective
+AT-7519	Effevtive
+auranofin	Effevtive
+axitinib	Ineffective
+AZD-7762	Effevtive
+azithromycin	Ineffective
+belinostat	Effevtive
+benzylpenicillin	Ineffective
+betulinic-acid	Ineffective
+BI-2536	Effevtive
+bosutinib	Effevtive
+brazilin	Ineffective
+brefeldin-a	Effevtive
+bufalin	Effevtive
+BX-912	Ineffective
+calcitriol	Ineffective
+camptothecin	Effevtive
+carbamazepine	Ineffective
+carprofen	Ineffective
+carvedilol	Ineffective
+celastrol	Effevtive
+celecoxib	Ineffective
+chlorambucil	Ineffective
+chloroquine	Ineffective
+cinobufagin	Effevtive
+cladribine	Effevtive
+clozapine	Ineffective
+CP-466722	Effevtive
+cucurbitacin-i	Ineffective
+cycloheximide	Ineffective
+dactinomycin	Effevtive
+dasatinib	Effevtive
+daunorubicin	Effevtive
+decitabine	Ineffective
+deoxycholic-acid	Ineffective
+docetaxel	Effevtive
+dovitinib	Effevtive
+doxorubicin	Effevtive
+entinostat	Ineffective
+enzastaurin	Ineffective
+epirubicin	Effevtive
+erlotinib	Effevtive
+everolimus	Ineffective
+floxuridine	Effevtive
+fluconazole	Ineffective
+fluphenazine	Effevtive
+fluvastatin	Effevtive
+gedunin	Ineffective
+gefitinib	Ineffective
+geldanamycin	Effevtive
+genistein	Ineffective
+imatinib	Ineffective
+irinotecan	Effevtive
+ispinesib	Effevtive
+lamivudine	Ineffective
+lapatinib	Effevtive
+linezolid	Ineffective
+lovastatin	Effevtive
+methysergide	Ineffective
+mitoxantrone	Ineffective
+mocetinostat	Effevtive
+mycophenolic-acid	Ineffective
+nimesulide	Ineffective
+nocodazole	Effevtive
+nonoxynol-9	Ineffective
+noscapine	Effevtive
+NVP-TAE684	Effevtive
+omeprazole	Ineffective
+paclitaxel	Effevtive
+palbociclib	Effevtive
+parachlorophenol	Ineffective
+pazopanib	Ineffective
+PD-173074	Effevtive
+pentamidine	Ineffective
+perphenazine	Ineffective
+PF-562271	Effevtive
+phenoxazine	Ineffective
+PI-103	Effevtive
+piperlongumine	Effevtive
+pirarubicin	Effevtive
+pravastatin	Effevtive
+primaquine	Ineffective
+puromycin	Ineffective
+pyrimethamine	Ineffective
+quercetin	Ineffective
+raltitrexed	Effevtive
+resveratrol	Ineffective
+roscovitine	Effevtive
+rottlerin	Ineffective
+ruxolitinib	Ineffective
+simvastatin	Effevtive
+sorafenib	Effevtive
+staurosporine	Effevtive
+sulforaphane	Ineffective
+tacrolimus	Ineffective
+tamoxifen	Ineffective
+telmisartan	Ineffective
+temsirolimus	Effevtive
+tipifarnib	Effevtive
+tozasertib	Ineffective
+ubenimex	Ineffective
+vemurafenib	Effevtive
+vinblastine	Effevtive
+vincristine	Effevtive
+vinorelbine	Ineffective
+vorinostat	Effevtive
+xanthohumol	Ineffective
+YM-155	Effevtive
+zaprinast	Ineffective
+zolantidine	Ineffective
