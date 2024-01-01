@@ -58,3 +58,10 @@
   /* max-width: 50vw !important;  */
 }
 
+/*Style for paragraph */  
+p {
+  font-family: 'Arial';
+  font-size: 15px;
+  line-height: 1.5;
+  color: #333;
+}
