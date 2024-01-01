@@ -59,7 +59,7 @@ observeEvent(input$runBM, {
           title = "Success !!",
           text = paste0("Your jobid is ",
                         jobid_bm,
-                        ". Please remember it for retrive results in Job Center") ,
+                        ".\n Process may take 15~30mins. \n Please remember it for retrive results in Job Center.") ,
           type = "success"
         )
       }else{
@@ -127,21 +127,23 @@ observeEvent(input$runBM, {
             write_in_db(Jobid = jobid_bm, 
                         Submitted_time = submitted_time, 
                         module_name = "Benchmark",
-                        sub_module = "ALL (DR-ES and DR-AUC)",
+                        sub_module = "ALL (ES and AUC)",
                         table_num = 2, 
                         table_res = list(
-                          "DR-AUC" = res_bm[[1]],
-                          "DR-ES" = res_bm[[2]]
+                          "AUC" = res_bm[[1]],
+                          "ES" = res_bm[[2]]
                         ) )
             
             tagList(
-              shiny::h3("Results of DR-AUC"),
+              shiny::h3("Results of AUC"),
               renderPlotly(ggplotly(draw_dr_auc(res_bm[[1]]))),
-              DT::renderDataTable(res_bm[[1]],server = FALSE),
+              DT::renderDataTable(res_bm[[1]] , 
+                                  server = FALSE),
               shiny::br(),
-              shiny::h3("Results of DR-ES"),
+              shiny::h3("Results of ES"),
               renderPlotly(ggplotly(draw_dr_es(res_bm[[2]]))),
-              DT::renderDataTable(res_bm[[2]] ,server = FALSE)
+              DT::renderDataTable(res_bm[[2]] ,
+                                  server = FALSE)
             )
           } else if (length(res_bm) ==2){
             
@@ -153,11 +155,11 @@ observeEvent(input$runBM, {
                         table_res = res_bm[[1]])
             
             
-            if(res_bm[[2]] == "DR-AUC"){
+            if(res_bm[[2]] == "AUC"){
               # print(res_bm[[1]])
               pic_out = draw_dr_auc(res_bm[[1]])
             }
-            if(res_bm[[2]] == "DR-ES"){
+            if(res_bm[[2]] == "ES"){
               # print(res_bm[[1]])
               pic_out = draw_dr_es(res_bm[[1]])
             }

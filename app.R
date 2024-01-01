@@ -6,10 +6,8 @@
 #
 #    http://shiny.rstudio.com/
 #
-# update time: 2023/1/16
 
 library(shiny)
-# library(rintrojs)
 library(shinyjs)
 library(shinythemes)
 library(shinyWidgets)
@@ -19,18 +17,16 @@ library(shinylogs)
 library(future)
 library(promises)
 library(htmltools)
-library(shinyalert)
 plan(multisession)
 plan(future.callr::callr)
 
 shinyOptions(cache = cachem::cache_mem(max_size = 1000e6))
 options(shiny.sanitize.errors = TRUE)
 
-ui <- tagList( #needed for shinyjs
+ui <- tagList( # needed for shinyjs
   useShinyjs(),  # Include shinyjs
   useSweetAlert(), 
-  useShinyalert(),
-  
+
   navbarPage(id = "intabset", #needed for landing page
              # title = "BCSS",
              title = div(tags$a(img(src="LOGO.png", height=50)),
@@ -606,26 +602,52 @@ ui <- tagList( #needed for shinyjs
                                    column(10,
                                           navlistPanel(
                                             "Help info",
-                                            tabPanel("Q1: Why we built SSP?",
-                                                     uiOutput(outputId = "display_Q1") %>% withSpinner()
+                                            tabPanel("Q1: Why we built SSP?", 
+                                                     includeMarkdown("www/info_Q1.md")
+                                                     # uiOutput(outputId = "display_Q1") %>% withSpinner()
                                             ),
                                             tabPanel("Q2: How to use Benchmark and interpret the results?",
-                                                     uiOutput(outputId = "display_Q2") %>% withSpinner()
+                                                     includeMarkdown("www/info_Q2.md")
+                                                     # uiOutput(outputId = "display_Q2") %>% withSpinner()
                                             ),
                                             tabPanel("Q3: How to use Robustness and interpret the results?",
-                                                     uiOutput(outputId = "display_Q3") %>% withSpinner()
+                                                     includeMarkdown("www/info_Q3.md")
+                                                     # uiOutput(outputId = "display_Q3") %>% withSpinner()
                                             ),
 
                                             tabPanel("Q4: How to query drug in Application and interpret the results?",
-                                                     uiOutput(outputId = "display_Q4") %>% withSpinner()
+                                                     includeMarkdown("www/info_Q4.md")
+                                                     # uiOutput(outputId = "display_Q4") %>% withSpinner()
                                             ),
                                             tabPanel("Q5: How to download data?",
-                                                     uiOutput(outputId = "display_Q5") %>% withSpinner()
+                                                     includeMarkdown("www/info_Q5.md")
+                                                     # uiOutput(outputId = "display_Q5") %>% withSpinner()
                                             ),
                                             tabPanel("Q6: How to get job result again?",
-                                                     uiOutput(outputId = "display_Q6") %>% withSpinner()
+                                                     includeMarkdown("www/info_Q6.md")
+                                                     # uiOutput(outputId = "display_Q6") %>% withSpinner()
                                             ),
-                                            widths = c(3,9)
+                                            tabPanel("Q7: How to annotate drug?",
+                                                     includeMarkdown("www/info_Q7.md")
+                                                     # uiOutput(outputId = "display_Q7") %>% withSpinner()
+                                            ),
+                                            tabPanel("Q8: How to query drugs if I have a drug signature?",
+                                                     includeMarkdown("www/info_Q8.md")
+                                                     # uiOutput(outputId = "display_Q8") %>% withSpinner()
+                                            ),
+                                            tabPanel("Q9: How to find the best topN and method?",
+                                                     includeMarkdown("www/info_Q9.md")
+                                                     # uiOutput(outputId = "display_Q9") %>% withSpinner()
+                                            ),
+                                            tabPanel("Q10: How to deployed SSP in my own computer or server?",
+                                                     includeMarkdown("www/info_Q10.md")
+                                                     # uiOutput(outputId = "display_Q10") %>% withSpinner()
+                                            ),
+                                            tabPanel("Q11: How to get job result again?",
+                                                     includeMarkdown("www/info_Q11.md")
+                                                     # uiOutput(outputId = "display_Q11") %>% withSpinner()
+                                            ),
+                                            widths = c(4,8)
                                           ),
                                    ),
                                    column(1,
@@ -684,10 +706,23 @@ ui <- tagList( #needed for shinyjs
   ), #Bracket  navbarPage
 
   div(style = "margin-bottom: 45px;"), # this adds breathing space between content and footer
+  
+  ## CODE FOR STATISTICS
   div(
     tags$script(src="//rf.revolvermaps.com/0/0/7.js?i=5jq3pohyu8j&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;sx=0",
                 async="async"
     ),style = "width:0%;margin:0 auto;"
+  ),
+  div(
+    tags$script("
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement('script');
+      hm.src = 'https://hm.baidu.com/hm.js?c80c4665444bb409416f091b83b97f57';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  "),style = "width:0%;margin:0 auto;"
   ),
   ###############################################.             
   ##############Footer----    
@@ -713,27 +748,33 @@ ui <- tagList( #needed for shinyjs
 ) #bracket tagList
 ###END
 
+
+
+
+serverLoaded <- FALSE
+
 ###############################################.             
 ##############Server----    
 ###############################################.
 server <- function(input, output, session) {
-  
-  # 在应用启动时运行 JavaScript 代码,判断用户是否是第一次访问？如果第一次访问，弹窗提示
-  runjs("
-    if (!localStorage.getItem('visited')) {
-      Shiny.setInputValue('first_visit', true);
-      localStorage.setItem('visited', 'true');
-    }
-  ")
-  
-  observeEvent(input$first_visit, {
-    shinyalert::shinyalert(
-      title = "Welcome to SSP",
-      text = "Some buttons may not work when first visit SSP.\n It may take 10~15s to initialization.",
-      type = "info"
-    )
-  })
 
+  ## 在启动时判断sever是否加载完全（主要是按钮能否有反应）
+  if (!serverLoaded) {
+    sendSweetAlert(
+      session = session,
+      title = "Welcome to SSP",
+      text = "SSP is initializating. Please wait until the window closed." ,
+      type = "info",
+      btn_labels = NA,
+      closeOnClickOutside = FALSE,
+      showCloseButton = FALSE,
+    )
+  }
+
+  session$onFlushed(once = TRUE, function() {
+    closeSweetAlert()
+    serverLoaded <<- TRUE
+  })
   
   ###############################################.
   ## Sourcing tab code  ----
@@ -787,8 +828,6 @@ server <- function(input, output, session) {
   observeEvent(input$btn_landing, {
     updateTabsetPanel(session, "intabset", selected = "help")
   })
-  
-
 
 }
 

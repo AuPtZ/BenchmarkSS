@@ -68,22 +68,24 @@ observeEvent(input$jobid_get, {
       req(job_info$yourmodule)
       
       
-      if(job_info$yourmodule == "ALL (DR-ES and DR-AUC)"){
+      if(job_info$yourmodule == "ALL (ES and AUC)"){
         
         tagList(
           shiny::h3("Job info"),
           renderTable(job_info$yourjob, striped = T, hover = T, spacing = "l",
                       bordered = T, rownames = F, colnames = F ),
-          shiny::h3("Results of DR-AUC"),
-          renderPlotly(ggplotly(draw_dr_auc(job_info$yourtable$`DR-AUC`))),
-          DT::renderDataTable(job_info$yourtable$`DR-AUC`,server = FALSE),
+          shiny::h3("Results of AUC"),
+          renderPlotly(ggplotly(draw_dr_auc(job_info$yourtable$`AUC`))),
+          DT::renderDataTable(job_info$yourtable$`AUC`,
+                              server = FALSE),
           shiny::br(),
-          shiny::h3("Results of DR-ES"),
-          renderPlotly(ggplotly(draw_dr_es(job_info$yourtable$`DR-ES`))),
-          DT::renderDataTable(job_info$yourtable$`DR-ES` ,server = FALSE)
+          shiny::h3("Results of ES"),
+          renderPlotly(ggplotly(draw_dr_es(job_info$yourtable$`ES`))),
+          DT::renderDataTable(job_info$yourtable$`ES` ,
+                              server = FALSE)
         )
         
-      } else if(job_info$yourmodule == "DR-ES" ){
+      } else if(job_info$yourmodule == "ES" ){
         
         tagList(
           shiny::h3("Job info"),
@@ -96,7 +98,7 @@ observeEvent(input$jobid_get, {
           DT::renderDataTable(job_info$yourtable,server = FALSE)
         )
         
-      } else  if(job_info$yourmodule == "DR-AUC" ){
+      } else  if(job_info$yourmodule == "AUC" ){
         tagList(
           shiny::h3("Job info"),
           renderTable(job_info$yourjob, striped = T, hover = T, spacing = "l",
@@ -176,9 +178,9 @@ read_from_db <- function(Jobid_query){
     }else if(retrieve_job$table_num == 2){
       
       retrieve_table <- list(
-        "DR-AUC" =  tbl(con_red_res, paste0(retrieve_job$Jobid,"_DR-AUC")) %>% 
+        "AUC" =  tbl(con_red_res, paste0(retrieve_job$Jobid,"_AUC")) %>% 
           as.data.frame() ,
-        "DR-ES" =  tbl(con_red_res, paste0(retrieve_job$Jobid,"_DR-ES")) %>% 
+        "ES" =  tbl(con_red_res, paste0(retrieve_job$Jobid,"_ES")) %>% 
           as.data.frame()
       )
       
@@ -211,7 +213,7 @@ write_in_db <- function(Jobid, Submitted_time, module_name,
                         sub_module, table_num = 1, table_res){
   # 表格里面的Jobid和Jobid不一样啊，别搞错了哦
   if(module_name == "Benchmark"){
-    if(sub_module == "DR-AUC"){
+    if(sub_module == "AUC"){
       df1 <- data.frame(
         # 通用参数
         Jobid = Jobid, # JOB ID
@@ -241,7 +243,7 @@ write_in_db <- function(Jobid, Submitted_time, module_name,
         # sel_num_gene = input$sel_topn_sm # 设定读取的基因数量的名字
       )
     }
-    if(sub_module == "DR-ES"){
+    if(sub_module == "ES"){
       df1 <- data.frame(
         # 通用参数
         Jobid = Jobid, # JOB ID
@@ -271,7 +273,7 @@ write_in_db <- function(Jobid, Submitted_time, module_name,
         # sel_num_gene = input$sel_topn_sm # 设定读取的基因数量的名字
       )
     }
-    if(sub_module == "ALL (DR-ES and DR-AUC)"){
+    if(sub_module == "ALL (ES and AUC)"){
       df1 <- data.frame(
         # 通用参数
         Jobid = Jobid, # JOB ID
@@ -411,9 +413,9 @@ write_in_db <- function(Jobid, Submitted_time, module_name,
     # print("Sucess!")
   } else if(table_num == 2) {
     # print("写入一个表2")
-    dbWriteTable(con_res, paste0(Jobid,"_DR-AUC"), table_res[["DR-AUC"]])
+    dbWriteTable(con_res, paste0(Jobid,"_AUC"), table_res[["AUC"]])
     # print("写入一个表2")
-    dbWriteTable(con_res, paste0(Jobid,"_DR-ES"), table_res[["DR-ES"]])
+    dbWriteTable(con_res, paste0(Jobid,"_ES"), table_res[["ES"]])
     # print("增加一个表2")
     dbAppendTable(con_res, "res", df1)
     print("wrting to dababase Sucess!")

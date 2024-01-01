@@ -124,6 +124,24 @@ name_for_res_col <- data.frame(
   sel_num_gene="Number of gene used"
 )
 
+# 将多个算法输出的结果进行替换
+rename_col_rules <- c("XSum" = "auc_xsum", 
+                      "CMap" = "auc_ks",
+                      "GSEA" = "auc_gs", 
+                      "ZhangScore" = "auc_zh", 
+                      "XCos" = "auc_cos",
+                      "XSum" = "es_xsum", 
+                      "CMap" = "es_ks",
+                      "GSEA" = "es_gs", 
+                      "ZhangScore" = "es_zh", 
+                      "XCos"= "es_cos",
+                      "TopN" = "topn",
+                      "XSum" = "SS_Xsum", 
+                      "CMap" = "SS_CMap",
+                      "GSEA" = "SS_GESA", 
+                      "ZhangScore" = "SS_ZhangScore", 
+                      "XCos" = "SS_XCos"
+)
 
 
 # 决定使用多少个核心
@@ -143,4 +161,8 @@ if(F){
   sI = sessioninfo::session_info()
   save(sI,file = "sessioninfo.rdata" )
 }
+
+
+
+
 

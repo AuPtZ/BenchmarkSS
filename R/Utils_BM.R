@@ -4,7 +4,6 @@ library(ggplot2)
 
 local_cache_folder_BM <- cache_filesystem("cache/BM/")
 
-
 get_auc_all_i <- function(topn=5,refMatrix,sig_input,IC50_drug,get_ss){
   print("get_auc_all_i is using")
   sig1_up = sig_input %>%
@@ -173,7 +172,7 @@ get_benchmark_i <- function(IC50_drug,FDA_drug, i.need.logfc ,sel_exp,sel_ss){
   cores = get_cores()
   # i.need.logfc <- rio::import(dir_sig)
   ###################
-  ### DR-AUC part
+  ### AUC part
   ###################
   if(!is.null(IC50_drug)){
 
@@ -181,22 +180,21 @@ get_benchmark_i <- function(IC50_drug,FDA_drug, i.need.logfc ,sel_exp,sel_ss){
                            i.need.logfc = i.need.logfc,
                            sel_exp = sel_exp,
                            sel_ss = sel_ss,
-                           cores = cores
-    )
+                           cores = cores) %>% rename(any_of(rename_col_rules))
     
     if(is.null(FDA_drug)){
       
       return(
         list(patch_output =res_ic50,
-             label_output = "DR-AUC")
+             label_output = "AUC")
       )
     }
     
   }
-  ## DR-AUC end
+  ## AUC end
   
   ###################
-  ### DR-ES part
+  ### ES part
   ###################
   if(!is.null(FDA_drug)){
 
@@ -204,14 +202,14 @@ get_benchmark_i <- function(IC50_drug,FDA_drug, i.need.logfc ,sel_exp,sel_ss){
                          i.need.logfc = i.need.logfc,
                          sel_exp = sel_exp,
                          sel_ss = sel_ss,
-                         cores = cores)
+                         cores = cores) %>% rename(any_of(rename_col_rules))
     
     if(is.null(IC50_drug)){
       
       # incProgress(10/n, detail = "DR ES Job finished!")
       return(
         list(patch_output = res_fda,
-             label_output = "DR-ES")
+             label_output = "ES")
       )
       
     }
@@ -221,7 +219,7 @@ get_benchmark_i <- function(IC50_drug,FDA_drug, i.need.logfc ,sel_exp,sel_ss){
     #   # p2 = res_dr_auc[["p2"]]
     # }
   }
-  ### DR-ES end
+  ### ES end
   
   # both exist
   if(!is.null(FDA_drug) & !is.null(IC50_drug)){
@@ -365,13 +363,13 @@ gsea1 <- function(reflist, set, w=1) {
 draw_dr_auc <- function(res_input){
   
   res_auc <- res_input %>%  as_tibble() %>% pivot_longer(
-    cols = starts_with("auc"),
+    cols = -TopN,
     names_to = "method",
-    values_to = "DR-AUC") %>% as_tibble() %>%
-    mutate(`DR-AUC` = as.numeric(`DR-AUC`),
-           `topn` =as.numeric(`topn`))
+    values_to = "AUC") %>% as_tibble() %>%
+    mutate(`AUC` = as.numeric(`AUC`),
+           `TopN` =as.numeric(`TopN`))
   
-  p1 <- ggplot(data=res_auc, mapping = aes(x=topn, y=`DR-AUC`)) +
+  p1 <- ggplot(data=res_auc, mapping = aes(x=TopN, y=`AUC`)) +
     geom_point(aes(color = method)) +
     stat_smooth(aes(color = method),
                 #method = MASS::rlm,
@@ -383,18 +381,17 @@ draw_dr_auc <- function(res_input){
 
 draw_dr_es <- function(res_input){
   res_es <- res_input %>% as_tibble() %>% pivot_longer(
-    cols = starts_with("es"),
+    cols = -TopN,
     names_to = "method",
-    values_to = "DR-ES") %>% as_tibble() %>%
-    mutate(`DR-ES` = as.numeric(`DR-ES`),
-           `topn` =as.numeric(`topn`))
+    values_to = "ES") %>% as_tibble() %>%
+    mutate(`ES` = as.numeric(`ES`),
+           `TopN` =as.numeric(`TopN`))
   
-  p2 <- ggplot(data=res_es, mapping = aes(x=topn, y=`DR-ES`)) +
+  p2 <- ggplot(data=res_es, mapping = aes(x=TopN, y=`ES`)) +
     geom_point(aes(color = method)) +
     stat_smooth(aes(color = method),
                 #method = MASS::rlm,
                 method = "lm",formula=y~I(x^(-0.5)),
-    ) +
-    theme_test() + ggsci::scale_color_npg()
+    ) + theme_test() + ggsci::scale_color_npg()
   return(p2)
 }
