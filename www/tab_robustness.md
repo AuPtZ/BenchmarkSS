@@ -12,9 +12,9 @@ To evaluate the robustness of these methods at different x values, three paramet
 **3. The standard deviation (SD) of the difference between the scores of the top 1 and top 2 outputs.**  
 Finally, the drug retrieval performance score can be expressed by the following formula:
 
-<div style="padding: 10px; text-align: center;">
-<img src="imgrb1.png" width = "30%" height = "30%" />
-</div>
+$$ 
+Score_{mean} =  \\sqrt{ abs(Score_{sig1} \\times Score_{sig2}) }
+$$
 
 A satisfactory performance was achieved if the method **accurately return the input drug (stronger correlation)** and **distinguish well between drugs (more significant difference score) and maintained good stability (lower SD)**.  
 In this study, we tested performance scores for the cases of x at 100,110,120......480, respectively.
