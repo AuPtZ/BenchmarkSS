@@ -207,47 +207,39 @@ get_ss_cross_res <- memoise::memoise(get_ss_cross_res_i,cache = local_cache_fold
 
 get_pval <- function(res_raw, drug_profile_null){
   
-  get_pval_inner <- Vectorize(function(drug_name,drug_score){
-    
-    
-    library(RSQLite)
-    conn <- dbConnect(RSQLite::SQLite(), "data_preload/nulldistribution/Nulldistribution.db")
-    
-    drug_null <- tbl(conn,drug_profile_null)  %>%  
-      dplyr::filter(drugname == drug_name) %>% collect() %>%
-      dplyr::select(-drugname)   %>% unlist(use.names = FALSE)
-    
-    dbDisconnect(conn)
-    
-    if(drug_score < 0){
-      p.value <- sum(drug_null[[1]]<=drug_score)/length(drug_null[[1]])
-    } else {
-      p.value <- sum(drug_null[[1]]>=drug_score)/length(drug_null[[1]])
-    }
-    
-    return(p.value)
-  })
+  library(RSQLite)
+  conn <- dbConnect(RSQLite::SQLite(), "data_preload/nulldistribution/Nulldistribution.db")
   
-  res_raw <- res_raw %>% tibble::rownames_to_column(var = "name") %>%
-    mutate(pvalue = get_pval_inner(name,Score),
-           Scale_score = .S(Score),
-           Direction = .D(Scale_score))%>%
-    arrange(desc(Score))
-  
+  nulldistribution <- tbl(conn,drug_profile_null) %>% 
+    as_tibble() %>% 
+    rename_with(~make.names(., unique = TRUE))
+  # nulldistribution <- nulldistribution %>% rename( "Score"= "Score.0")
+  res_raw <- res_raw %>% rownames_to_column(var = "drugname")  %>% 
+    inner_join(nulldistribution, by = "drugname") %>%
+    rowwise() %>% 
+    transmute(name = drugname, 
+              Score,
+              pvalue = mean(abs(c_across(starts_with("X"))) >= abs(Score))
+              )
+  # transmute直接使用p.adjust只是对单个pvalue值进行计算，因此需要运行后再计算p.adjust
+  res_raw$Scale_score = .S(res_raw$Score)
+  res_raw$Direction = .D(res_raw$Scale_score)
   res_raw$p.adjust = p.adjust(res_raw$pvalue)
   
-  return(res_raw)
+  return(res_raw %>% mutate_if(is.numeric, round, digits = 4))
 }
 
 
 draw_single <- function(data,x = "Scale_score",y = "name",colby = "pvalue",
                         color = c("blue", "red")){
   
-  
+  data = as.data.frame(data)
   data1 = rbind(slice_max(data, Scale_score,
                           n = 10,with_ties = FALSE),
                 slice_min(data, Scale_score,
                           n = 10,with_ties = FALSE)) %>% distinct()
+  
+
   
   score <- data1[, x]
   y <- data1[, y]
