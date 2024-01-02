@@ -172,9 +172,10 @@ get_ss_all_res_i <- function(refMatrix,sig_input,funcname_mul,topn,direct,drug_p
   star_rra <- cbind(star_rra, "rra_rank" = seq(1,nrow(star_rra)))
   
   summary <- left_join(star_rra, summary, by=c("Name" = "name") )
+  summary$Score <- -log2(summary$Score)
   # 
   # rio::export(summary,"111.TXT")
-  return(summary)
+  return(summary %>% mutate_if(is.numeric, round, digits = 10))
   # }else{
   #   print("at least two methods!")
   # }
@@ -194,7 +195,7 @@ get_ss_cross_res_i <- function(funcname,refMatrix,sig_input1,sig_input2,topn,dru
                                cal_label = sqrt(abs(Scale_score.x * Scale_score.y)))
   res_m$block <- apply(res_m[,c("Scale_score.x","Scale_score.y")],FUN = add_block,MARGIN=1)
   
-  return(res_m)
+  return(res_m %>% mutate_if(is.numeric, round, digits = 4))
 }
 
 ## 尽可能存储缓存，试一试
@@ -277,12 +278,12 @@ draw_all <- function(summary){
   # p1 <- ComplexUpset::upset(data = sm,
   #                           intersect = colnames(sm)[5:ncol(sm)])
   
-  p2 <- ggplot(sm[order(sm$Score),][1:10,],aes(-1*log10(Score),reorder(Name, dplyr::desc(rra_rank)))) +
-    geom_point(aes(size = factor(Freq)  ,color=-1*log10(Score))) +
-    scale_color_gradient(low="green",high = "red") + labs(x="-log10(Rank Score)",
-                                                          y="",
-                                                          title="",
-                                                          colour = "-log10(Rank Score)",
+  p2 <- ggplot(sm[order(sm$Score,decreasing = T),][1:20,],aes(Score,reorder(Name, dplyr::desc(rra_rank)))) +
+    geom_point(aes(size = factor(Freq)  ,color=Score)) +
+    scale_color_gradient(low="green",high = "red") + labs(x="Score",
+                                                          y=NULL,
+                                                          title=NULL,
+                                                          colour = "Score",
                                                           size = "Method")+theme_test() + theme(
                                                             axis.text = element_text(colour = "black")
                                                           )+

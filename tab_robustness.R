@@ -27,5 +27,7 @@ observeEvent(input$runRB, {
 
 
 initial_rb <- tagList(
+  withMathJax(),
   includeMarkdown("www/tab_robustness.md")
+  
 )

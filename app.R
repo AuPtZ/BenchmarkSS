@@ -370,17 +370,17 @@ ui <- tagList( # needed for shinyjs
                             ),
                             
                             popify(
-                              shiny::strong(tagList("Step 2. Select Signature Search method:",icon("circle-question"))),
+                              shiny::strong(tagList("Step 2b: Select direct to show:",icon("circle-question"))),
                               title = NULL,
                               content = paste(
-                                "Just select one method of your interest."
+                                "SS_all only compare the drugs in same direction."
                               ),
                               trigger = "click", placement = "right"
                             ),
                             shiny::p(),
                             
                             awesomeRadio("sel_direct_sm", 
-                                         "Step 2b: Select direct to show:",
+                                         NULL,
                                          choices=sm_direct,inline = T,
                                          selected = list("Down")
                             ),
