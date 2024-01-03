@@ -828,6 +828,11 @@ server <- function(input, output, session) {
   observeEvent(input$btn_landing, {
     updateTabsetPanel(session, "intabset", selected = "help")
   })
+  
+  # 保存当前的sessioninfo用于部署包
+  # sI <- (.packages())
+  # save(sI,file = "sessioninfo.rdata")
+  
 
 }
 
