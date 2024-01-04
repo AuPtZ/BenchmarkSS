@@ -27,37 +27,50 @@ for (i in 1:nrow(GSDC_drug_info)){
 }
 
 save(GSDC_drug_info,file = "data_preload/annotation/GSDC_drug_info_full.Rdata")
+
+
+
 # 处理GSDC数据库的IC50数据，
+GSDC_drug_info2 = GSDC_drug_info %>% dplyr::select(c("Name","PubCHEM","SMILEs", "InChIKeys")) %>% distinct()
+# 筛选名字重复但是pubchemcid不重复的
+GSDC_drug_info2$Name[duplicated(GSDC_drug_info2$Name)]
+# 人工查阅，保留唯一值
+# MIM1 CID 135691163 API搜索获得的，非原始 删除
+# BMS-345541 CID 9926054 多了一个盐酸 删除
+# Cisplatin CID 5702198 API搜索获得的，非原始 删除
+# Oxaliplatin CID 9887053 API搜索获得的，非原始 删除
+GSDC_drug_info3 <- GSDC_drug_info2[!GSDC_drug_info2$PubCHEM %in% c("135691163","9926054","5702198","9887053"),]
+
 GSDC <- rio::import("data_preload/annotation/GDSC2_fitted_dose_response_24Jul22.xlsx") %>% 
-  left_join(GSDC_drug_info %>% dplyr::select(c("Drug Id","PubCHEM","SMILEs", "InChIKeys")),
-            by=c("DRUG_ID"="Drug Id")) %>% tidyr::drop_na()
+  dplyr::select(c("TCGA_DESC","DRUG_NAME", "LN_IC50")) %>% distinct() %>% 
+  left_join(GSDC_drug_info3, by=c("DRUG_NAME"="Name")) %>% distinct()
 
 GSDC2 <- GSDC %>%
-    filter(TCGA_DESC != "UNCLASSIFIED", TCGA_DESC != "OTHER") %>%
-    select(c(DRUG_NAME, LN_IC50, CELL_LINE_NAME, TCGA_DESC, PubCHEM, SMILEs,InChIKeys)) %>%
-    mutate(IC50 = 2^LN_IC50) %>%
-    select(-LN_IC50)
+  dplyr::filter(TCGA_DESC != "UNCLASSIFIED", TCGA_DESC != "OTHER") %>%
+  dplyr::select(c(DRUG_NAME, LN_IC50, TCGA_DESC, PubCHEM, SMILEs,InChIKeys)) %>%
+  mutate(IC50 = 2^LN_IC50) %>%
+  dplyr::select(-LN_IC50)
 
 GSDC3 <- GSDC2 %>%
-    group_by(DRUG_NAME,  TCGA_DESC,PubCHEM, SMILEs,InChIKeys) %>%
-    summarize(IC50 = min(IC50)) %>%
-    rename(Compound.name = DRUG_NAME, `IC50 value` = IC50, PubChem_Cid = PubCHEM) %>%
-    mutate(Group = if_else(`IC50 value` > 10, "Ineffective", "Effevtive")) %>% 
-    select(Compound.name, `IC50 value`, Group,  TCGA_DESC,  everything())
+  group_by(DRUG_NAME,  TCGA_DESC,PubCHEM, SMILEs,InChIKeys) %>%
+  summarize(IC50 = min(IC50)) %>% 
+  dplyr::rename(Compound.name = DRUG_NAME, `IC50 value` = IC50, PubChem_Cid = PubCHEM) %>%
+  dplyr::mutate(Group = if_else(`IC50 value` > 10, "Ineffective", "Effevtive")) %>% 
+  dplyr::select(Compound.name, `IC50 value`, Group,  TCGA_DESC,  everything())
 
 GSDCIC50 = GSDC3
 save(GSDCIC50,file="data_preload/annotation/GSDCIC50.Rdata")
 
 # 计算癌种的出现频次
-# load("data_preload/annotation/GSDCIC50.Rdata")
-# disinfo = rio::import("data_preload/annotation/disinfo.txt")
-# unique_ids <- unique(GSDCIC50$TCGA_DESC)
+load("data_preload/annotation/GSDCIC50.Rdata")
+disinfo = rio::import("data_preload/annotation/disinfo.txt")
+unique_ids <- unique(GSDCIC50$TCGA_DESC)
+
+freq = as.data.frame(table(GSDCIC50$TCGA_DESC))
+disinfo = left_join(disinfo, freq,by = c("ID"="Var1"))
+filtered_disinfo <- disinfo %>% filter(ID %in% unique_ids)
+disinfo_vector <- setNames(filtered_disinfo$ID, filtered_disinfo$NAME)
 # 
-# freq = as.data.frame(table(GSDCIC50$TCGA_DESC)) 
-# disinfo = left_join(disinfo, freq,by = c("ID"="Var1"))
-# filtered_disinfo <- disinfo %>% filter(ID %in% unique_ids)
-# disinfo_vector <- setNames(filtered_disinfo$ID, filtered_disinfo$NAME)
-# 
-# save(disinfo_vector, file = "data_preload/annotation/disinfo_vector.Rdata")
-# rio::export(filtered_disinfo,file="S1.xlsx")
-# load("data_preload/drugexp/LINCS_A375_5 µM_24 h.rdata")
+save(disinfo_vector, file = "data_preload/annotation/disinfo_vector.Rdata")
+rio::export(filtered_disinfo,file="S1.xlsx")
+
