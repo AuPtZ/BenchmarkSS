@@ -1,6 +1,6 @@
 library(rio)
 library(dplyr)
-
+library(webchem)
 
 GSDC_drug_info <- rio::import("data_preload/annotation/Drug_listSat Dec 16 12_33_15 2023.csv")
 
