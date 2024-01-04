@@ -157,7 +157,7 @@ ui <- tagList( # needed for shinyjs
                           popify(
                             shiny::strong(tagList("Step 3. upload disease signature",icon("circle-question"))),
                             title = NULL,
-                            content = paste("Disease signature is a gene list (gene symbol) with log2FC, and a", 
+                            content = paste("Disease signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patients of a specific disease. A", 
                                           a(href = "demo/signature.txt", "demo signature file"),
                                           "is provided. <br>If you have other identifier (e.g. EntrezID), please go to",
                                           as.character(strong(" convertor page"))," to convert your signature."
@@ -410,7 +410,7 @@ ui <- tagList( # needed for shinyjs
                             popify(
                               shiny::strong(tagList("Step 4. upload signature",icon("circle-question"))),
                               title = NULL,
-                              content = paste("Disease signature is a gene list (gene symbol) with log2FC, and a", 
+                              content = paste("Disease signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patients of a specific disease. A", 
                                               a(href = "demo/signature.txt", "demo signature file"),
                                               "is provided. <br>If you have other identifier (e.g. EntrezID), please go to",
                                               as.character(strong(" convertor page"))," to convert your signature."
