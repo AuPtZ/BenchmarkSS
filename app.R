@@ -643,7 +643,7 @@ ui <- tagList( # needed for shinyjs
                                                      includeMarkdown("www/info_Q10.md")
                                                      # uiOutput(outputId = "display_Q10") %>% withSpinner()
                                             ),
-                                            tabPanel("Q11: How to get job result again?",
+                                            tabPanel("Q11: Q&A collection from reviewers.",
                                                      includeMarkdown("www/info_Q11.md")
                                                      # uiOutput(outputId = "display_Q11") %>% withSpinner()
                                             ),
@@ -690,7 +690,7 @@ ui <- tagList( # needed for shinyjs
                                           # "sidebar1"
                                    ),
                                    column(6,
-                                          uiOutput(outputId = "display_about") %>% withSpinner()
+                                          uiOutput(outputId = "display_about") %>% withSpinner(),
 
                                    ),
                                    column(3,

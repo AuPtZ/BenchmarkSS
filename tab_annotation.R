@@ -35,9 +35,7 @@ output$run_AN <- downloadHandler(
                     dplyr::select(c(Compound.name)),
                   file,format = "tsv",row.names = F)
     }
-    
 
-    
   }
 )
 
