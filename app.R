@@ -707,7 +707,7 @@ ui <- tagList( # needed for shinyjs
 
   div(style = "margin-bottom: 45px;"), # this adds breathing space between content and footer
   
-  ## CODE FOR STATISTICS
+  # CODE FOR STATISTICS
   div(
     tags$script(src="//rf.revolvermaps.com/0/0/7.js?i=5jq3pohyu8j&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;sx=0",
                 async="async"

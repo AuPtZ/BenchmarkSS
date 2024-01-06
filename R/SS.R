@@ -309,7 +309,7 @@ if(T){
   ## 原始程序
   XSumScore <- function(refMatrix, queryUp, queryDown,topN = 500, pval = F){
     
-    print("XSumScore is using")
+    # print("XSumScore is using")
     if (is.data.frame(refMatrix)) {
       refMatrix <- as.matrix(refMatrix)
     }
@@ -363,7 +363,7 @@ if(T){
   
   
   KSScore <- function(refMatrix, queryUp, queryDown, pval = F){
-    print("KSScore is using")
+    # print("KSScore is using")
     if (is.data.frame(refMatrix)) {
       refMatrix <- as.matrix(refMatrix)
     }
@@ -423,7 +423,7 @@ if(T){
   
   
   GSEAweight1Score <- function(refMatrix, queryUp, queryDown, pval = F){
-    print("GSEAweight1Score is using")
+    # print("GSEAweight1Score is using")
     if (is.data.frame(refMatrix)) {
       refMatrix <- as.matrix(refMatrix)
     }
