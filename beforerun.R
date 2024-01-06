@@ -1,6 +1,6 @@
 load("sessioninfo.rdata")
 
-
+# 请确认网络环境都正常
 
 for (pkg in sI){
   if (! require(pkg,character.only=T) ) {
@@ -21,7 +21,7 @@ for (pkg in sI){
   require(pkg,character.only=T) 
 }
 
-
+dir.create("cache")
 dir.create("cache/BM")
 dir.create("cache/SM")
 dir.create("cache/SS")
