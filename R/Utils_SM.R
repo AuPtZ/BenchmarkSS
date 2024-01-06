@@ -10,7 +10,7 @@ local_cache_folder_SM <- cache_filesystem("cache/SM/")
 get_single_method_i  <- function(drug_profile, topn,sel_model_sm1, i.need.logfc, funcname,funcname_mul,
                                direct, bioname1, bioname2){
 
-  print("进入get_single_method_i")
+  # print("进入get_single_method_i")
   req(!is.null(drug_profile))
   load(paste0("data_preload/drugexp/",drug_profile))
   
@@ -66,7 +66,7 @@ get_single_method_i  <- function(drug_profile, topn,sel_model_sm1, i.need.logfc,
 get_single_res_i <- function(funcname,refMatrix,sig_input,topn, 
                              drug_profile = NULL, threshold = 1){
   
-  print("进入get_single_res")
+  # print("进入get_single_res")
   library(dplyr)
   # print("dplyr加载完毕")
   sig1_up = sig_input %>%
@@ -134,7 +134,7 @@ get_single_res_i <- function(funcname,refMatrix,sig_input,topn,
 
 get_ss_all_res_i <- function(refMatrix,sig_input,funcname_mul,topn,direct,drug_profile = NULL){
   
-  print("进入SS_all")
+  # print("进入SS_all")
   res_mul <- purrr::map(funcname_mul,get_single_res,
                         refMatrix = refMatrix,
                         sig_input = sig_input,
@@ -184,7 +184,7 @@ get_ss_all_res_i <- function(refMatrix,sig_input,funcname_mul,topn,direct,drug_p
 
 get_ss_cross_res_i <- function(funcname,refMatrix,sig_input1,sig_input2,topn,drug_profile = NULL){
   
-  print("进入SS_cross")
+  # print("进入SS_cross")
   res1 <-  get_single_res(funcname = funcname ,refMatrix = refMatrix,
                           sig_input = sig_input1,topn = topn,drug_profile = drug_profile)
   res2 <-  get_single_res(funcname = funcname ,refMatrix = refMatrix,

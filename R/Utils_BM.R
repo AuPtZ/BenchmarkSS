@@ -5,7 +5,7 @@ library(ggplot2)
 local_cache_folder_BM <- cache_filesystem("cache/BM/")
 
 get_auc_all_i <- function(topn=5,refMatrix,sig_input,IC50_drug,get_ss){
-  print("get_auc_all_i is using")
+  # print("get_auc_all_i is using")
   sig1_up = sig_input %>%
     dplyr::filter(log2FC > 0) %>%
     dplyr::arrange(desc(log2FC))
@@ -75,12 +75,12 @@ get_auc_all_i <- function(topn=5,refMatrix,sig_input,IC50_drug,get_ss){
   }
   
   # gc()
-  print(paste0("AUC ",topn))
+  # print(paste0("AUC ",topn))
   return(res_dr_auc %>% lapply(round,4))
 }
 
 get_es_all_i <- function(topn=5,refMatrix,sig_input,drug_sig,get_ss){
-  print("get_es_all_i is using")
+  # print("get_es_all_i is using")
   sig1_up = sig_input %>%
     dplyr::filter(log2FC > 0) %>%
     dplyr::arrange(desc(log2FC))
@@ -161,14 +161,14 @@ get_es_all_i <- function(topn=5,refMatrix,sig_input,drug_sig,get_ss){
     
   }
   
-  print(paste0("ES ",topn))
+  # print(paste0("ES ",topn))
   return( res_dr_es %>% lapply(round,4) )
   
 }
 
 get_benchmark_i <- function(IC50_drug,FDA_drug, i.need.logfc ,sel_exp,sel_ss){
   
-  print("进入get_benchmark_i")
+  # print("进入get_benchmark_i")
   cores = get_cores()
   # i.need.logfc <- rio::import(dir_sig)
   ###################
