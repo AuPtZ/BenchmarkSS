@@ -5,15 +5,15 @@
 #####################.
 # Generate data
 # read gctx
-library(cmapR)
+# library(cmapR)
 library(future)
 library(promises)
 # plan(multisession)
 
 library(memoise)
 
-cores <- get_cores()
-dir = "~/dataportal/LINCS/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx"
+# cores <- get_cores()
+# dir = "~/dataportal/LINCS/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx"
 
 # 读取sig数据，用于提取数据
 
@@ -293,14 +293,14 @@ output$dl_drug_ann_bm <- downloadHandler(
 )
 
 
-output$dl_solo_sig1 <- downloadHandler(
-  filename = function() {
-    return("signature.txt")
-  },
-  content = function(file) {
-    file.copy("demo/signature.txt", file)
-  }
-)
+# output$dl_solo_sig1 <- downloadHandler(
+#   filename = function() {
+#     return("signature.txt")
+#   },
+#   content = function(file) {
+#     file.copy("demo/signature.txt", file)
+#   }
+# )
 
 
 
