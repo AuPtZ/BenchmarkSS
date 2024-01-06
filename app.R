@@ -17,7 +17,7 @@ library(shinylogs)
 library(future)
 library(promises)
 library(htmltools)
-plan(multisession)
+plan(multisession,,workers = 64L)
 plan(future.callr::callr)
 
 shinyOptions(cache = cachem::cache_mem(max_size = 1000e6))
