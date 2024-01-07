@@ -94,7 +94,7 @@ if(T){
   res_application_ALL_major = bench::mark(applicationTest(profile = "LINCS_VCAP_5 µM_24 h.rdata",
                                                          sel_model_input = "SS_ALL"), 
                                          iterations = 100, check = FALSE )
-  res_application_SM_minor = bench::mark(applicationTest(profile = "LINCS_MCF7_1 nM_24 h.rdata",
+  res_application_ALL_minor = bench::mark(applicationTest(profile = "LINCS_MCF7_1 nM_24 h.rdata",
                                                          sel_model_input = "SS_ALL"), 
                                          iterations = 100, check = FALSE)
   res_application_SM_major = bench::mark(applicationTest(profile = "LINCS_VCAP_5 µM_24 h.rdata",
