@@ -20,7 +20,9 @@ if(F){
     
     IC50_drug <- rio::import("demo/drug_annotation_AUC.txt")
     FDA_drug <- rio::import("demo/drug_annotation_ES.txt")
-    i.need.logfc <- rio::import("demo/signature.txt") %>% dplyr::select(c("Gene","log2FC"))
+    i.need.logfc <- rio::import("demo/signature.txt") %>% 
+      dplyr::select(c("Gene","log2FC")) %>% 
+      dplyr::mutate(log2FC = runif(n(), min = -1, max = 1))
     sel_exp = profile
     sel_ss = c("SS_Xsum","SS_CMap","SS_GSEA","SS_ZhangScore","SS_XCos")
     
@@ -84,25 +86,34 @@ if(T){
                                    bioname1 = bioname1,
                                    bioname2 = bioname2)
   }
-
+  
   res_application_SM_major = bench::mark(applicationTest(profile = "LINCS_VCAP_5 µM_24 h.rdata",
                                                          sel_model_input = "singlemethod"), 
-                                            iterations = 100, check = FALSE )
+                                         iterations = 100, check = FALSE )
   res_application_SM_minor = bench::mark(applicationTest(profile = "LINCS_MCF7_1 nM_24 h.rdata",
                                                          sel_model_input = "singlemethod"), 
-                                            iterations = 100, check = FALSE)
-  res_application_ALL_major = bench::mark(applicationTest(profile = "LINCS_VCAP_5 µM_24 h.rdata",
-                                                         sel_model_input = "SS_ALL"), 
-                                         iterations = 100, check = FALSE )
-  res_application_ALL_minor = bench::mark(applicationTest(profile = "LINCS_MCF7_1 nM_24 h.rdata",
-                                                         sel_model_input = "SS_ALL"), 
                                          iterations = 100, check = FALSE)
+  res_application_ALL_major = bench::mark(applicationTest(profile = "LINCS_VCAP_5 µM_24 h.rdata",
+                                                          sel_model_input = "SS_ALL"), 
+                                          iterations = 100, check = FALSE )
+  res_application_ALL_minor = bench::mark(applicationTest(profile = "LINCS_MCF7_1 nM_24 h.rdata",
+                                                          sel_model_input = "SS_ALL"), 
+                                          iterations = 100, check = FALSE)
   res_application_SM_major = bench::mark(applicationTest(profile = "LINCS_VCAP_5 µM_24 h.rdata",
                                                          sel_model_input = "SS_all"), 
                                          iterations = 100, check = FALSE )
   res_application_SM_minor = bench::mark(applicationTest(profile = "LINCS_MCF7_1 nM_24 h.rdata",
                                                          sel_model_input = "SS_cross"), 
                                          iterations = 100, check = FALSE)
+  
+  
+  save(res_application_SM_major,
+       res_application_SM_minor,
+       res_application_ALL_major,
+       res_application_ALL_minor,
+       res_application_SM_major,
+       res_application_SM_minor,
+       file = "res_application.Rdata")
   
 }
 
