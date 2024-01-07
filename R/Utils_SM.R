@@ -94,7 +94,7 @@ get_single_res_i <- function(funcname,refMatrix,sig_input,topn,
                        queryDown = na.omit(sig1_dn[1:topn]))
   }
   
-  if(funcname == "SS_GESA"){
+  if(funcname == "SS_GSEA"){
     res_raw <- GSEAweight1Score(refMatrix = refMatrix,
                                 queryUp = na.omit(sig1_up[1:topn]) ,
                                 queryDown = na.omit(sig1_dn[1:topn]))

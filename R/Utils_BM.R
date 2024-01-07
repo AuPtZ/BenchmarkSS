@@ -42,7 +42,7 @@ get_auc_all_i <- function(topn=5,refMatrix,sig_input,IC50_drug,get_ss){
     
   }
   
-  if ("SS_GESA" %in% get_ss){
+  if ("SS_GSEA" %in% get_ss){
     res_gs_raw <- GSEAweight1Score(refMatrix,
                                    queryUp = na.omit(sig1_up[1:topn]) ,
                                    queryDown = na.omit(sig1_dn[1:topn]))
@@ -124,7 +124,7 @@ get_es_all_i <- function(topn=5,refMatrix,sig_input,drug_sig,get_ss){
     
   }
   
-  if ("SS_GESA" %in% get_ss){
+  if ("SS_GSEA" %in% get_ss){
     res_gs_raw <- GSEAweight1Score(refMatrix,
                                    queryUp = na.omit(sig1_up[1:topn]) ,
                                    queryDown = na.omit(sig1_dn[1:topn]))

@@ -5,7 +5,7 @@ get_rb_plot <- function(dir_rb,func_sel){
   library(ggsci)
 
   
-  colnames(res_topn2) <- c("SS_Xsum","SS_CMap","SS_GESA","SS_ZhangScore","SS_XCos","TopN")
+  colnames(res_topn2) <- c("SS_Xsum","SS_CMap","SS_GSEA","SS_ZhangScore","SS_XCos","TopN")
   
 
   

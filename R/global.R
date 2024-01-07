@@ -81,7 +81,7 @@ time_list <- c("6 h",
 ss_list <- list(
   Xsum = "SS_Xsum",
   CMap = "SS_CMap",
-  GESA = "SS_GESA",
+  GSEA = "SS_GSEA",
   ZhangScore = "SS_ZhangScore",
   XCos = "SS_XCos"
 )
@@ -138,7 +138,7 @@ rename_col_rules <- c("XSum" = "auc_xsum",
                       "TopN" = "topn",
                       "XSum" = "SS_Xsum", 
                       "CMap" = "SS_CMap",
-                      "GSEA" = "SS_GESA", 
+                      "GSEA" = "SS_GSEA", 
                       "ZhangScore" = "SS_ZhangScore", 
                       "XCos" = "SS_XCos"
 )
