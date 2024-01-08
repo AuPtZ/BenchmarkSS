@@ -22,7 +22,7 @@ if(F){
     FDA_drug <- rio::import("demo/drug_annotation_ES.txt")
     i.need.logfc <- rio::import("demo/signature.txt") %>% 
       dplyr::select(c("Gene","log2FC")) %>% 
-      dplyr::mutate(log2FC = runif(n(), min = -1, max = 1))
+      dplyr::mutate(log2FC = ifelse(runif(n()) < 0.5, runif(n(), min = -2, max = -1), runif(n(), min = 1, max = 2)))
     sel_exp = profile
     sel_ss = c("SS_Xsum","SS_CMap","SS_GSEA","SS_ZhangScore","SS_XCos")
     
@@ -40,9 +40,9 @@ if(F){
   
   # 使用microbenchmark()函数来评估函数
   res_benchmark_dataset_major = bench::mark(benchmarkTest("LINCS_VCAP_5 µM_24 h.rdata"), 
-                                            iterations = 100, check = FALSE )
+                                            iterations = 100, check = FALSE,memory = FALSE )
   res_benchmark_dataset_minor = bench::mark(benchmarkTest("LINCS_MCF7_1 nM_24 h.rdata"), 
-                                            iterations = 100, check = FALSE)
+                                            iterations = 100, check = FALSE,memory = FALSE)
   
   save(res_benchmark_dataset_major,res_benchmark_dataset_minor,file = "res_benchmark.Rdata")
 }
@@ -65,14 +65,29 @@ if(T){
     source("R/Utils_RB.R")
     source("R/Utils_SM.R")
     
-    i.need.logfc <- rio::import("demo/signature.txt") %>% 
-      dplyr::select(c("Gene","log2FC")) %>% 
-      dplyr::mutate(log2FC = runif(n(), min = -1, max = 1))
+    if(sel_model_input == "SS_cross"){
+      i.need.logfc1 <- rio::import("demo/signature.txt") %>% 
+        dplyr::select(c("Gene","log2FC")) %>% 
+        dplyr::mutate(log2FC = ifelse(runif(n()) < 0.5, runif(n(), min = -2, max = -1), runif(n(), min = 1, max = 2)))
+      i.need.logfc2 <- rio::import("demo/signature.txt") %>% 
+        dplyr::select(c("Gene","log2FC")) %>% 
+        dplyr::mutate(log2FC = ifelse(runif(n()) < 0.5, runif(n(), min = -2, max = -1), runif(n(), min = 1, max = 2)))
+      i.need.logfc <- list(i.need.logfc1 = i.need.logfc1,
+                           i.need.logfc2 = i.need.logfc2
+                           )
+      
+    }else{
+      i.need.logfc <- rio::import("demo/signature.txt") %>% 
+        dplyr::select(c("Gene","log2FC")) %>% 
+        dplyr::mutate(log2FC = ifelse(runif(n()) < 0.5, runif(n(), min = -2, max = -1), runif(n(), min = 1, max = 2)))
+    }
+    
+
     
     funcname_mul = c("SS_Xsum","SS_CMap","SS_GSEA","SS_ZhangScore","SS_XCos")
     funcname = "SS_GSEA"
     topn = 150
-    direct = "down"
+    direct = "Down"
     bioname1 = "bioname1"
     bioname2 = "bioname2"
     
@@ -89,22 +104,22 @@ if(T){
   
   res_application_SM_major = bench::mark(applicationTest(profile = "LINCS_VCAP_5 µM_24 h.rdata",
                                                          sel_model_input = "singlemethod"), 
-                                         iterations = 100, check = FALSE )
+                                         iterations = 100, check = FALSE,memory = FALSE )
   res_application_SM_minor = bench::mark(applicationTest(profile = "LINCS_MCF7_1 nM_24 h.rdata",
                                                          sel_model_input = "singlemethod"), 
-                                         iterations = 100, check = FALSE)
+                                         iterations = 100, check = FALSE,memory = FALSE)
   res_application_ALL_major = bench::mark(applicationTest(profile = "LINCS_VCAP_5 µM_24 h.rdata",
-                                                          sel_model_input = "SS_ALL"), 
-                                          iterations = 100, check = FALSE )
-  res_application_ALL_minor = bench::mark(applicationTest(profile = "LINCS_MCF7_1 nM_24 h.rdata",
-                                                          sel_model_input = "SS_ALL"), 
-                                          iterations = 100, check = FALSE)
+                                                          sel_model_input = "SS_all"), 
+                                          iterations = 100, check = FALSE,memory = FALSE )
+  res_application_ALL_minor = bench::mark(applicationTest(profile = "LINCS_A375_5 µM_24 h.rdata",
+                                                          sel_model_input = "SS_all"), 
+                                          iterations = 100, check = FALSE,memory = FALSE)
   res_application_SM_major = bench::mark(applicationTest(profile = "LINCS_VCAP_5 µM_24 h.rdata",
-                                                         sel_model_input = "SS_all"), 
-                                         iterations = 100, check = FALSE )
+                                                         sel_model_input = "SS_cross"), 
+                                         iterations = 100, check = FALSE,memory = FALSE )
   res_application_SM_minor = bench::mark(applicationTest(profile = "LINCS_MCF7_1 nM_24 h.rdata",
                                                          sel_model_input = "SS_cross"), 
-                                         iterations = 100, check = FALSE)
+                                         iterations = 100, check = FALSE,memory = FALSE)
   
   
   save(res_application_SM_major,
