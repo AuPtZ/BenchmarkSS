@@ -46,7 +46,7 @@ observeEvent(input$runBM, {
   
   
   
-  isolate({
+  isolate({ # isolate
     
     req(judge_bm()) 
     
@@ -66,7 +66,7 @@ observeEvent(input$runBM, {
       output$display_bm <- renderUI(initial_bm)
     }
     
-    
+
     
     req(length(input$sel_ss)>1)
     req(!(is.null(input$file_IC50) & is.null(input$file_FDA)))
@@ -91,7 +91,7 @@ observeEvent(input$runBM, {
     sel_exp = input$sel_experiment
     sel_ss = input$sel_ss
     
-    
+
     
     # 正式的运行层
     future_promise({ ## future 需要单独加载包，global的不行
@@ -106,7 +106,7 @@ observeEvent(input$runBM, {
       
       isolate({
         
-        print("we are going to res_bm!")
+        # print("we are going to res_bm!")
         res_bm <- get_benchmark(
           IC50_drug = IC50_drug,
           FDA_drug = FDA_drug, 
@@ -119,8 +119,11 @@ observeEvent(input$runBM, {
       })
     }, seed = TRUE) %...>% (
       function(res_bm){
-        print("we get result!")
+        # print("we get result!")
         # res_bm <- result
+        
+
+        
         if(length(res_bm) ==3){
           
           # print(res_bm)
@@ -179,6 +182,8 @@ observeEvent(input$runBM, {
             shiny::h3("Please Check Iput Files!")
           }) ## renderUI
         }
+        
+        
       }
     ) %...!% stop(.)
     output$display_bm <- renderUI({ ## renderUI 
@@ -189,7 +194,8 @@ observeEvent(input$runBM, {
         shiny::h3("Please remember it for retrive results in Job Center.")
       )
     }) ## renderUI
-  })
+
+  }) # isolate
   
   
   
