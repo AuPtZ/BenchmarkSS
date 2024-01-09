@@ -272,7 +272,7 @@ ui <- tagList( # needed for shinyjs
                                       awesomeCheckboxGroup("sel_ss_rb",
                                                            NULL,
                                                            choices=ss_list,
-                                                           selected = list("SS_Xsum","SS_CMap","SS_GESA","SS_ZhangScore","SS_XCos")
+                                                           selected = list("SS_Xsum","SS_CMap","SS_GSEA","SS_ZhangScore","SS_XCos")
                                       ),
                                       shiny::br(),
                                       actionButton("runRB", "Run", class = "btn-success"),
