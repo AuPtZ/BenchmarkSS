@@ -52,6 +52,17 @@ observeEvent(input$runSM, {
       output$display_sm <- renderUI({initial_sm})
     }
     
+    
+    #### Create a Progress object
+    progress_sm <- shiny::Progress$new()
+    
+    # Make sure it closes when we exit this reactive, even if there's an error
+    # on.exit(progress$close())
+    
+    progress_sm$set(message = paste0("Performing Job ", jobid_sm), value = 0)
+    #### 
+    
+    
     drug_profile = input$sel_experiment_sm
     topn = input$sel_topn_sm
     sel_model_sm1 = input$sel_model_sm
@@ -92,7 +103,9 @@ observeEvent(input$runSM, {
       )
       
     }
-    
+    ###
+    progress_sm$inc(0.2, detail = paste("file loaded, computing"))
+    ###
     
     # 运行层
     future_promise({    ## 这里可能需要单独加载包哦
@@ -119,6 +132,11 @@ observeEvent(input$runSM, {
       })
     }, seed = TRUE) %...>% (
       function(result){
+        
+        ###
+        progress_sm$inc(0.6, detail = paste("get result, ploting"))
+        ###
+        
         res_sm <- result[[1]]
         p_sm <- result[[2]]
         write_in_db(Jobid = jobid_sm, 
@@ -137,6 +155,9 @@ observeEvent(input$runSM, {
           )
         }) # renderUI
         # print("job finished!")
+        ###
+        progress_sm$inc(0.2, detail = paste("job finished!"))
+        ###  
       }
     ) %...!% (function(error){
       # rv$output <- NULL

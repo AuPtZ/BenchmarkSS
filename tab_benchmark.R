@@ -66,7 +66,15 @@ observeEvent(input$runBM, {
       output$display_bm <- renderUI(initial_bm)
     }
     
-
+    #### Create a Progress object
+    progress_bm <- shiny::Progress$new()
+    
+    # Make sure it closes when we exit this reactive, even if there's an error
+    # on.exit(progress$close())
+    
+    progress_bm$set(message = paste0("Performing Job ", jobid_bm), value = 0)
+    #### 
+    
     
     req(length(input$sel_ss)>1)
     req(!(is.null(input$file_IC50) & is.null(input$file_FDA)))
@@ -91,7 +99,9 @@ observeEvent(input$runBM, {
     sel_exp = input$sel_experiment
     sel_ss = input$sel_ss
     
-
+    ###
+    progress_bm$inc(0.2, detail = paste("file loaded, computing"))
+    ###
     
     # 正式的运行层
     future_promise({ ## future 需要单独加载包，global的不行
@@ -122,7 +132,9 @@ observeEvent(input$runBM, {
         # print("we get result!")
         # res_bm <- result
         
-
+        ###
+        progress_bm$inc(0.6, detail = paste("get result, ploting"))
+        ###
         
         if(length(res_bm) ==3){
           
@@ -183,7 +195,9 @@ observeEvent(input$runBM, {
           }) ## renderUI
         }
         
-        
+        ###
+        progress_bm$inc(0.2, detail = paste("job finished!"))
+        ###  
       }
     ) %...!% stop(.)
     output$display_bm <- renderUI({ ## renderUI 
