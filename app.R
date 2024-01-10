@@ -572,7 +572,7 @@ ui <- tagList( # needed for shinyjs
                           shiny::p(),
                           radioButtons("format_ct", "Step 2. Select the \"From\" ID", 
                                        inline = T,
-                                       choices = c("ENTREZID", "ENSEMBL","UNIGENE","GENENAME")),
+                                       choices = c("ENTREZID", "ENSEMBL","UNIPROT","GENENAME")),
                           checkboxInput("header_check_ct", label = strong("Step 3. Header or non-header?") ,
                                         value = TRUE),
                           actionButton("runCT", "Convert", class = "btn-success")
