@@ -724,6 +724,7 @@ ui <- tagList( # needed for shinyjs
     })();
   "),style = "width:0%;margin:0 auto;"
   ),
+  
   ###############################################.             
   ##############Footer----    
   ###############################################.
@@ -832,7 +833,7 @@ server <- function(input, output, session) {
   # 保存当前的sessioninfo用于部署包
   # sI <- (.packages())
   # save(sI,file = "sessioninfo.rdata")
-  
+  # Run JavaScript code to get the user's IP address
 
 }
 

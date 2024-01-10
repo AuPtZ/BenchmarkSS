@@ -22,7 +22,7 @@ observeEvent(input$reset_sm, {
   
   # runjs("history.go(0)")
   reset("sm_input")
-  
+  output$display_sm <- renderUI({initial_sm})
 })
 
 
@@ -59,7 +59,7 @@ observeEvent(input$runSM, {
     # Make sure it closes when we exit this reactive, even if there's an error
     # on.exit(progress$close())
     
-    progress_sm$set(message = paste0("Performing Job ", jobid_sm), value = 0)
+    progress_sm$set(message = paste0("Performing ", jobid_sm), value = 0)
     #### 
     
     

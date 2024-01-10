@@ -72,7 +72,7 @@ observeEvent(input$runBM, {
     # Make sure it closes when we exit this reactive, even if there's an error
     # on.exit(progress$close())
     
-    progress_bm$set(message = paste0("Performing Job ", jobid_bm), value = 0)
+    progress_bm$set(message = paste0("Performing ", jobid_bm), value = 0)
     #### 
     
     
