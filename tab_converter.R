@@ -26,18 +26,15 @@ observeEvent(input$runCT, {
   req(judge_ct())
   
   if(judge_ct()){
-
-    
-    output$display_ct <-  renderUI({
+    isolate({
+      df_ct <- read.table(file = textConnection(input$text_ct), 
+                          header = input$header_check_ct, 
+                          stringsAsFactors = FALSE)
       
-      isolate({
-        df_ct <- read.table(file = textConnection(input$text_ct), 
-                            header = input$header_check_ct, 
-                            stringsAsFactors = FALSE)
-        
-        colnames(df_ct) = c("Gene","Log2FC")
-        rv_ct$df_ct2 <- df_ct
-        
+      colnames(df_ct) = c("Gene","Log2FC")
+      rv_ct$df_ct2 <- df_ct
+      
+      tryCatch({
         rv_ct$df_ct2$Gene <- bitr(
           df_ct$Gene,
           fromType = input$format_ct,
@@ -45,31 +42,35 @@ observeEvent(input$runCT, {
           OrgDb = org.Hs.eg.db,
           drop = F
         )$SYMBOL
-        print(rv_ct$df_ct2)
-        rv_ct$df_ct2 <-  na.omit(rv_ct$df_ct2)
         
-      })
-
-      tagList(
-        shiny::h3("Result"),
-        shiny::strong(paste(round(nrow(rv_ct$df_ct2)/nrow(df_ct) *100,digits = 1) ,
-                            "% were successfully mapped." )),
-        shiny::strong("You may check the input and output and download by click the button."),
-        downloadButton(outputId = "download_ct",
-                       label = "Download Output",class = "btn-success"),
-        column(6, 
-               shiny::h4("Input Preview"),
-               renderDataTable(df_ct)),
-        column(6, 
-               shiny::h4("Output Preview"), 
-               renderDataTable(rv_ct$df_ct2 ))
+      }, error = function(e) {
+        rv_ct$df_ct2$Gene <- NA
+      }
       )
+      rv_ct$df_ct2 <-  na.omit(rv_ct$df_ct2)
+      
+      
+      output$display_ct <-  renderUI({ # renderUI 
+        tagList(
+          shiny::h3("Result"),
+          shiny::strong(paste(round(nrow(rv_ct$df_ct2)/nrow(df_ct) *100,digits = 1) ,
+                              "% were successfully mapped." )),
+          shiny::strong("You may check the input and output and download by click the button."),
+          downloadButton(outputId = "download_ct",
+                         label = "Download Output",class = "btn-success"),
+          column(6, 
+                 shiny::h4("Input Preview"),
+                 renderDataTable(df_ct)),
+          column(6, 
+                 shiny::h4("Output Preview"), 
+                 renderDataTable(rv_ct$df_ct2 ))
+        )
+      }) # renderUI
+      
     })
-    
-
   }
   
-
+  
   
 })
 
@@ -114,7 +115,7 @@ judge_ct <- function(){
       )
       return(F)
     })
-
+    
   }
 }
 
@@ -132,7 +133,7 @@ output$download_ct <- downloadHandler(
   content = function(file) {
     # Write the dataset to the `file` that will be downloaded
     rio::export(rv_ct$df_ct2, file,format = "tsv",row.names = F)
-
+    
   }
 )
 
