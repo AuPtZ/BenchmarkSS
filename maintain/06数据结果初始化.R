@@ -34,7 +34,7 @@ for (table in tables) {
 
 dbExecute(con, "DELETE FROM res")
 
-
+dbExecute(con, "VACUUM")
 
 
 # Don't forget to close the connection when you're done
