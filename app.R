@@ -563,27 +563,63 @@ ui <- tagList( # needed for shinyjs
              ###############################################.
              ## Coverter ----
              ###############################################.
-             tabPanel("Coverter", icon = icon("table"), value = "coverter",
-                      #Sidepanel for filtering data
-                      sidebarLayout(
-                        sidebarPanel(
-                          textAreaInput("text_ct", "Step 1. Input your signature",height = "200px"),
-                          actionButton("runCTdemo", "demo"),
-                          shiny::p(),
-                          radioButtons("format_ct", "Step 2. Select the \"From\" ID", 
-                                       inline = T,
-                                       choices = c("ENTREZID", "ENSEMBL","UNIPROT","GENENAME")),
-                          checkboxInput("header_check_ct", label = strong("Step 3. Header or non-header?") ,
-                                        value = TRUE),
-                          actionButton("runCT", "Convert", class = "btn-success")
-                        ),
+             navbarMenu("Coverter", icon = icon("table"),
+                        tabPanel("Gene", value = "ct_gene",
+                                 #Sidepanel for filtering data
+                                 sidebarLayout(
+                                   sidebarPanel(
+                                     textAreaInput("text_ctg", "Step 1. Input your signature",height = "200px"),
+                                     actionButton("runCTGdemo", "demo"),
+                                     shiny::p(),
+                                     radioButtons("format_ctg", "Step 2. Select the \"From\" ID", 
+                                                  inline = T,
+                                                  choices = c("ENTREZID", "ENSEMBL","UNIPROT","GENENAME")),
+                                     checkboxInput("header_check_ctg", label = strong("Step 3. Header or non-header?") ,
+                                                   value = TRUE),
+                                     actionButton("runCTG", "Convert", class = "btn-success")
+                                   ),
+                                   
+                                   mainPanel(id= "ctg_out",
+                                             uiOutput(outputId = "display_ctg") %>% withSpinner()
+                                   )  # main panel bracket
+                                 ),
+                                 
+                        ), #Tab panel bracket
+                        tabPanel("Drug", value = "ct_drug",
+                                 #Sidepanel for filtering data
+                                 sidebarLayout(
+                                   sidebarPanel(
+                                     textAreaInput("text_ctd", "Step 1. Input your drug ID",height = "200px"),
+                                     actionButton("runCTDdemo1", "demo1"),
+                                     actionButton("runCTDdemo2", "demo2"),
+                                     actionButton("runCTDdemo3", "demo3"),
+                                     shiny::p(),
+                                     radioButtons("format_ctd", "Step 2. Select the \"From\" ID", 
+                                                  inline = T,
+                                                  choices = 
+                                                    c("Drug Name" = "net_drug_name",
+                                                      "SMILES(Canonical)" = "canonical_smiles",
+                                                      "PubChem Cid" = "pubchem_cid",
+                                                      "InChIKeys" = "inchi_key",
+                                                      "CMAP ID(BRD-)" = "pert_id"
+                                                      )
+                                                  ),
+                                     checkboxInput("header_check_ctd", label = strong("Step 3. Header or non-header?") ,
+                                                   value = TRUE),
+                                     actionButton("runCTD", "Convert", class = "btn-success")
+                                   ),
+                                   
+                                   mainPanel(id= "ctd_out",
+                                             uiOutput(outputId = "display_ctd") %>% withSpinner()
+                                   )  # main panel bracket
+                                 ),
+                                 
+                        ), #Tab panel bracket
                         
-                        mainPanel(id= "ct_out",
-                                  uiOutput(outputId = "display_ct") %>% withSpinner()
-                        )  # main panel bracket
-                      ),
-                      
-             ), #Tab panel bracket
+                        
+                        
+                        
+             ),
              
              ###############################################.             
              ##############NavBar Menu----
@@ -822,7 +858,7 @@ server <- function(input, output, session) {
   })
   
   observeEvent(input$jump_to_ct, {
-    updateTabsetPanel(session, "intabset", selected = "coverter")
+    updateTabsetPanel(session, "intabset", selected = "ct_gene")
   })
   
   # 重置
