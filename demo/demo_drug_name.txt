@@ -2,8 +2,8 @@ Compound.name
 Nifurtimox
 5-hydroxytryptophan
 Hemado
-SA-3676
-AF-DX-116
+sa3676
+AFDX-116
 Noretynodrel
 Dyphylline
 Hexestrol
