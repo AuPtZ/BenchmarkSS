@@ -150,7 +150,7 @@ observeEvent(input$runBM, {
                       ) )
           output$display_bm <- renderUI({ ## renderUI 
             tagList(
-              shiny::h3("Results of AUC"),
+              shiny::h3("Results of AUC",actionButton("intro_res_bm","Quick Tour")),
               renderPlotly(ggplotly(draw_dr_auc(res_bm[[1]]))),
               DT::renderDataTable(res_bm[[1]] , 
                                   server = FALSE),
