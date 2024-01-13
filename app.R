@@ -14,6 +14,7 @@ library(shinyWidgets)
 library(shinyBS)
 library(shinycssloaders)
 library(shinylogs)
+library(rintrojs)
 library(future)
 library(promises)
 library(htmltools)
@@ -26,7 +27,7 @@ options(shiny.sanitize.errors = TRUE)
 ui <- tagList( # needed for shinyjs
   useShinyjs(),  # Include shinyjs
   useSweetAlert(), 
-
+  introjsUI(),
   navbarPage(id = "intabset", #needed for landing page
              # title = "BCSS",
              title = div(tags$a(img(src="LOGO.png", height=50)),
@@ -101,7 +102,7 @@ ui <- tagList( # needed for shinyjs
                            column(6, class="landing-page-column",br(), #spacing
                                   lp_main_box(image_name= "landing_button_related_links",
                                               button_name = 'jump_to_ct', title_box = "Converter",
-                                              description = 'Easy convert gene identifier')
+                                              description = 'Easy convert gene and drug identifier')
                            ),
                            
                          ),
@@ -287,7 +288,7 @@ ui <- tagList( # needed for shinyjs
              ###############################################.
              ## Application ----
              ###############################################.
-             tabPanel("Application", icon = icon("list-ul"), value = "singlemethod",
+             tabPanel("Application (Query Drugs)", icon = icon("list-ul"), value = "singlemethod",
                       sidebarLayout( 
                         sidebarPanel(  width = 4,
                           id= "sm_input",
