@@ -7,10 +7,8 @@ NULLprocessing/
 cache/BM/
 cache/SM/
 cache/SS/
-demoLoop.txt
-selfloop.R
-sessionInfo.txt
 data_preload/robustness/
+data_preload/robustness_old/
 data_preload/others/
 data_preload/nulldistribution/
 data_preload/drugexp/
