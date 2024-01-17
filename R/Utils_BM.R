@@ -252,8 +252,14 @@ get_dr_auc_i <- function(IC50_drug,i.need.logfc,sel_exp,sel_ss,cores){
   
   patch_auc_sum <- do.call(rbind, patch_auc_sum) %>% tibble::as_tibble() %>% 
     dplyr::transmute( across(where(is.list),unlist )) 
+
+  # 找到整个表格中最大值所在的列的列名
+  max_col_name <- colnames(patch_auc_sum[-1])[which(patch_auc_sum[-1] == max(patch_auc_sum[-1], na.rm = TRUE), arr.ind = TRUE)[1, "col"]]
   
-  return(patch_auc_sum)
+  # 按照该列从大到小排序
+  sorted_max_df <- patch_auc_sum %>% dplyr::arrange(desc(!!rlang::sym(max_col_name)))
+  
+  return(sorted_max_df)
   
 }
 
@@ -273,8 +279,13 @@ get_dr_es_i <- function(FDA_drug, i.need.logfc, sel_exp,sel_ss,cores){
   
   patch_es_sum <- do.call(rbind, patch_es_sum) %>% tibble::as_tibble() %>% 
     dplyr::transmute( across(where(is.list),unlist )) 
+
+  # 找到整个表格中最小值所在的列的列名
+  min_col_name <- colnames(patch_es_sum[-1])[which(patch_es_sum[-1] == min(patch_es_sum[-1], na.rm = TRUE), arr.ind = TRUE)[1, "col"]]
   
-  return(patch_es_sum)
+  # 按照该列从小到大排序
+  sorted_min_df <- patch_es_sum %>% dplyr::arrange(!!rlang::sym(min_col_name))
+  return(sorted_min_df)
 } 
 
 
@@ -369,8 +380,11 @@ draw_dr_auc <- function(res_input){
     mutate(`AUC` = as.numeric(`AUC`),
            `TopN` =as.numeric(`TopN`))
   
+  first_row_value <- res_input[1,1] %>% pull()
+  
   p1 <- ggplot(data=res_auc, mapping = aes(x=TopN, y=`AUC`)) +
-    geom_point(aes(color = method)) +
+    geom_point(aes(color = method)) + 
+    geom_vline(xintercept = first_row_value, linetype="dashed", color = "black") + 
     stat_smooth(aes(color = method),
                 #method = MASS::rlm,
                 method = "lm",formula=y~I(x^(-1)),
@@ -387,8 +401,11 @@ draw_dr_es <- function(res_input){
     mutate(`ES` = as.numeric(`ES`),
            `TopN` =as.numeric(`TopN`))
   
+  first_row_value <- res_input[1,1] %>% pull()
+  
   p2 <- ggplot(data=res_es, mapping = aes(x=TopN, y=`ES`)) +
-    geom_point(aes(color = method)) +
+    geom_point(aes(color = method)) + 
+    geom_vline(xintercept = first_row_value, linetype="dashed", color = "black") + 
     stat_smooth(aes(color = method),
                 #method = MASS::rlm,
                 method = "lm",formula=y~I(x^(-0.5)),
