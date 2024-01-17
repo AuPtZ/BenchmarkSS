@@ -124,7 +124,7 @@ observeEvent(input$runBM, {
           sel_exp = sel_exp,
           sel_ss = sel_ss
         )
-        
+
         return(res_bm)
       })
     }, seed = TRUE) %...>% (
@@ -148,15 +148,20 @@ observeEvent(input$runBM, {
                         "AUC" = res_bm[[1]],
                         "ES" = res_bm[[2]]
                       ) )
+          
+          
+          pic_out1 <- draw_dr_auc(res_bm[[1]])
+          pic_out2 <- draw_dr_auc(res_bm[[2]])
+          
           output$display_bm <- renderUI({ ## renderUI 
             tagList(
-              shiny::h3("Results of AUC",actionButton("intro_res_bm","Quick Tour")),
-              renderPlotly(ggplotly(draw_dr_auc(res_bm[[1]]))),
+              shiny::h3("Results of AUC",actionButton("intro_res_bm","Quick Tip",class = "btn-success")),
+              renderPlotly(ggplotly(pic_out1)),
               DT::renderDataTable(res_bm[[1]] , 
                                   server = FALSE),
               shiny::br(),
               shiny::h3("Results of ES"),
-              renderPlotly(ggplotly(draw_dr_es(res_bm[[2]]))),
+              renderPlotly(ggplotly(pic_out2)),
               DT::renderDataTable(res_bm[[2]] ,
                                   server = FALSE)
             )
@@ -182,7 +187,7 @@ observeEvent(input$runBM, {
           
           output$display_bm <- renderUI({ ## renderUI
             tagList(
-              shiny::h3(paste0("Plot summary of"),res_bm[[2]]),
+              shiny::h3(paste0("Plot summary of"),res_bm[[2]],actionButton("intro_res_bm","Quick Tip",class = "btn-success")),
               renderPlotly(ggplotly(pic_out)),
               shiny::br(),
               shiny::h3(paste0("Results of "),res_bm[[2]]),
