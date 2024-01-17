@@ -253,7 +253,7 @@ ui <- tagList( # needed for shinyjs
                                       ),
                                       
                                       pickerInput("sel_experiment_rb", label = NULL, 
-                                                  choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
+                                                  choices=drug_num_list1 , selected = "LINCS_A549_1 µM_6 h.rdata"
                                       ),
 
                                       shiny::br(),
@@ -828,6 +828,10 @@ server <- function(input, output, session) {
   
   ### 2023年10月1日新增部分 ###
   source(file.path("tab_annotation.R"),  local = TRUE)$value # annotation tab
+  ### 2023年10月1日新增部分 ###
+  
+  ### 2024年1月17日新增部分 ###
+  source(file.path("tab_utils.R"),  local = TRUE)$value # annotation tab
   ### 2023年10月1日新增部分 ###
   
   ### 2023年12月19日新增部分 ###
