@@ -15,11 +15,18 @@ observeEvent(input$runRB, {
     output$display_rb <- renderUI({
       isolate({
         dir_rb = paste0("data_preload/robustness/",input$sel_experiment_rb) 
-        to_plot_rb <- get_rb_plot(dir_rb, input$sel_ss_rb)
+        to_rb <- get_rb_plot(dir_rb, input$sel_ss_rb)
+
+        pic_out <- to_rb$pic_out
+        res_rb <- to_rb$res_rb
+        DT_res_rb <- datatable(res_rb) %>% 
+          formatStyle(names(res_rb)[which.max(res_rb[1,-1]) + 1],
+                      backgroundColor = styleEqual(res_rb[1, which.max(res_rb[1,-1])+ 1], c('yellow')))
       })
       tagList(
         shiny::h3("Robustness score"),
-        renderPlotly(to_plot_rb)
+        renderPlotly(pic_out),
+        DT::renderDataTable(DT_res_rb)
       )
     })
   })
