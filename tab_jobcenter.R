@@ -70,45 +70,84 @@ observeEvent(input$jobid_get, {
       
       if(job_info$yourmodule == "ALL (ES and AUC)"){
         
+        
+        print("开始！")
+        
+        res_bm1 <- job_info$yourtable$`AUC` %>% as_tibble()
+        res_bm2 <- job_info$yourtable$`ES` %>% as_tibble()
+        
+        print("获取结果！")
+        
+        save(res_bm1,res_bm2,file = "111.rdata")
+        
+        pic_out1 <- ggplotly(draw_dr_auc(res_bm1))
+        pic_out2 <- ggplotly(draw_dr_es(res_bm2))
+        
+        DT_res_bm1 <- datatable(res_bm1) %>% 
+          formatStyle(names(res_bm1)[which.max(res_bm1[1,-1]) + 1],
+                      backgroundColor = styleEqual(res_bm1[1, which.max(res_bm1[1,-1]) + 1], c('yellow')))
+        DT_res_bm2 <- datatable(res_bm2) %>% 
+          formatStyle(names(res_bm2)[which.min(res_bm2[1,-1])+1],
+                      backgroundColor = styleEqual(res_bm2[1, which.min(res_bm2[1,-1]) + 1], c('yellow')))
+        
         tagList(
           shiny::h3("Job info"),
           renderTable(job_info$yourjob, striped = T, hover = T, spacing = "l",
                       bordered = T, rownames = F, colnames = F ),
           shiny::h3("Results of AUC"),
-          renderPlotly(ggplotly(draw_dr_auc(job_info$yourtable$`AUC`))),
-          DT::renderDataTable(job_info$yourtable$`AUC`,
-                              server = FALSE),
+          renderPlotly(pic_out1),
+          DT::renderDataTable(DT_res_bm1),
           shiny::br(),
           shiny::h3("Results of ES"),
-          renderPlotly(ggplotly(draw_dr_es(job_info$yourtable$`ES`))),
-          DT::renderDataTable(job_info$yourtable$`ES` ,
-                              server = FALSE)
-        )
-        
-      } else if(job_info$yourmodule == "ES" ){
-        
-        tagList(
-          shiny::h3("Job info"),
-          renderTable(job_info$yourjob, striped = T, hover = T, spacing = "l",
-                      bordered = T, rownames = F, colnames = F ),
-          shiny::h3(paste0("Plot summary of"),job_info$yourmodule),
-          renderPlotly(ggplotly(draw_dr_es(job_info$yourtable))),
-          shiny::br(),
-          shiny::h3(paste0("Results of "),job_info$yourmodule),
-          DT::renderDataTable(job_info$yourtable,server = FALSE)
+          renderPlotly(pic_out2),
+          DT::renderDataTable(DT_res_bm2),
         )
         
       } else  if(job_info$yourmodule == "AUC" ){
+        
+        res_bm = job_info$yourtable  %>% as_tibble()
+        res_title = job_info$yourmodule
+        
+        # print(res_bm[[1]])
+        pic_out = ggplotly(draw_dr_auc(res_bm)) 
+        
+        DT_res_bm <- datatable(res_bm) %>% 
+          formatStyle(names(res_bm)[which.max(res_bm[1,-1]) + 1],
+                      backgroundColor = styleEqual(res_bm[1, which.max(res_bm[1,-1])+ 1], c('yellow')))
+        
+        
         tagList(
           shiny::h3("Job info"),
           renderTable(job_info$yourjob, striped = T, hover = T, spacing = "l",
                       bordered = T, rownames = F, colnames = F ),
-          shiny::h3(paste0("Plot summary of"),job_info$yourmodule),
-          renderPlotly(ggplotly(draw_dr_auc(job_info$yourtable))),
+          shiny::h3(paste0("Plot summary of"),res_title,actionButton("intro_res_bm","Quick Tip",class = "btn-success")),
+          renderPlotly(pic_out),
           shiny::br(),
-          shiny::h3(paste0("Results of "),job_info$yourmodule),
-          DT::renderDataTable(job_info$yourtable,server = FALSE)
+          shiny::h3(paste0("Results of "),res_title),
+          DT::renderDataTable(DT_res_bm)
         )
+      } else if(job_info$yourmodule == "ES" ){
+        
+        
+        res_bm = job_info$yourtable  %>% as_tibble()
+        res_title = job_info$yourmodule
+        
+        pic_out = ggplotly(draw_dr_es(res_bm))
+        DT_res_bm <- datatable(res_bm) %>% 
+          formatStyle(names(res_bm)[which.min(res_bm[1,-1]) + 1],
+                      backgroundColor = styleEqual(res_bm[1, which.min(res_bm[1,-1])+ 1], c('yellow')))
+        
+        tagList(
+          shiny::h3("Job info"),
+          renderTable(job_info$yourjob, striped = T, hover = T, spacing = "l",
+                      bordered = T, rownames = F, colnames = F ),
+          shiny::h3(paste0("Plot summary of"),res_title,actionButton("intro_res_bm","Quick Tip",class = "btn-success")),
+          renderPlotly(pic_out),
+          shiny::br(),
+          shiny::h3(paste0("Results of "),res_title),
+          DT::renderDataTable(DT_res_bm)
+        )
+        
       } else  if(job_info$yourmodule == "singlemethod" ){
         
         tagList(
