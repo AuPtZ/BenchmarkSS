@@ -1,4 +1,5 @@
 # benchmark和application的结果保存
+# 这个页面提供的是需要在不同页面使用的，超过2次以上的功能
 write_in_db <- function(Jobid, Submitted_time, module_name,
                         sub_module, table_num = 1, table_res){
   # 表格里面的Jobid和Jobid不一样啊，别搞错了哦
@@ -225,11 +226,11 @@ observeEvent(input$intro_res_bm, {
   
 })
 
-observeEvent(input$intro_res_bm, {
+observeEvent(input$intro_res_rb, {
   
   showModal(modalDialog(
     title = "Quick Tip",
-    includeMarkdown("www/info_Q9_sm.md")
+    includeMarkdown("www/info_Q9_rb.md")
   ))
   
 })
