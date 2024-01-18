@@ -124,12 +124,13 @@ observeEvent(input$runBM, {
           sel_exp = sel_exp,
           sel_ss = sel_ss
         )
+        # save(res_bm,file = "1.rdata")
 
         return(res_bm)
       })
     }, seed = TRUE) %...>% (
       function(res_bm){
-        # print("we get result!")
+        print("we get result!")
         # res_bm <- result
         
         ###
@@ -149,21 +150,34 @@ observeEvent(input$runBM, {
                         "ES" = res_bm[[2]]
                       ) )
           
+          res_bm1 <- res_bm[[1]]
+          res_bm2 <- res_bm[[2]]
           
-          pic_out1 <- draw_dr_auc(res_bm[[1]])
-          pic_out2 <- draw_dr_auc(res_bm[[2]])
+          pic_out1 <- ggplotly(draw_dr_auc(res_bm1))
+          pic_out2 <- ggplotly(draw_dr_auc(res_bm2))
+          
+
+          
+          DT_res_bm1 <- datatable(res_bm1) %>% 
+            formatStyle(names(res_bm1)[which.max(res_bm1[1,-1]) + 1],
+                        backgroundColor = styleEqual(res_bm1[1, which.max(res_bm1[1,-1]) + 1], c('yellow')))
+          
+          
+          DT_res_bm2 <- datatable(res_bm2) %>% 
+              formatStyle(names(res_bm2)[which.min(res_bm2[1,-1])+1],
+                          backgroundColor = styleEqual(res_bm2[1, which.min(res_bm2[1,-1]) + 1], c('yellow')))
+            
+          
           
           output$display_bm <- renderUI({ ## renderUI 
             tagList(
-              shiny::h3("Results of AUC",actionButton("intro_res_bm","Quick Tip",class = "btn-success")),
-              renderPlotly(ggplotly(pic_out1)),
-              DT::renderDataTable(res_bm[[1]] , 
-                                  server = FALSE),
+              shiny::h3("Results of AUC"),
+              renderPlotly(pic_out1),
+              DT::renderDataTable(DT_res_bm1),
               shiny::br(),
               shiny::h3("Results of ES"),
-              renderPlotly(ggplotly(pic_out2)),
-              DT::renderDataTable(res_bm[[2]] ,
-                                  server = FALSE)
+              renderPlotly(pic_out2),
+              DT::renderDataTable(DT_res_bm2)
             )
           }) ## renderUI
         } else if (length(res_bm) ==2){
@@ -175,23 +189,32 @@ observeEvent(input$runBM, {
                       table_num = 1, 
                       table_res = res_bm[[1]])
           
-          
-          if(res_bm[[2]] == "AUC"){
+          res_title = res_bm[[2]]
+          res_bm = res_bm[[1]]
+
+          if(res_title == "AUC"){
             # print(res_bm[[1]])
-            pic_out = draw_dr_auc(res_bm[[1]])
+            pic_out = ggplotly(draw_dr_auc(res_bm)) 
+
+            DT_res_bm <- datatable(res_bm) %>% 
+              formatStyle(names(res_bm)[which.max(res_bm[1,-1]) + 1],
+                          backgroundColor = styleEqual(res_bm[1, which.max(res_bm[1,-1])+ 1], c('yellow')))
           }
-          if(res_bm[[2]] == "ES"){
+          if(res_title == "ES"){
             # print(res_bm[[1]])
-            pic_out = draw_dr_es(res_bm[[1]])
+            pic_out = ggplotly(draw_dr_es(res_bm))
+            DT_res_bm <- datatable(res_bm) %>% 
+              formatStyle(names(res_bm)[which.min(res_bm[1,-1]) + 1],
+                          backgroundColor = styleEqual(res_bm[1, which.min(res_bm[1,-1])+ 1], c('yellow')))
           }
           
           output$display_bm <- renderUI({ ## renderUI
             tagList(
-              shiny::h3(paste0("Plot summary of"),res_bm[[2]],actionButton("intro_res_bm","Quick Tip",class = "btn-success")),
-              renderPlotly(ggplotly(pic_out)),
+              shiny::h3(paste0("Plot summary of"),res_title,actionButton("intro_res_bm","Quick Tip",class = "btn-success")),
+              renderPlotly(pic_out),
               shiny::br(),
-              shiny::h3(paste0("Results of "),res_bm[[2]]),
-              DT::renderDataTable(res_bm[[1]],server = FALSE)
+              shiny::h3(paste0("Results of "),res_title),
+              DT::renderDataTable(DT_res_bm)
             )
           }) ## renderUI
         } else{
