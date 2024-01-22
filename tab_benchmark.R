@@ -171,11 +171,11 @@ observeEvent(input$runBM, {
           
           output$display_bm <- renderUI({ ## renderUI 
             tagList(
-              shiny::h3("Results of AUC"),
+              shiny::h3("Results of AUC",actionButton("intro_res_bm_AUC","Quick Tip",class = "btn-success")),
               renderPlotly(pic_out1),
               DT::renderDataTable(DT_res_bm1),
               shiny::br(),
-              shiny::h3("Results of ES"),
+              shiny::h3("Results of ES",actionButton("intro_res_bm_ES","Quick Tip",class = "btn-success")),
               renderPlotly(pic_out2),
               DT::renderDataTable(DT_res_bm2)
             )
@@ -210,7 +210,8 @@ observeEvent(input$runBM, {
           
           output$display_bm <- renderUI({ ## renderUI
             tagList(
-              shiny::h3(paste0("Plot summary of"),res_title,actionButton("intro_res_bm","Quick Tip",class = "btn-success")),
+              shiny::h3(paste0("Plot summary of"),
+                        res_title,actionButton(paste0("intro_res_bm_",res_title),"Quick Tip",class = "btn-success")),
               renderPlotly(pic_out),
               shiny::br(),
               shiny::h3(paste0("Results of "),res_title),

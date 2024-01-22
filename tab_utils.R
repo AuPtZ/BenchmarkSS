@@ -217,11 +217,24 @@ write_in_db <- function(Jobid, Submitted_time, module_name,
   dbDisconnect(con_res)
 }
 
-observeEvent(input$intro_res_bm, {
+observeEvent(input$intro_res_bm_AUC, {
   
   showModal(modalDialog(
-    title = "How to find optimal method and topN in Benchmark?",
-    includeMarkdown("www/info_Q9_bm.md")
+    includeMarkdown("www/info_Q9_bm_AUC.md"),
+    title = "How to find optimal method and topN in Benchmark? (AUC)",
+    size = "l",
+    easyClose = T
+  ))
+  
+})
+
+observeEvent(input$intro_res_bm_ES, {
+  
+  showModal(modalDialog(
+    includeMarkdown("www/info_Q9_bm_ES.md"),
+    title = "How to find optimal method and topN in Benchmark? (ES)",
+    size = "l",
+    easyClose = T
   ))
   
 })
