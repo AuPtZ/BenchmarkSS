@@ -242,8 +242,10 @@ observeEvent(input$intro_res_bm_ES, {
 observeEvent(input$intro_res_rb, {
   
   showModal(modalDialog(
+    includeMarkdown("www/info_Q9_rb.md"),
     title = "Quick Tip",
-    includeMarkdown("www/info_Q9_rb.md")
+    size = "l",
+    easyClose = T
   ))
   
 })

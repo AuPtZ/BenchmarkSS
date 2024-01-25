@@ -24,7 +24,7 @@ observeEvent(input$runRB, {
                       backgroundColor = styleEqual(res_rb[1, which.max(res_rb[1,-1])+ 1], c('yellow')))
       })
       tagList(
-        shiny::h3("Robustness score"),
+        shiny::h3("Robustness score",actionButton("intro_res_rb","Quick Tip",class = "btn-success")),
         renderPlotly(pic_out),
         DT::renderDataTable(DT_res_rb)
       )

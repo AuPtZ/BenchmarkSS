@@ -278,7 +278,7 @@ draw_all <- function(summary){
   # p1 <- ComplexUpset::upset(data = sm,
   #                           intersect = colnames(sm)[5:ncol(sm)])
   
-  p2 <- ggplot(sm[order(sm$Score,decreasing = T),][1:20,],aes(Score,reorder(Name, dplyr::desc(rra_rank)))) +
+  p2 <- ggplot(sm[order(sm$Score,decreasing = T),][1:10,],aes(Score,reorder(Name, dplyr::desc(rra_rank)))) +
     geom_point(aes(size = factor(Freq)  ,color=Score)) +
     scale_color_gradient(low="green",high = "red") + labs(x="Score",
                                                           y=NULL,
