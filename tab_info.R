@@ -1,17 +1,11 @@
 output$dl_manual_pdf <- downloadHandler(
-  # filename = "manual of SSP V2.pdf",
-  # content = function(file) {
-  #   file.copy("manual of SSP V2.pdf", file)
-  # }
-  
+
   filename = function() {
     return("manual of SSP.pdf")
   },
   content = function(file) {
     file.copy("demo/manual of SSP V2.pdf", file)
-    # zip::zip(zipfile = file,
-    #          c("demo/manual of SSP V2.pdf"),
-    #          mode = "cherry-pick")
+
   }
 )
 
@@ -86,102 +80,9 @@ output$display_about =  renderUI({
                   async="async"
       ),style = "width:80%;margin:0 auto;"
     ),
-    # runjs('<script type="text/javascript" src="//rf.revolvermaps.com/0/0/7.js?i=5jq3pohyu8j&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;sx=0" async="async"></script>'),
+    
   )
 
   
 })
 
-
-
-
-# # verbatimTextOutput(outputId = "SI")
-# # Q1: why we built SSP?
-# output$display_Q1 = renderUI({
-#   tagList(
-#     downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-#     includeMarkdown("www/info_Q1.md")
-#   )
-# })
-# 
-# 
-# # Q2: how to benchmark/robustness?
-# output$display_Q2 = renderUI({
-#   tagList(
-#     downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-#     includeMarkdown("www/info_Q2.md")
-#   )
-# })
-# 
-# 
-# # Q3: how to interpret the result?
-# output$display_Q3 = renderUI({
-#   tagList(
-#     
-#     downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-#     withMathJax(),
-#     includeMarkdown("www/info_Q3.md")
-#     
-#   )
-# })
-# 
-# # Q4: how to query drug in Application?
-# output$display_Q4 = renderUI({
-#   tagList(
-#     downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-#     withMathJax(),
-#     includeMarkdown("www/info_Q4.md")
-#   )
-# })
-# 
-# 
-# 
-# 
-# # Q5: how to download data?
-# output$display_Q5 = renderUI({
-#   tagList(
-#     downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-#     includeMarkdown("www/info_Q5.md")
-#   )
-# })
-# 
-# 
-# # Q6: how to get job result again?
-# output$display_Q6 = renderUI({
-#   tagList(
-#     downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-#     includeMarkdown("www/info_Q6.md")
-#   )
-# })
-# 
-# # Q7: how to annotate drugs?
-# output$display_Q7 = renderUI({
-#   tagList(
-#     downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-#     includeMarkdown("www/info_Q7.md")
-#   )
-# })
-# 
-# # Q8: How to query drugs if I have a drug signature?
-# output$display_Q8 = renderUI({
-#   tagList(
-#     downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-#     includeMarkdown("www/info_Q8.md")
-#   )
-# })
-# 
-# # Q9: How to find the best topN and method?
-# output$display_Q9 = renderUI({
-#   tagList(
-#     downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-#     includeMarkdown("www/info_Q9.md")
-#   )
-# })
-# 
-# # Q10: How to deployed SSP in my own computer or server?
-# output$display_Q10 = renderUI({
-#   tagList(
-#     downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-#     includeMarkdown("www/info_Q10.md")
-#   )
-# })

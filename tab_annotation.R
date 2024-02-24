@@ -11,7 +11,8 @@ output$display_an <- renderUI(initial_an)
 
 output$display_an_tb <- renderDataTable(GSDCIC50 %>% 
                                           mutate(`IC50 value` = round(`IC50 value`, 5)) %>%
-                                          dplyr::filter(TCGA_DESC == input$an_input),
+                                          dplyr::filter(TCGA_DESC == input$an_input) %>%
+                                          dplyr::arrange(PubChem_Cid),
                                         server = FALSE,
                                         options = list(scrollX = TRUE,
                                                        fixedColumns = TRUE))

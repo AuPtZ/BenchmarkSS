@@ -59,7 +59,7 @@ observeEvent(input$runBM, {
         title = "Success !!",
         text = paste0("Your jobid is ",
                       jobid_bm,
-                      ".\n Process may take 15~30mins. \n Please remember it for retrive results in Job Center.") ,
+                      ".\n Process may take 15~30mins. \n Please remember it for retrieve results in Job Center.") ,
         type = "success"
       )
     }else{
@@ -130,7 +130,7 @@ observeEvent(input$runBM, {
       })
     }, seed = TRUE) %...>% (
       function(res_bm){
-        print("we get result!")
+        # print("we get result!")
         # res_bm <- result
         
         ###
@@ -154,7 +154,7 @@ observeEvent(input$runBM, {
           res_bm2 <- res_bm[[2]]
           
           pic_out1 <- ggplotly(draw_dr_auc(res_bm1))
-          pic_out2 <- ggplotly(draw_dr_auc(res_bm2))
+          pic_out2 <- ggplotly(draw_dr_es(res_bm2))
           
 
           
@@ -234,7 +234,7 @@ observeEvent(input$runBM, {
         shiny::h3("Loading... Please wait."),
         shiny::h3("It may take 15~30 mins to get result."),
         shiny::h3(paste0("Your jobid is ",jobid_bm)),
-        shiny::h3("Please remember it for retrive results in Job Center.")
+        shiny::h3("Please remember it for retrieve results in Job Center.")
       )
     }) ## renderUI
 

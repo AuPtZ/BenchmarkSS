@@ -562,9 +562,9 @@ ui <- tagList( # needed for shinyjs
 
              ), #Tab panel bracket
              ###############################################.
-             ## Coverter ----
+             ## Converter ----
              ###############################################.
-             navbarMenu("Coverter", icon = icon("table"),
+             navbarMenu("Converter", icon = icon("table"),
                         tabPanel("Gene", value = "ct_gene",
                                  #Sidepanel for filtering data
                                  sidebarLayout(
@@ -703,12 +703,12 @@ ui <- tagList( # needed for shinyjs
                                    column(7,
                                           # shiny::h3("Download manual of SSP"),
                                           # downloadButton("dl_manual_pdf", "Download manual", class = "btn-success"),
-                                          shiny::h3("Download demo file for perform jobs"),
+                                          shiny::h3("Download demo files to perform job"),
                                           downloadButton("dl_demo","Download Demo", class = "btn-success"),
                                           downloadButton("dl_script","Download Script", class = "btn-success"),
                                           shiny::br(),
-                                          shiny::h3("Download curated drug expression profile"),
-                                          pickerInput("sel_experiment_dl", label = "Select drug profiles", 
+                                          shiny::h3("Download curated pharmacotranscriptomic datasets (PTDs)"),
+                                          pickerInput("sel_experiment_dl", label = "Select a specific PTD", 
                                                       choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
                                           ),
                                           downloadButton("dl_drug_exp","Download Drug Profiles", class = "btn-success"),

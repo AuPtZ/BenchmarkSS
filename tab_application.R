@@ -45,7 +45,7 @@ observeEvent(input$runSM, {
         title = "Success !!",
         text = paste0("Your jobid is ",
                       jobid_sm,
-                      ". Please remember it for retrive results in Job Center") ,
+                      ". Please remember it for retrieve results in Job Center") ,
         type = "success"
       )
     }else{
@@ -169,7 +169,7 @@ observeEvent(input$runSM, {
         shiny::h3("Loading... Please wait."),
         shiny::h3("It may take 15~30 mins to get result"),
         shiny::h3(paste0("Your jobid is ",jobid_sm)),
-        shiny::h3("Please remember it for retrive results in Job Center.")
+        shiny::h3("Please remember it for retrieve results in Job Center.")
       )
       
     }) # renderUI
