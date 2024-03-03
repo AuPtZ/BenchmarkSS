@@ -1,6 +1,6 @@
-# Code to create ScotPHO's Shiny profile platform
 # In this script include packages, functions, datasets and anyting that will be 
 # used both by UI and server
+
 
 ############################.
 ##Packages ----
@@ -32,6 +32,7 @@ library(tidyverse)
 
 library(memoise)
 
+# 加载可视化的数据，用于UI显示
 load("data_preload/others/drug_num_list1.rdata") # 读取数据内容
 load("data_preload/annotation/disinfo_vector.Rdata")
 

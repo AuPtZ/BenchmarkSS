@@ -13,7 +13,7 @@ To evaluate the robustness of these methods at different x values, three paramet
 Finally, the drug retrieval performance score can be expressed by the following formula:
 
 $$ 
-Score_{mean} =  \\sqrt{ abs(Score_{sig1} \\times Score_{sig2}) }
+Score_{sum} =  \\sqrt{ abs(Score_{sig1} \\times Score_{sig2}) }
 $$
 
 A satisfactory performance was achieved if the method **accurately return the input drug (stronger correlation)** and **distinguish well between drugs (more significant difference score) and maintained good stability (lower SD)**.  

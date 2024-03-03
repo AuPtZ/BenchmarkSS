@@ -2,9 +2,7 @@
 # This is a Shiny web application. You can run the application by clicking
 # the 'Run App' button above.
 #
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
+# the UI Codes are modified from ScotPHO's Shiny profile platform
 #
 
 library(shiny)
@@ -122,7 +120,7 @@ ui <- tagList( # needed for shinyjs
                             content = paste(
                               "SSP contains datasets of nine tumor cell lines at ",
                               as.character(strong("diifferent concentration and treat time.")),
-                              "<br>In general, we recommend user to select a dataset with more drugs and highly related to disease of interest"
+                              "<br>In general, we recommend user to select a dataset with more drugs and highly related to cancer of interest"
                               ),
                             trigger = "click", placement = "right"
                           ),
@@ -156,11 +154,11 @@ ui <- tagList( # needed for shinyjs
                           
                           shiny::br(),
                           popify(
-                            shiny::strong(tagList("Step 3. upload disease signature",icon("circle-question"))),
+                            shiny::strong(tagList("Step 3. upload oncogenic signature",icon("circle-question"))),
                             title = NULL,
-                            content = paste("Disease signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patients of a specific disease. A", 
+                            content = paste("oncogenic signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
                                           a(href = "demo/signature.txt", "demo signature file"),
-                                          "is provided. <br>If you have other identifier (e.g. EntrezID), please go to",
+                                          "is provided.<br>If you have other identifier (e.g. EntrezID), please go to",
                                           as.character(strong(" convertor page"))," to convert your signature."
                             ),
                             trigger = "click",
@@ -247,7 +245,7 @@ ui <- tagList( # needed for shinyjs
                                         content = paste(
                                           "SSP contains datasets of nine tumor cell lines at ",
                                           as.character(strong("diifferent concentration and treat time.")),
-                                          "<br>In general, we recommend user to select a dataset with more drugs and highly related to disease of interest"
+                                          "<br>In general, we recommend user to select a dataset with more drugs and highly related to cancer of interest"
                                         ),
                                         trigger = "click", placement = "right"
                                       ),
@@ -302,7 +300,7 @@ ui <- tagList( # needed for shinyjs
                               as.character(strong("SS_all")),
                               "query promising drugs integrating the results of all SS methods.<br>",
                               as.character(strong("SS_corss")),
-                              " use two disease signatures to query promising drugs with ploypharmacological effects."
+                              " use two oncogenic signatures to query promising drugs with ploypharmacological effects."
                             ),
                             trigger = "click", placement = "right"
                           ),
@@ -395,7 +393,7 @@ ui <- tagList( # needed for shinyjs
                             content = paste(
                               "SSP contains datasets of nine tumor cell lines at ",
                               as.character(strong("diifferent concentration and treat time.")),
-                              "<br>In general, we recommend user to select a dataset with more drugs and highly related to disease of interest"
+                              "<br>In general, we recommend user to select a dataset with more drugs and highly related to cancer of interest"
                             ),
                             trigger = "click", placement = "right"
                           ),
@@ -411,9 +409,9 @@ ui <- tagList( # needed for shinyjs
                             popify(
                               shiny::strong(tagList("Step 4. upload signature",icon("circle-question"))),
                               title = NULL,
-                              content = paste("Disease signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patients of a specific disease. A", 
+                              content = paste("oncogenic signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
                                               a(href = "demo/signature.txt", "demo signature file"),
-                                              "is provided. <br>If you have other identifier (e.g. EntrezID), please go to",
+                                              "is provided.<br>If you have other identifier (e.g. EntrezID), please go to",
                                               as.character(strong(" convertor page"))," to convert your signature."
                               ),
                               trigger = "click",
@@ -750,17 +748,18 @@ ui <- tagList( # needed for shinyjs
                 async="async"
     ),style = "width:0%;margin:0 auto;"
   ),
-  div(
-    tags$script("
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement('script');
-      hm.src = 'https://hm.baidu.com/hm.js?c80c4665444bb409416f091b83b97f57';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  "),style = "width:0%;margin:0 auto;"
-  ),
+
+  # div(
+  #   tags$script("
+  #   var _hmt = _hmt || [];
+  #   (function() {
+  #     var hm = document.createElement('script');
+  #     hm.src = 'https://hm.baidu.com/hm.js?c80c4665444bb409416f091b83b97f57';
+  #     var s = document.getElementsByTagName('script')[0];
+  #     s.parentNode.insertBefore(hm, s);
+  #   })();
+  # "),style = "width:0%;margin:0 auto;"
+  # ),
   
   ###############################################.             
   ##############Footer----    
