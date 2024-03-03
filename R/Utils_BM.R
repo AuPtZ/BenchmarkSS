@@ -378,7 +378,9 @@ draw_dr_auc <- function(res_input){
     names_to = "method",
     values_to = "AUC") %>% as_tibble() %>%
     mutate(`AUC` = as.numeric(`AUC`),
-           `TopN` =as.numeric(`TopN`))
+           `TopN` =as.numeric(`TopN`),
+           method = factor(method, levels = c("CMap", "GSEA", "XCos","XSum","ZhangScore")),
+           )
   
   first_row_value <- res_input[1,1] %>% pull()
   
@@ -386,7 +388,6 @@ draw_dr_auc <- function(res_input){
     geom_point(aes(color = method)) + 
     geom_vline(xintercept = first_row_value, linetype="dashed", color = "black") + 
     stat_smooth(aes(color = method),
-                #method = MASS::rlm,
                 method = "lm",formula=y~I(x^(-1)),
     ) +  theme_test() + ggsci::scale_color_npg()
   
@@ -399,7 +400,10 @@ draw_dr_es <- function(res_input){
     names_to = "method",
     values_to = "ES") %>% as_tibble() %>%
     mutate(`ES` = as.numeric(`ES`),
-           `TopN` =as.numeric(`TopN`))
+           `TopN` =as.numeric(`TopN`),
+           method = factor(method, levels = c("CMap", "GSEA", "XCos","XSum","ZhangScore")),
+    )
+
   
   first_row_value <- res_input[1,1] %>% pull()
   
