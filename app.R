@@ -330,7 +330,7 @@ ui <- tagList( # needed for shinyjs
                             awesomeRadio("sel_ss_sm",
                                          NULL,
                                          choices=ss_list,
-                                         selected = list("SS_Xsum")
+                                         selected = list("SS_GSEA")
                             ),
                           ),
                           
@@ -398,7 +398,7 @@ ui <- tagList( # needed for shinyjs
                             trigger = "click", placement = "right"
                           ),
                           pickerInput("sel_experiment_sm", label = NULL, 
-                                      choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
+                                      choices=drug_num_list1 , selected = "LINCS_MCF7_1 µM_6 h.rdata"
                                       ),
 
                           shiny::br(),
