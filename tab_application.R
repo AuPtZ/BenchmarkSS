@@ -27,6 +27,7 @@ observeEvent(input$reset_sm, {
 
 
 
+
 # 运行层
 observeEvent(input$runSM, {
   
@@ -133,30 +134,63 @@ observeEvent(input$runSM, {
     }, seed = TRUE) %...>% (
       function(result){
         
-        ###
-        progress_sm$inc(0.6, detail = paste("get result, ploting"))
-        ###
+
         
         res_sm <- result[[1]]
-        p_sm <- result[[2]]
+        p_sm <- result[[2]] # 在参数中已经提前处理过了，直接输出即可
         write_in_db(Jobid = jobid_sm, 
                     Submitted_time = submitted_time, 
                     module_name = "Application",
                     sub_module = input$sel_model_sm,
                     table_num = 1, 
                     table_res = res_sm)
+        
+        
+        ###
+        progress_sm$inc(0.6, detail = "ploting")
+        ###
+        
+        # output$display_sm <- renderUI({ # renderUI 
+        #   tagList(
+        #     shiny::h3("Plot summary"),
+        #     renderPlotly(p_sm),
+        #     shiny::br(),
+        #     shiny::h3("Results"),
+        #     DT::renderDataTable(res_sm,server = FALSE,
+        #                         options = list(scrollX = TRUE,
+        #                                        fixedColumns = TRUE)),
+        #   )
+        # }) # renderUI
+        
+        
         output$display_sm <- renderUI({ # renderUI 
           tagList(
             shiny::h3("Plot summary"),
-            renderPlotly(ggplotly(p_sm)),
+            renderPlotly(p_sm),
             shiny::br(),
             shiny::h3("Results"),
-            DT::renderDataTable(res_sm,server = FALSE),
+            DT::renderDataTable(res_sm,server = FALSE,
+                                options = list(scrollX = TRUE,
+                                               fixedColumns = TRUE)),
+            # 添加一个JS代码块来通知Shiny服务器端
+            tags$script(HTML("
+                $(document).on('shiny:visualchange', function(event) {
+                  if (event.target.id === 'display_sm') {
+                    Shiny.setInputValue('display_sm_loaded', true);
+                  }
+                });
+              "))
           )
         }) # renderUI
+        
+        
         # print("job finished!")
         ###
-        progress_sm$inc(0.2, detail = paste("job finished!"))
+        observeEvent(input$display_sm_loaded, {
+          if(input$display_sm_loaded) {
+            progress_sm$inc(0.2, detail = "job finished!")
+          }
+        })
         ###  
       }
     ) %...!% (function(error){
@@ -169,7 +203,15 @@ observeEvent(input$runSM, {
         shiny::h3("Loading... Please wait."),
         shiny::h3("It may take 15~30 mins to get result"),
         shiny::h3(paste0("Your jobid is ",jobid_sm)),
-        shiny::h3("Please remember it for retrieve results in Job Center.")
+        shiny::h3("Please remember it for retrieve results in Job Center."),
+        # 添加一个JS代码块来通知Shiny服务器端
+        tags$script(HTML("
+                $(document).on('shiny:visualchange', function(event) {
+                  if (event.target.id === 'display_sm') {
+                    Shiny.setInputValue('display_sm_loaded', false);
+                  }
+                });
+              "))
       )
       
     }) # renderUI

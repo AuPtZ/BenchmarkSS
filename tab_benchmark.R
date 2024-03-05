@@ -177,7 +177,15 @@ observeEvent(input$runBM, {
               shiny::br(),
               shiny::h3("Results of ES",actionButton("intro_res_bm_ES","Quick Tip",class = "btn-success")),
               renderPlotly(pic_out2),
-              DT::renderDataTable(DT_res_bm2)
+              DT::renderDataTable(DT_res_bm2),
+              # 添加一个JS代码块来通知Shiny服务器端
+              tags$script(HTML("
+                $(document).on('shiny:visualchange', function(event) {
+                  if (event.target.id === 'display_bm') {
+                    Shiny.setInputValue('display_bm_loaded', true);
+                  }
+                });
+              "))
             )
           }) ## renderUI
         } else if (length(res_bm) ==2){
@@ -215,17 +223,39 @@ observeEvent(input$runBM, {
               renderPlotly(pic_out),
               shiny::br(),
               shiny::h3(paste0("Results of "),res_title),
-              DT::renderDataTable(DT_res_bm)
+              DT::renderDataTable(DT_res_bm),
+              # 添加一个JS代码块来通知Shiny服务器端
+              tags$script(HTML("
+                $(document).on('shiny:visualchange', function(event) {
+                  if (event.target.id === 'display_bm') {
+                    Shiny.setInputValue('display_bm_loaded', true);
+                  }
+                });
+              "))
             )
           }) ## renderUI
         } else{
           output$display_bm <- renderUI({ ## renderUI 
-            shiny::h3("Please Check Iput Files!")
+            tagList(
+            shiny::h3("Please Check Iput Files!"),
+            tags$script(HTML("
+                $(document).on('shiny:visualchange', function(event) {
+                  if (event.target.id === 'display_bm') {
+                    Shiny.setInputValue('display_bm_loaded', true);
+                  }
+                });
+              "))
+            )
           }) ## renderUI
         }
         
         ###
-        progress_bm$inc(0.2, detail = paste("job finished!"))
+        observeEvent(input$display_bm_loaded, {
+          if(input$display_bm_loaded) {
+            progress_bm$inc(0.2, detail = "job finished!")
+          }
+        })
+        
         ###  
       }
     ) %...!% stop(.)
@@ -234,7 +264,14 @@ observeEvent(input$runBM, {
         shiny::h3("Loading... Please wait."),
         shiny::h3("It may take 15~30 mins to get result."),
         shiny::h3(paste0("Your jobid is ",jobid_bm)),
-        shiny::h3("Please remember it for retrieve results in Job Center.")
+        shiny::h3("Please remember it for retrieve results in Job Center."),
+        tags$script(HTML("
+                $(document).on('shiny:visualchange', function(event) {
+                  if (event.target.id === 'display_bm') {
+                    Shiny.setInputValue('display_bm_loaded', false);
+                  }
+                });
+              "))
       )
     }) ## renderUI
 
