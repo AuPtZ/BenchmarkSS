@@ -147,9 +147,7 @@ rename_col_rules <- c("XSum" = "auc_xsum",
                       "GSEA" = "gsea", 
                       "ZhangScore" = "zhangscore", 
                       "XCos" = "cos"
-                      
-                      
-                      
+                    
 )
 
 

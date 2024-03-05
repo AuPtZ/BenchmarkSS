@@ -116,6 +116,7 @@ get_single_res_i <- function(funcname,refMatrix,sig_input,topn,
                          topN = topn)
   }
   
+  res_raw <- res_raw %>% dplyr::arrange(desc(abs(Score)))
   
   return(get_pval(res_raw = res_raw,
                   drug_profile_null = paste0(drug_profile,"_",funcname,".rdata")))
@@ -164,12 +165,21 @@ get_ss_all_res_i <- function(refMatrix,sig_input,funcname_mul,topn,direct,drug_p
   res_mul3 <- purrr::map2(.x = 1:length(funcname_mul), .y = funcname_mul,
                           .f = get_rra, direct = direct, only.name = T)
   
-  summary <- res_mul2 %>% group_by(name) %>%
+  # save(res_mul, res_mul2,res_mul3,rename_col_rules,file="1.rdata")
+  summary <- res_mul2 %>% mutate(method = case_when(
+    method == "SS_Xsum" ~ "XSum",
+    method == "SS_CMap" ~ "CMap",
+    method == "SS_GSEA" ~ "GSEA",
+    method == "SS_ZhangScore"~"ZhangScore",
+    method == "SS_XCos" ~ "XCos",
+    TRUE ~ as.character(method)  # 如果都不匹配，保持原样
+  )) %>%
+    group_by(name) %>%
     summarise(Freq=n(), method = paste(method, collapse = ", ")) %>%
     na.omit() %>% arrange(desc(Freq))
   
   star_rra <- RobustRankAggreg::aggregateRanks(res_mul3)
-  star_rra <- cbind(star_rra, "rra_rank" = seq(1,nrow(star_rra)))
+  # star_rra <- cbind(star_rra, "rra_rank" = seq(1,nrow(star_rra)))
   
   summary <- left_join(star_rra, summary, by=c("Name" = "name") )
   summary$Score <- -log2(summary$Score)
@@ -195,7 +205,13 @@ get_ss_cross_res_i <- function(funcname,refMatrix,sig_input1,sig_input2,topn,dru
                                cal_label = sqrt(abs(Scale_score.x * Scale_score.y)))
   res_m$block <- apply(res_m[,c("Scale_score.x","Scale_score.y")],FUN = add_block,MARGIN=1)
   
-  return(res_m %>% mutate_if(is.numeric, round, digits = 4))
+  # save(res_m, file = "res_m.rdata")
+  
+  res_m <- res_m %>% 
+    dplyr::select(name,cal_label, nominal_padj, block, Scale_score.x,Scale_score.y) %>% 
+    dplyr::arrange(desc(cal_label)) %>% mutate_if(is.numeric, round, digits = 4)
+  
+  return(res_m)
 }
 
 ## 尽可能存储缓存，试一试
@@ -231,24 +247,28 @@ get_pval <- function(res_raw, drug_profile_null){
 }
 
 
-draw_single <- function(data,x = "Scale_score",y = "name",colby = "pvalue",
-                        color = c("blue", "red")){
+draw_single <- function(data){
   
+  # save(data,file = "data.rdata")
   data = as.data.frame(data)
   data1 = rbind(slice_max(data, Scale_score,
                           n = 10,with_ties = FALSE),
                 slice_min(data, Scale_score,
-                          n = 10,with_ties = FALSE)) %>% distinct()
-  
+                          n = 10,with_ties = FALSE)) %>% #  distinct() %>%
+  mutate(name = factor(name, levels = name[order(Scale_score)]),
+         logP = -log10(pvalue+0.0001),
+         tooltip_text = paste("Name:", name, 
+                               "<br>Scale_score:", round(Scale_score, 2), 
+                               "<br>logP:", round(logP, 2))
+         )
+
+
 
   
-  score <- data1[, x]
-  y <- data1[, y]
-  Pval <- data1[, colby]
-  p <- ggplot2::ggplot(data1, aes(score, forcats::fct_reorder(y, score))) +
-    geom_segment(aes(xend = 0, yend = y), linetype = 2) +
-    geom_point(aes(col = -log10(Pval+0.0001) , size = abs(score))) +
-    scale_colour_gradientn(colours = color) +
+  p1 <- ggplot2::ggplot(data1, aes(x = Scale_score, y = name,xend = 0, yend = name, text =tooltip_text )) +
+    geom_segment(linetype = 2) +
+    geom_point(aes(col = logP , size = abs(Scale_score))) +
+    scale_colour_gradientn(colors = c("blue", "red")) +
     scale_size_continuous(range = c(2, 6)) +
     ylab(NULL) +
     theme_minimal() +
@@ -259,27 +279,38 @@ draw_single <- function(data,x = "Scale_score",y = "name",colby = "pvalue",
     labs(
       x = "Scaled Score", y = "Drugs",
       size = "Scaled Score",
-      col = colby
+      col = "logP"
     ) + scale_y_discrete(position = "left",labels= function(x) str_wrap(x,width=30))
-  return(p)
   
+  # 使用plotly::ggplotly转换p，并指定tooltip参数
+  plotly_p1 <- plotly::ggplotly(p1, tooltip = "text") # 使用text作为工具提示
   
+  return(plotly_p1)
+
+
+
 }
 
 
-draw_all <- function(summary){
-  sm <-summary %>% as_tibble() %>%
-    separate_rows(method, sep = ", ") %>%
-    mutate(appear = T) %>%
-    spread(key="method", value = "appear") %>%
-    arrange(rra_rank)
-  sm[is.na(sm)] <- F
+
+
+
+draw_all <- function(sm){
+
+  # 首先，对sm数据进行排序并选取前10个记录
+  sm_sorted <- sm[order(sm$Score, decreasing = T), ][1:10, ]
   
-  # p1 <- ComplexUpset::upset(data = sm,
-  #                           intersect = colnames(sm)[5:ncol(sm)])
+  # 对Name进行基于rra_rank的重新排序
+  sm_sorted$Name <- factor(sm_sorted$Name, levels = sm_sorted$Name[order(sm_sorted$Score)])
   
-  p2 <- ggplot(sm[order(sm$Score,decreasing = T),][1:10,],aes(Score,reorder(Name, dplyr::desc(rra_rank)))) +
-    geom_point(aes(size = factor(Freq)  ,color=Score)) +
+  sm_sorted$Freq <- factor(sm_sorted$Freq)
+  
+  sm_sorted$tooltip_text <- paste("Name:", sm_sorted$Name, 
+                              "<br>Score:", round(sm_sorted$Score, 2), 
+                              "<br>Freq:", sm_sorted$Freq)
+  
+  p2 <- ggplot(sm_sorted,aes(x = Score, y = Name, size = Freq,color=Score , text = tooltip_text)) +
+    geom_point() +
     scale_color_gradient(low="green",high = "red") + labs(x="Score",
                                                           y=NULL,
                                                           title=NULL,
@@ -289,9 +320,10 @@ draw_all <- function(summary){
                                                           )+
     scale_y_discrete(position = "left",labels= function(x) str_wrap(x,width=30))
   
-  # p1 / {plot_spacer() + p2 + plot_layout(ncol = 2, width = c(0.1, 2))} #强制对齐
+  # 使用plotly::ggplotly转换p，并指定tooltip参数
+  plotly_p2 <- plotly::ggplotly(p2, tooltip = "text") # 使用text作为工具提示
   
-  return(p2)
+  return(plotly_p2)
   
   # 建议输出分辨率为3:4可以获得最好的效果
   
@@ -316,14 +348,23 @@ draw_cross <- function(res_m,bioname1="Biological Process 1", bioname2="Biologic
   cbPalette <- c("#999999", "#F8766D", "#B79F00", "#00BA38", "#00BFC4")
   # show_cap=paste(for_label2$name)
   
-  res_m %>%
-    ggplot(aes(x=Scale_score.x, y=Scale_score.y)) +
-    geom_point(alpha=0.5,aes(color=block)) +theme_test()+ theme(
+  res_m$tooltip_text <- paste("Name:", res_m$name, 
+                              "<br>Scale_score.x:", round(res_m$Scale_score.x, 2), 
+                              "<br>Scale_score.y:", round(res_m$Scale_score.y, 2))
+  
+  p3 <- res_m %>% 
+    ggplot(aes(x=Scale_score.x, y=Scale_score.y,color=block,text=tooltip_text)) +
+    geom_point(alpha=0.5) +theme_test()+ theme(
       axis.title = element_text( face = "bold"),
       axis.text = element_text(colour = "black"),
       legend.title = element_text(),
       legend.text = element_text())+ labs(x = bioname1, y = bioname2)+
     scale_colour_manual(values=cbPalette)+ theme(legend.position="none")
+  
+  # 使用plotly::ggplotly转换p，并指定tooltip参数
+  plotly_p3 <- plotly::ggplotly(p3, tooltip = "text") # 使用text作为工具提示
+  
+  return(plotly_p3)
   
 }
 
