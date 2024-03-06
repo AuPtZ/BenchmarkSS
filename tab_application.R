@@ -165,7 +165,7 @@ observeEvent(input$runSM, {
         
         output$display_sm <- renderUI({ # renderUI 
           tagList(
-            shiny::h3("Plot summary"),
+            shiny::h3("Plot summary",actionButton("intro_res_sm","Quick Tip",class = "btn-success")),
             renderPlotly(p_sm),
             shiny::br(),
             shiny::h3("Results"),

@@ -249,3 +249,36 @@ observeEvent(input$intro_res_rb, {
   ))
   
 })
+
+
+observeEvent(input$intro_res_sm, {
+
+  if (input$sel_model_sm == "singlemethod"){
+    showModal(modalDialog(
+      includeMarkdown("www/info_Q9_sm_sm.md"),
+      title = "Quick Tip",
+      size = "l",
+      easyClose = T
+    ))
+  }
+  if (input$sel_model_sm == "SS_cross"){
+    showModal(modalDialog(
+      includeMarkdown("www/info_Q9_sm_cross.md"),
+      title = "Quick Tip",
+      size = "l",
+      easyClose = T
+    ))
+  }
+  if (input$sel_model_sm == "SS_all"){
+    showModal(modalDialog(
+      includeMarkdown("www/info_Q9_sm_all.md"),
+      title = "Quick Tip",
+      size = "l",
+      easyClose = T
+    ))
+  }
+  
+  
+  
+  
+})

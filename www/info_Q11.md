@@ -1,7 +1,7 @@
 ### Q&A collection from reviewers
-#### 1. How the disease signatures were determined ?
-In SSP, disease signature is defined as a gene list with log2FC, which is derived from gene expression profile from cell lines or patients of a specific disease. 
-We recommend utilizing sequencing data from patient cohorts, such as **ICGC/TCGA**, or from cell lines, and employing differential expression analysis to obtain the signature (with log2FC). 
+#### 1. How the oncogenic signatures (OGS) were determined ?
+In SSP, oncogenic signatures (OGS) is defined as a gene list with log2FC, which is derived from gene expression profile from tumor cell lines or cancer patient cohorts. 
+We recommend utilizing sequencing data from patient cohorts, such as **ICGC/TCGA/GEO**, or from cell lines, and employing differential expression analysis to obtain the signature (with log2FC). 
 
 #### 2. How the user should go about selecting a drug profile?
 Since the CMAP database contains pharmacotranscriptomic data specific to tumor cell lines, we presume that users will select relevant drug datasets for cell lines based on the type of cancer they are studying. Furthermore, in previous studies of drug repurposing, many research subjects were not cancer-related, highlighting the significant potential of pharmacotranscriptomic data mining.      

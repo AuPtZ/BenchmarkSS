@@ -5,7 +5,7 @@ There are five methods represented by different colored dots: **CMap (red)**, **
 
 The vertical dashed line in the scatter plot indicates the position of the TopN value where the **maximum robustness scores** is achieved for one or more methods.  
 <div style="padding: 10px; text-align: center;">
-<img src="imginfoQ9_5.png" width = "80%" height = "80%" />
+<img src="imginfoQ9_5.gif" width = "80%" height = "80%" />
 </div>
 
 In the corresponding table below, the row with the TopN value associated with the **maximum** is placed at the forefront, and the cell containing the **maximum value** is highlighted in yellow.  
