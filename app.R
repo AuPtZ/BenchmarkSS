@@ -12,7 +12,7 @@ library(shinyWidgets)
 library(shinyBS)
 library(shinycssloaders)
 library(shinylogs)
-library(rintrojs)
+# library(rintrojs)
 library(future)
 library(promises)
 library(htmltools)
@@ -25,7 +25,7 @@ options(shiny.sanitize.errors = TRUE)
 ui <- tagList( # needed for shinyjs
   useShinyjs(),  # Include shinyjs
   useSweetAlert(), 
-  introjsUI(),
+  # introjsUI(),
   navbarPage(id = "intabset", #needed for landing page
              # title = "BCSS",
              title = div(tags$a(img(src="LOGO.png", height=50)),
