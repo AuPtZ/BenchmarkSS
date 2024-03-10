@@ -48,7 +48,7 @@ ui <- tagList( # needed for shinyjs
                          
                          fluidRow(column(7,(h3("Signature Search Polestar", style="margin-top:1px;"))),
                                   (column(4,actionButton("btn_landing",
-                                                         label="Help: Take tour of the tool",
+                                                         label="Help: Take tour of the SSP",
                                                          icon=icon('question-circle'),class="down")))),
                          # 第一行
                          fluidRow(
@@ -74,7 +74,7 @@ ui <- tagList( # needed for shinyjs
                                   
                                   lp_main_box(image_name= "landing_button_data_table",
                                               button_name = 'jump_to_sm', title_box = "Application",
-                                              description = 'Query drugs by Signature Search'),
+                                              description = 'Query drugs using Signature Search methods'),
                                   
                            ),
                            
@@ -82,7 +82,7 @@ ui <- tagList( # needed for shinyjs
                            column(6, class="landing-page-column", br(), #spacing
                                   lp_main_box(image_name= "landing_button_other_profile",
                                               button_name = 'jump_to_an', title_box = "Annotation",
-                                              description = 'Get annotation of Drugs'),
+                                              description = 'Obtain annotation of Drugs'),
                                   
                            ),
                          ),
@@ -93,14 +93,14 @@ ui <- tagList( # needed for shinyjs
                            column(6, class="landing-page-column", br(), #spacing
                                   lp_main_box(image_name= "landing_button_technical_resources",
                                               button_name = 'jump_to_jc', title_box = "Job Center",
-                                              description = 'Retrieve your query result'),
+                                              description = 'Retrieve your query results'),
                                   
                            ),
                            # data page
                            column(6, class="landing-page-column",br(), #spacing
                                   lp_main_box(image_name= "landing_button_related_links",
                                               button_name = 'jump_to_ct', title_box = "Converter",
-                                              description = 'Easy convert gene and drug identifier')
+                                              description = 'Easily convert gene and drug identifiers')
                            ),
                            
                          ),
@@ -221,6 +221,7 @@ ui <- tagList( # needed for shinyjs
                           
                           actionButton("runBM", "Run", class = "btn-success"),
                           actionButton("reset","Reset"),
+                          actionButton("runBENdemo", "demo(Benchmark)")
 
                           
                         ), # end of side pannel
@@ -275,7 +276,7 @@ ui <- tagList( # needed for shinyjs
                                       ),
                                       shiny::br(),
                                       actionButton("runRB", "Run", class = "btn-success"),
-                                      actionButton("reset_rb","Reset"),
+                                      actionButton("reset_rb","Reset")
                         ), # end of side pannel
                         mainPanel(id= "rb_out",
                                   uiOutput(outputId = "display_rb") %>% withSpinner()
@@ -482,6 +483,10 @@ ui <- tagList( # needed for shinyjs
                           shiny::br(),
                           actionButton("runSM", "Run", class = "btn-success"),
                           actionButton("reset_sm","Reset"),
+                          shiny::br(),
+                          actionButton("runAPPdemo1", "demo(Single method)"),
+                          actionButton("runAPPdemo2", "demo(SS_all)"),
+                          actionButton("runAPPdemo3", "demo(SS_cross)"),
                           
                         ),
                         mainPanel( id= "sm_out",
@@ -534,21 +539,32 @@ ui <- tagList( # needed for shinyjs
                       sidebarLayout( 
                         sidebarPanel(  width = 4,
                           id = "job_page",
-                          textInput("jobid_input", label = "Input Jobid", value = "demo1"),
+                          textInput("jobid_input", label = "Input Jobid", value = "BEN1709818230GTS"),
                           shiny::br(),
                           actionButton("jobid_get","Retrieve", class = "btn-success"),
+                          actionButton("reset_jc","Reset"),
+                          shiny::br(),
+                          actionButton("runjcBENdemo", "demo(Benchmark)"),
+                          shiny::br(),
+                          actionButton("runjcAPPdemo1", "demo(Single method)"),
+                          actionButton("runjcAPPdemo2", "demo(SS_all)"),
+                          actionButton("runjcAPPdemo3", "demo(SS_cross)"),
                           shiny::p(
                             br(),
                             "Here we provide some jobid for demo result presentation.",
                             br(),
-                            strong("BEN1673757786WRK")," for Benchmark(Both AUC and ES)",
+                            strong("BEN1709818230GTS")," for Benchmark(Both AUC and ES)",
                             br(),
-                            strong("APP1665835183CJF")," for Application(Single method)",
+                            strong("APP1709824554ILK")," for Application(Single method)",
                             br(),
-                            strong("APP1673711282IHW")," for Application(SS_all)",
+                            strong("APP1709818711RFU")," for Application(SS_all)",
                             br(),
-                            strong("APP1673711120BKD")," for Application(SS_cross)", # APP1673762652RIC
+                            strong("APP1709818670ZIA")," for Application(SS_cross)", # APP1673762652RIC
                             br(),
+                            strong("Please note that “quick tip” button may not work 
+                                   if you view same type result in job center and coresponding module,
+                                    (for example, display AUC in Job Center and Benchmark, or display SS_all in Job Center and Application)."),
+                            strong("You may click Reset button to activate “quick tip” button in another module.")
                           )
 
                         ),
@@ -671,7 +687,8 @@ ui <- tagList( # needed for shinyjs
                                                      # uiOutput(outputId = "display_Q8") %>% withSpinner()
                                             ),
                                             tabPanel("Q9: How to find the best topN and method?",
-                                                     includeMarkdown("www/info_Q9.md")
+                                                     includeMarkdown("www/info_Q9_bm_ES.md"),
+                                                     includeMarkdown("www/info_Q9_bm_AUC.md"),
                                                      # uiOutput(outputId = "display_Q9") %>% withSpinner()
                                             ),
                                             tabPanel("Q10: How to deployed SSP in my own computer or server?",

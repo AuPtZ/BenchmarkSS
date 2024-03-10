@@ -165,11 +165,13 @@ observeEvent(input$runSM, {
         
         output$display_sm <- renderUI({ # renderUI 
           tagList(
-            shiny::h3("Plot summary",actionButton("intro_res_sm","Quick Tip",class = "btn-success")),
+            shiny::h3("Plot summary",actionButton(paste0("intro_res_sm_",sel_model_sm1),"Quick Tip",class = "btn-success")),
             renderPlotly(p_sm),
             shiny::br(),
             shiny::h3("Results"),
-            DT::renderDataTable(res_sm,server = FALSE,
+            DT::renderDataTable(res_sm %>%
+                                  dplyr::rename(any_of(rename_col_rules)),
+                                server = FALSE,
                                 options = list(scrollX = TRUE,
                                                fixedColumns = TRUE)),
             # 添加一个JS代码块来通知Shiny服务器端
