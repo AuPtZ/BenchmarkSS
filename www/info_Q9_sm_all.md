@@ -1,10 +1,16 @@
-In result of SS_all, the image is a barplot depicting the results of the **Area Under the Curve (AUC)** for different **signature search methods (SSMs)** across various TopN values. AUC is a metric used to evaluate the performance of SSMs, typically in drug efficacy classification tasks. There are five methods represented by different colored dots: **CMap (red)**, **GSEA (blue)**, **XCos (green)**, **XSum (purple)**, and **ZhangScore (orange)**. The AUC results for each method at different TopN values are plotted with the corresponding colored dots, with a smooth trend line for each method indicating the change in AUC as TopN increases.   
-The vertical dashed line in the scatter plot indicates the position of the TopN value where the **maximum AUC** is achieved for one or more methods.  
+SS_all compute signature across various signature search methods (SSMs) and generated prioritized drugs in same direction (up or down, it depends on user's choice). Subsequently, these drugs along with their respective ranks are incorporated into the [Robust Rank Aggregation (RRA)](https://doi.org/10.1093/bioinformatics/btr709) methodology. RRA is used to discern drugs that exhibit a consistently superior ranking compared to what would be expected under the null hypothesis of uncorrelated inputs. It further assigns a significance score for each drug, thereby providing a rigorous statistical basis for the prioritization.  
+The RRA compute the significance of each drug, just like p-value and we convert it into score by logP.  
+In result of SS_all, here is a scatter plot with colored dots representing Top10 drugs, and a legend showing the drugs' scores. These drugs are promising based on the input signature.
 <div style="padding: 10px; text-align: center;">
-<img src="imginfoQ9_1.png" width = "80%" height = "80%" />
+<img src="imginfoQ9_10.gif" width = "80%" height = "80%" />
 </div>
 
-In the corresponding table below, the row with the TopN value associated with the **maximum** is placed at the forefront, and the cell containing the **maximum value** is highlighted in yellow.  
+In the corresponding table below, Here are four columns:  
+**Name**: the name of drugs ranked by Score.    
+**Score**: the score computed by SS_cross.    
+**Freq**: the number of SSM where the drugs are enriched in up (score of SSM > 0) or down (score of SSM < 0).  
+**Method**:  the name SSM where the drugs are enriched.  
 <div style="padding: 10px; text-align: center;">
-<img src="imginfoQ9_2.png" width = "80%" height = "80%" />
+<img src="imginfoQ9_13.png" width = "80%" height = "80%" />
 </div>
+Generally, a drug with more SSMs enriched and the higher score are more promising.  

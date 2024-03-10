@@ -1,8 +1,8 @@
 ### Welcome to Robustness module!
-In this module, you can evaluate the performance of signature search (SS) methods.  
+In this module, you can evaluate the performance of signature search methods (SSMs).  
 In the **Benchmark module**, we tested SS methods based on drug annotations.   
-However, it may not be appropriate when there is **insufficient annotation** for the profiles.   
-Hence, we test the performance of SS methonds based on **profile self-similarity**.  
+However, it may not be appropriate when there are **insufficient annotations** for the pharmacotranscriptomic datasets (PTDs).   
+Hence, we test the performance of SSMs based on **profile self-similarity**.  
 Briefly, we labeled these drugs from 1 to N (N being the order of drugs in one set).  
 For each drug profile, we extracted the top x up-regulated and top x down-regulated DEGs and defined them as a signature. This signature was then queried into one of the SS methods to obtain the matching scores of these drugs.  
 We then ranked the drugs based on their scores.  
@@ -13,8 +13,8 @@ To evaluate the robustness of these methods at different x values, three paramet
 Finally, the drug retrieval performance score can be expressed by the following formula:
 
 $$ 
-Score_{sum} =  \\sqrt{ abs(Score_{sig1} \\times Score_{sig2}) }
+performance \ score = \frac{Mean × R}{SD} 
 $$
 
-A satisfactory performance was achieved if the method **accurately return the input drug (stronger correlation)** and **distinguish well between drugs (more significant difference score) and maintained good stability (lower SD)**.  
-In this study, we tested performance scores for the cases of x at 100,110,120......480, respectively.
+A satisfactory performance is achieved if the method **accurately returns the input drug (stronger correlation)** and **distinguishes well between drugs (more significant difference score) and maintains good stability (lower SD)**.  
+In this study, we tested performance scores for the cases of x at 100, 110, 120... 480, respectively.
