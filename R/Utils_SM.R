@@ -3,7 +3,6 @@ library(dplyr) # 为了future正常运行使用的
 library(tidyr)
 library(tidyverse)
 
-
 local_cache_folder_SM <- cache_filesystem("cache/SM/")
 
 # 主要函数
@@ -116,7 +115,11 @@ get_single_res_i <- function(funcname,refMatrix,sig_input,topn,
                          topN = topn)
   }
   
-  res_raw <- res_raw %>% dplyr::arrange(desc(abs(Score)))
+  res_raw <- res_raw %>% 
+    dplyr::arrange(desc(abs(Score))) # %>%
+    # dplyr::select()
+  
+  # save(res_raw, file = "forreview/中间变量/res_raw.rdata")
   
   return(get_pval(res_raw = res_raw,
                   drug_profile_null = paste0(drug_profile,"_",funcname,".rdata")))
@@ -201,9 +204,16 @@ get_ss_cross_res_i <- function(funcname,refMatrix,sig_input1,sig_input2,topn,dru
                           sig_input = sig_input2,topn = topn,drug_profile = drug_profile)
   
   res_m <- full_join(res1,res2,by="name")
-  res_m <- res_m %>% transform(nominal_padj= sqrt(p.adjust.x * p.adjust.y),
-                               cal_label = sqrt(abs(Scale_score.x * Scale_score.y)))
-  res_m$block <- apply(res_m[,c("Scale_score.x","Scale_score.y")],FUN = add_block,MARGIN=1)
+  res_m <- res_m %>% 
+    rowwise() %>%  # 使用rowwise()以确保函数在每一行上分别应用
+    mutate(nominal_padj = combine_p_values(p.adjust.x, p.adjust.y),
+           cal_label = sqrt(abs(Scale_score.x * Scale_score.y)),
+           block = add_block(Scale_score.x,Scale_score.y)
+           ) %>% ungroup() # 移除分组，以避免后续操作中的潜在问题
+
+
+  
+  # res_m$block <- apply(res_m[,c("Scale_score.x","Scale_score.y")],FUN = add_block,MARGIN=1)
   
   # save(res_m, file = "res_m.rdata")
   
@@ -237,13 +247,15 @@ get_pval <- function(res_raw, drug_profile_null){
     transmute(name = drugname, 
               Score,
               pvalue = mean(abs(c_across(starts_with("X"))) >= abs(Score))
-              )
+              ) %>% ungroup()
   # transmute直接使用p.adjust只是对单个pvalue值进行计算，因此需要运行后再计算p.adjust
   res_raw$Scale_score = .S(res_raw$Score)
   res_raw$Direction = .D(res_raw$Scale_score)
   res_raw$p.adjust = p.adjust(res_raw$pvalue)
-  
-  return(res_raw %>% mutate_if(is.numeric, round, digits = 4))
+
+  return(res_raw %>% 
+           dplyr::select(name,Score,Scale_score,Direction,pvalue,p.adjust) %>% 
+           mutate_if(is.numeric, round, digits = 4))
 }
 
 
@@ -369,10 +381,10 @@ draw_cross <- function(res_m,bioname1="Biological Process 1", bioname2="Biologic
 }
 
 # 添加分区
-add_block <- function(x){
-  
-  num1 = x[1]
-  num2 = x[2]
+add_block <- function(num1,num2){
+  # 
+  # num1 = x[1]
+  # num2 = x[2]
   if(num1 >0 & num2 >0){
     return("Q1")
   }
@@ -391,15 +403,15 @@ add_block <- function(x){
 }
 
 # 计算联合p值
-cal_p <- function(x){
-  num1 = x[1]
-  num2 = x[2]
-  if (num1 ==1 | num2 ==1) {
-    return(1)
-  } else {
-    return(sqrt(num1 * num2))
-  }
-}
+# cal_p <- function(x){
+#   num1 = x[1]
+#   num2 = x[2]
+#   if (num1 ==1 | num2 ==1) {
+#     return(1)
+#   } else {
+#     return(sqrt(num1 * num2))
+#   }
+# }
 
 # Function to scale scores
 .S <- function(scores) {
@@ -413,4 +425,11 @@ cal_p <- function(x){
   p <- max(scores)
   q <- min(scores)
   ifelse(scores > 0.4, "Up", ifelse(scores < -0.4, "Down", "None"))
+}
+
+# 计算联合p值
+combine_p_values <- function(p1, p2) {
+  chi_squared_values <- -2 * sum(log(c(p1, p2)))
+  combined_p_value <- pchisq(chi_squared_values, df = 2*length(c(p1, p2)), lower.tail = FALSE)
+  return(combined_p_value)
 }

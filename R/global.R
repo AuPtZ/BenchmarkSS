@@ -110,8 +110,8 @@ name_for_res_col <- data.frame(
   table_num="Number of table",
   method_bm="Signature Search method used",
   signature_file1="Signature file name",
-  fda_file="DR-ES annotation file name",
-  ic50_file="DR-AUC annotation file name",
+  fda_file="Annotation file name for ES",
+  ic50_file="Annotation file name for AUC",
   drug_profile="Drug profile name",
   sub_module="Sub module",
   method_sm1="Signature Search method used",
@@ -146,7 +146,13 @@ rename_col_rules <- c("XSum" = "auc_xsum",
                       "CMap" = "cmap",
                       "GSEA" = "gsea", 
                       "ZhangScore" = "zhangscore", 
-                      "XCos" = "cos"
+                      "XCos" = "cos",
+                      "Name" = "name",
+                      "ScoreSum" = "cal_label",
+                      "pvalue" = "nominal_padj",
+                      "Block" = "block",
+                      "Method" = "method"
+                      
                     
 )
 
@@ -170,6 +176,20 @@ if(F){
 }
 
 
-
+# 将输入的名字规范化
+find_original_names <- function(input_names) {
+  # 使用lapply遍历输入向量，并为每个元素找到原始键名
+  original_names <- lapply(input_names, function(input_name) {
+    reversed_rules <- names(rename_col_rules)[match(input_name, rename_col_rules)]
+    if (length(reversed_rules) == 0) {
+      return(NA)  # 如果没有找到匹配项，返回NA
+    } else {
+      return(reversed_rules[1])  # 返回找到的第一个匹配项
+    }
+  })
+  
+  # 将列表转换为向量
+  return(unlist(original_names))
+}
 
 

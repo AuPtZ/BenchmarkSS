@@ -48,9 +48,9 @@ observeEvent(input$jobid_get, {
       req(!is.null(input$jobid_input))
       
       # print("开始获取job_info~")
-      print(input$jobid_input)
+      # print(input$jobid_input)
       job_info =  read_from_db(input$jobid_input)
-      # save(job_info,file = "111.rdata")
+      # save(job_info,file = paste0("demo/",input$jobid_input,".rdata"))
       # print(paste0("job_info is",job_info))
       
       if(length(job_info) <= 1){
@@ -67,124 +67,10 @@ observeEvent(input$jobid_get, {
       req(job_info$yourtable)
       req(job_info$yourmodule)
       
+      res_plot(job_info)
+
       
-      if(job_info$yourmodule == "ALL (ES and AUC)"){
-        
-        
-        print("开始！")
-        
-        res_bm1 <- job_info$yourtable$`AUC` %>% as_tibble()
-        res_bm2 <- job_info$yourtable$`ES` %>% as_tibble()
-        
-        print("获取结果！")
-        
-        save(res_bm1,res_bm2,file = "111.rdata")
-        
-        pic_out1 <- ggplotly(draw_dr_auc(res_bm1))
-        pic_out2 <- ggplotly(draw_dr_es(res_bm2))
-        
-        DT_res_bm1 <- datatable(res_bm1) %>% 
-          formatStyle(names(res_bm1)[which.max(res_bm1[1,-1]) + 1],
-                      backgroundColor = styleEqual(res_bm1[1, which.max(res_bm1[1,-1]) + 1], c('yellow')))
-        DT_res_bm2 <- datatable(res_bm2) %>% 
-          formatStyle(names(res_bm2)[which.min(res_bm2[1,-1])+1],
-                      backgroundColor = styleEqual(res_bm2[1, which.min(res_bm2[1,-1]) + 1], c('yellow')))
-        
-        tagList(
-          shiny::h3("Job info"),
-          renderTable(job_info$yourjob, striped = T, hover = T, spacing = "l",
-                      bordered = T, rownames = F, colnames = F ),
-          shiny::h3("Results of AUC"),
-          renderPlotly(pic_out1),
-          DT::renderDataTable(DT_res_bm1),
-          shiny::br(),
-          shiny::h3("Results of ES"),
-          renderPlotly(pic_out2),
-          DT::renderDataTable(DT_res_bm2),
-        )
-        
-      } else  if(job_info$yourmodule == "AUC" ){
-        
-        res_bm = job_info$yourtable  %>% as_tibble()
-        res_title = job_info$yourmodule
-        
-        # print(res_bm[[1]])
-        pic_out = ggplotly(draw_dr_auc(res_bm)) 
-        
-        DT_res_bm <- datatable(res_bm) %>% 
-          formatStyle(names(res_bm)[which.max(res_bm[1,-1]) + 1],
-                      backgroundColor = styleEqual(res_bm[1, which.max(res_bm[1,-1])+ 1], c('yellow')))
-        
-        
-        tagList(
-          shiny::h3("Job info"),
-          renderTable(job_info$yourjob, striped = T, hover = T, spacing = "l",
-                      bordered = T, rownames = F, colnames = F ),
-          shiny::h3(paste0("Plot summary of"),res_title,actionButton("intro_res_bm","Quick Tip",class = "btn-success")),
-          renderPlotly(pic_out),
-          shiny::br(),
-          shiny::h3(paste0("Results of "),res_title),
-          DT::renderDataTable(DT_res_bm)
-        )
-      } else if(job_info$yourmodule == "ES" ){
-        
-        
-        res_bm = job_info$yourtable  %>% as_tibble()
-        res_title = job_info$yourmodule
-        
-        pic_out = ggplotly(draw_dr_es(res_bm))
-        DT_res_bm <- datatable(res_bm) %>% 
-          formatStyle(names(res_bm)[which.min(res_bm[1,-1]) + 1],
-                      backgroundColor = styleEqual(res_bm[1, which.min(res_bm[1,-1])+ 1], c('yellow')))
-        
-        tagList(
-          shiny::h3("Job info"),
-          renderTable(job_info$yourjob, striped = T, hover = T, spacing = "l",
-                      bordered = T, rownames = F, colnames = F ),
-          shiny::h3(paste0("Plot summary of"),res_title,actionButton("intro_res_bm","Quick Tip",class = "btn-success")),
-          renderPlotly(pic_out),
-          shiny::br(),
-          shiny::h3(paste0("Results of "),res_title),
-          DT::renderDataTable(DT_res_bm)
-        )
-        
-      } else  if(job_info$yourmodule == "singlemethod" ){
-        
-        tagList(
-          shiny::h3("Job info"),
-          renderTable(job_info$yourjob, striped = T, hover = T, spacing = "l",
-                      bordered = T, rownames = F, colnames = F ),
-          shiny::h3("Plot summary"),
-          renderPlotly(ggplotly(draw_single(job_info$yourtable))),
-          shiny::h3("Results"),
-          DT::renderDataTable(job_info$yourtable,server = FALSE),
-        )
-        
-      } else  if(job_info$yourmodule  == "SS_cross"){
-        tagList(
-          shiny::h3("Job info"),
-          renderTable(job_info$yourjob, striped = T, hover = T, spacing = "l",
-                      bordered = T, rownames = F, colnames = F ),
-          shiny::h3("Plot summary"),
-          renderPlotly(ggplotly(draw_cross(job_info$yourtable))),
-          shiny::br(),
-          shiny::h3("Results"),
-          DT::renderDataTable(job_info$yourtable,server = FALSE),
-        )
-      } else  if(job_info$yourmodule  == "SS_all"){
-        tagList(
-          shiny::h3("Job info"),
-          renderTable(job_info$yourjob, striped = T, hover = T, spacing = "l",
-                      bordered = T, rownames = F, colnames = F ),
-          shiny::h3("Plot summary"),
-          renderPlotly(ggplotly(draw_all(job_info$yourtable))),
-          shiny::br(),
-          shiny::h3("Results"),
-          DT::renderDataTable(job_info$yourtable,server = FALSE),
-        )
-      }
-      
-    })
+    }) # isolate end
   })
 })
 
@@ -203,6 +89,9 @@ read_from_db <- function(Jobid_query){
   retrieve_job <- tbl(con_red_res,"res") %>% 
     dplyr::filter(Jobid == Jobid_query) %>%  
     as.data.frame() 
+  
+  signature_name1 = retrieve_job$signature_name1
+  signature_name2 = retrieve_job$signature_name2
   
   if(nrow(retrieve_job) != 1){
     dbDisconnect(con_red_res)
@@ -230,17 +119,14 @@ read_from_db <- function(Jobid_query){
     
     dbDisconnect(con_red_res)
     
-    return(list("yourjob" = retrieve_job,
-                "yourmodule" = res_module,
-                "yourtable" = retrieve_table)
-    )
+    job_info <- list("yourjob" = retrieve_job,
+                     "yourmodule" = res_module,
+                     "yourtable" = retrieve_table,
+                     "signame1" = signature_name1,
+                     "signame2" = signature_name2)
+    # save(job_info,file = paste0("demo/",Jobid_query,".rdata"))
+    return(job_info)
   }
-  
-  
-  
-  
-  
-  
 }
 
 
@@ -257,7 +143,7 @@ initial_jc <- tagList(
     br(),
     "You can just input the ",strong("Jobid")," in the left pannel and get the results",
     br(),
-    "It is useful when a job is implemented for a long time. Actually, 15 minutes is average running time for each job.",
+    "It is useful when a job is running for a long time. Actually, 15~30 minutes is the average running time for each job.",
 
     
     ),
