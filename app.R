@@ -561,10 +561,8 @@ ui <- tagList( # needed for shinyjs
                             br(),
                             strong("APP1709818670ZIA")," for Application(SS_cross)", # APP1673762652RIC
                             br(),
-                            strong("Please note that “quick tip” button may not work 
-                                   if you view same type result in job center and coresponding module,
-                                    (for example, display AUC in Job Center and Benchmark, or display SS_all in Job Center and Application)."),
-                            strong("You may click Reset button to activate “quick tip” button in another module.")
+                            strong("Please be aware that the \"Quick Tip\" button may become unresponsive when you're viewing identical result types across two different modules, such as seeing AUC in both the Job Center and Benchmark, or SS_all in both the Job Center and Application."),
+                            strong("In such cases, kindly use the \"Reset\" button within the respective module to reactivate the \"Quick Tip\" functionality in the other module.")
                           )
 
                         ),
