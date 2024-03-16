@@ -495,41 +495,6 @@ ui <- tagList( # needed for shinyjs
 
                       )
              ), #Tab panel bracket
-             ###############################################.
-             ## Annotation ---- 
-             ###############################################.
-             tabPanel("Annotation", icon = icon("table"), value = "annotation",
-                      sidebarLayout( 
-                        sidebarPanel(  width = 4,
-                                       id = "an_page",
-                                       shiny::p(
-                                         br(),
-                                         "Select a cancer and download annotations.",
-                                         br(),
-                                         "The drug annotation are display on the right table.",
-                                         br(),
-                                         "Here are two types of annotation files for different methods.",
-                                         br(),
-                                       ),
-                                       selectInput("an_input","Step 1. Select cancer",
-                                                   choices = disinfo_vector,
-                                                   selected = "PRAD"),
-                                       selectInput("an_input_type","Step 2. Select annotation type",
-                                                   choices = c("Area Under Curve(AUC)" = "AUC",
-                                                               "Enrichment Score(ES)" = "ES"),
-                                                   selected = "AUC"),
-                                       shiny::br(),
-                                       downloadButton("run_AN","Download annotations", class = "btn-success"),
-                        ),
-                        mainPanel(id= "an_out",
-                                  uiOutput(outputId = "display_an") %>% withSpinner(),
-                                  dataTableOutput("display_an_tb")
-
-                        ), # main panel bracket
-                      ),
-                      
-             ), #Tab panel bracket
-             
              
              
              ###############################################.
@@ -573,6 +538,73 @@ ui <- tagList( # needed for shinyjs
                       ),
 
              ), #Tab panel bracket
+             
+             ###############################################.
+             ## Annotation ---- 
+             ###############################################.
+             navbarMenu("Annotation", icon = icon("table"),
+             tabPanel("For AUC", value = "an_auc",
+                      sidebarLayout(
+                        sidebarPanel(width = 4,
+                                     shiny::p(
+                                       br(),
+                                       "Select a cancer and download annotations.",
+                                       br(),
+                                       "The drug annotation are display on the right table.",
+                                       br(),
+                                       "Here are two types of annotation files for different methods.",
+                                       br(),
+                                     ),
+                                     selectInput("an_auc_input","Please select cancer",
+                                                 choices = disinfo_vector,
+                                                 selected = "PRAD"),
+                                     # selectInput("an_auc_input_type","Step 2. Select annotation type",
+                                     #             choices = c("Area Under Curve(AUC)" = "AUC",
+                                     #                         "Enrichment Score(ES)" = "ES"),
+                                     #             selected = "AUC"),
+                                     shiny::br(),
+                                     downloadButton("run_an_auc","Download annotations", class = "btn-success"),
+                        ),
+                        mainPanel(id= "an_auc_out",
+                                  uiOutput(outputId = "display_an_auc") %>% withSpinner(),
+                                  dataTableOutput("display_an_auc_tb")
+
+                        ), # main panel bracket
+                      ),
+
+             ), #Tab panel bracket
+             tabPanel("For ES", value = "an_es",
+                      sidebarLayout(
+                        sidebarPanel(width = 4,
+                                     shiny::p(
+                                       br(),
+                                       "Select a cancer and download annotations.",
+                                       br(),
+                                       "The drug annotation are display on the right table.",
+                                       br(),
+                                       "Here are two types of annotation files for different methods.",
+                                       br(),
+                                     ),
+                                     selectInput("an_es_input","Please select cancer",
+                                                 choices = disinfo_vector,
+                                                 selected = "PRAD"),
+                                     # selectInput("an_es_input_type","Step 2. Select annotation type",
+                                     #             choices = c("Area Under Curve(AUC)" = "AUC",
+                                     #                         "Enrichment Score(ES)" = "ES"),
+                                     #             selected = "AUC"),
+                                     shiny::br(),
+                                     downloadButton("run_an_es","Download annotations", class = "btn-success"),
+                        ),
+                        mainPanel(id= "an_es_out",
+                                  uiOutput(outputId = "display_an_es") %>% withSpinner(),
+                                  dataTableOutput("display_an_es_tb")
+
+                        ), # main panel bracket
+                      ),
+
+             ), #Tab panel bracket
+             ),
+             
              ###############################################.
              ## Converter ----
              ###############################################.
@@ -865,16 +897,16 @@ server <- function(input, output, session) {
   observeEvent(input$jump_to_sm, {
     updateTabsetPanel(session, "intabset", selected = "singlemethod")
   })
-  
-  ### 2023年10月1日新增部分 ###
-  observeEvent(input$jump_to_an, {
-    updateTabsetPanel(session, "intabset", selected = "annotation")
-  })
-  ### 2023年10月1日新增部分end ###
-  
+
   observeEvent(input$jump_to_jc, {
     updateTabsetPanel(session, "intabset", selected = "jobcenter")
   })
+  
+  ### 2023年10月1日新增部分 ###
+  observeEvent(input$jump_to_an, {
+    updateTabsetPanel(session, "intabset", selected = "an_es")
+  })
+  ### 2023年10月1日新增部分end ###
   
   observeEvent(input$jump_to_ct, {
     updateTabsetPanel(session, "intabset", selected = "ct_gene")
