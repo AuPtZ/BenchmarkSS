@@ -20,10 +20,14 @@ df = repurposing_drugs %>%
   dplyr::select(c(pert_iname,clinical_phase,disease_area,indication,smiles,InChIKey,pubchem_cid)) %>% 
   distinct()
 
+# 相同诊断的情况下，保留第一行
 df <- df %>%
   group_by(pert_iname, clinical_phase, disease_area, indication) %>%
   slice(1) %>%
   ungroup()
 
+# 去除非肿瘤的部分
 df <- df %>% 
-  filter(!str_detect(indication, "hypoglycemia|Cushing|anemia|effusion|menopause|mastocytosis|duodenal|GERD|peptic|hypercalcemia|parathy|osteoporosis|atrophy|complex|endometriosis|asthma|colitis|dermatitis|enteritis|nausea|vomiting|cystitis|keratosis|warts|failure|mycosis|polycythemia|hydatidiform|psoriasis|sclerosis|acromegaly|diarrhea|Paget|myelofibrosis|"))
+  filter(!str_detect(indication, "hypoglycemia|Cushing|anemia|effusion|menopause|mastocytosis|duodenal|GERD|peptic|hypercalcemia|parathy|osteoporosis|atrophy|complex|endometriosis|asthma|colitis|dermatitis|enteritis|nausea|vomiting|cystitis|keratosis|warts|failure|mycosis|polycythemia|hydatidiform|psoriasis|sclerosis|acromegaly|diarrhea|Paget|myelofibrosis|arthritis"))
+
+
