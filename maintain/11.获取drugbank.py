@@ -24,9 +24,9 @@ for drug in drugs:
     drug_name = drug['name']
     drug_type = drug['@type']
     
-    drug_indication = drug['indication']
+    drug_indication = str(drug['indication']).replace('\n', '').replace('\t', '').replace('\r', '')
 
-    item = '\t'.join([drug_id, drug_name, drug_type, str(drug_indication)])
+    item = '\t'.join([drug_id, drug_name, drug_type,drug_indication ])
     file.writelines(item + '\n')
 
 file.close()
