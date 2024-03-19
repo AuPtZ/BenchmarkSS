@@ -1,7 +1,7 @@
 library(data.table)
-repurposing_drugs <- read.delim("data_preload/annotation/repurposing_drugs_20180907.txt", 
+repurposing_drugs <- read.delim("data_preload/annotation/repurposing_drugs_20200324.txt", 
                                 comment.char = "!")
-repurposing_samples <- read.delim("data_preload/annotation/repurposing_samples_20180907.txt",
+repurposing_samples <- read.delim("data_preload/annotation/repurposing_samples_20200324.txt",
                                   comment.char = "!")
 
 # 从repurposing_drugs筛选disease_area含有onco的列
@@ -28,6 +28,6 @@ df <- df %>%
 
 # 去除非肿瘤的部分
 df <- df %>% 
-  filter(!str_detect(indication, "hypoglycemia|Cushing|anemia|effusion|menopause|mastocytosis|duodenal|GERD|peptic|hypercalcemia|parathy|osteoporosis|atrophy|complex|endometriosis|asthma|colitis|dermatitis|enteritis|nausea|vomiting|cystitis|keratosis|warts|failure|mycosis|polycythemia|hydatidiform|psoriasis|sclerosis|acromegaly|diarrhea|Paget|myelofibrosis|arthritis"))
+  filter(!str_detect(indication, "hypoglycemia|Cushing|anemia|effusion|menopause|mastocytosis|duodenal|GERD|peptic|hypercalcemia|parathy|osteoporosis|atrophy|complex|endometriosis|asthma|colitis|dermatitis|enteritis|nausea|vomiting|cystitis|keratosis|warts|failure|mycosis|polycythemia|hydatidiform|psoriasis|sclerosis|acromegaly|diarrhea|Paget|myelofibrosis|arthritis|dysphoria|hypoestrogenism|puberty|Waldenstrom"))
 
 
