@@ -23,10 +23,16 @@ for drug in drugs:
         
     drug_name = drug['name']
     drug_type = drug['@type']
+
+    if isinstance(drug["groups"]["group"], list):
+        drug_status = ",".join(drug["groups"]["group"])
+    else:
+        drug_status = drug["groups"]["group"]
+    
     
     drug_indication = str(drug['indication']).replace('\n', '').replace('\t', '').replace('\r', '')
 
-    item = '\t'.join([drug_id, drug_name, drug_type,drug_indication ])
+    item = '\t'.join([drug_id, drug_name, drug_type,drug_status,drug_indication ])
     file.writelines(item + '\n')
 
 file.close()
