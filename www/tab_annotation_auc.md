@@ -1,5 +1,5 @@
 ### Welcome to Annotation module (for AUC) ! 
-Manual drug annotation is sometimes a time-consuming job. In this module, We provide a curated primary drug annotation from the efficacy data of anti-cancer drugs within the **Genomics of Drug Sensitivity in Cancer (GDSC) database**.  
+Manual drug annotation is sometimes a time-consuming job. In this module, We provide a curated primary drug annotation from the efficacy data of anti-cancer drugs within the [**Genomics of Drug Sensitivity in Cancer (GDSC) database**](https://www.cancerrxgene.org/).  
 It includes **IC50 values** for **286 drugs** interacting with **30 cancer cell lines**.  
 In instances where multiple drug-cancer pairings are present, we have opted for the smallest IC50 value.  
 We categorize **an IC50 value of less than 10μM as 'effective', and conversely, as 'ineffective'**.   

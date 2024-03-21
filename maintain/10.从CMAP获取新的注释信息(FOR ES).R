@@ -27,7 +27,26 @@ df <- df %>%
   ungroup()
 
 # 去除非肿瘤的部分
-df <- df %>% 
+df <- df %>% filter(clinical_phase == "Launched") %>%
   filter(!str_detect(indication, "hypoglycemia|Cushing|anemia|effusion|menopause|mastocytosis|duodenal|GERD|peptic|hypercalcemia|parathy|osteoporosis|atrophy|complex|endometriosis|asthma|colitis|dermatitis|enteritis|nausea|vomiting|cystitis|keratosis|warts|failure|mycosis|polycythemia|hydatidiform|psoriasis|sclerosis|acromegaly|diarrhea|Paget|myelofibrosis|arthritis|dysphoria|hypoestrogenism|puberty|Waldenstrom"))
 
+# 筛选出现次数超过5次的药物
+DrugReHub <- df %>%
+  group_by(indication) %>%
+  filter(n() > 5) %>%
+  ungroup()
+
+DrugReHub <- DrugReHub %>% 
+  dplyr::select(pert_iname, indication,pubchem_cid,smiles,InChIKey) %>% 
+  rename( "Compound.name"= "pert_iname",
+          "Indication" = "indication",
+          "PubChem_Cid" = "pubchem_cid",
+          "SMILEs"= "smiles" ,
+          "InChIKeys" = "InChIKey"
+         )
+
+disinfo_vector2 = unique(DrugReHub$Indication)
+
+save(DrugReHub,file = "data_preload/annotation/DrugReHub.Rdata")
+save(disinfo_vector2,file = "data_preload/annotation/disinfo_vector2.Rdata")
 

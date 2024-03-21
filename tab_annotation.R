@@ -41,14 +41,13 @@ if(T){
 
 if(T){
   # 这里需要修改！
-  load("data_preload/annotation/GSDCIC50.Rdata")
+  load("data_preload/annotation/DrugReHub.Rdata")
   # 这里需要修改！
   
   output$display_an_es <- renderUI(initial_an_es)
   
-  output$display_an_es_tb <- renderDataTable(GSDCIC50 %>% 
-                                                mutate(`IC50 value` = round(`IC50 value`, 5)) %>%
-                                                dplyr::filter(TCGA_DESC == input$an_es_input) %>%
+  output$display_an_es_tb <- renderDataTable(DrugReHub %>% 
+                                                dplyr::filter(Indication == input$an_es_input) %>%
                                                 dplyr::arrange(PubChem_Cid),
                                               server = FALSE,
                                               options = list(scrollX = TRUE,
@@ -62,9 +61,9 @@ if(T){
     content = function(file) {
       
       # 这里需要修改！
-      rio::export(GSDCIC50 %>% ungroup() %>% 
-                    dplyr::filter(TCGA_DESC == input$an_es_input) %>%
-                    dplyr::select(c(Compound.name,Group)),
+      rio::export(DrugReHub %>% ungroup() %>% 
+                    dplyr::filter(Indication == input$an_es_input) %>%
+                    dplyr::select(Compound.name),
                   file,format = "tsv",row.names = F)
       # 这里需要修改！
       
