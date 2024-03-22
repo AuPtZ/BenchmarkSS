@@ -1,5 +1,4 @@
 ### Welcome to Benchmark module!  
-#### For demo results, please go to the Job Center page.    
 In this module, you can evaluate Signature Search Methods (SSMs) based on signatures and well-annotated drugs in L1000.  
 The Benchmark module requires the following settings:  
 
@@ -17,6 +16,8 @@ The Benchmark module requires the following settings:
 </div>
 
 **Notably, we provide two types of drug annotation metrics (AUC and ES), and users need to select at least one metric to evaluate the performance of SSMs. It is impractical to annotate all drugs; however, the more annotations obtained, the more accurate the results will be.**  
+Generally, **AUC** represents the drug efficacy form the experiments and **ES** represents the drug efficacy from the clinical indication. These two different metrics could comprehensively evaluate the SSMs both in experiment and clinic.    
+
 **1. AUC**  
 If you have annotations for effective or ineffective L1000 drugs (generally based on whether the IC50 < 10μM), you can upload them in step 4a. The file should appear as follows (header with 'Compound.name' and 'Group'):  
 

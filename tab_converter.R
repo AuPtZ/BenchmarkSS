@@ -200,11 +200,11 @@ if(T){
               dplyr::select(c("inputlist", "pert_iname"))  %>% distinct() 
             
             
-            print(rv_ctd$df_ctd)
+            # print(rv_ctd$df_ctd)
             colnames(rv_ctd$df_ctd) = c("inputlist","Compound.name")
           }else{
  
-            print(input$format_ctd)
+            # print(input$format_ctd)
             rv_ctd$df_ctd = left_join(df_ctd, CMAP_druginfo, by=c("inputlist" = input$format_ctd)) %>% 
               dplyr::select(c("inputlist", "pert_iname"))  %>% distinct() 
 
