@@ -1,10 +1,10 @@
 ### Welcome to Robustness module!
 In this module, you can evaluate the performance of signature search methods (SSMs).  
-In the **Benchmark module**, we tested SS methods based on drug annotations.   
+In the **Benchmark module**, we tested SSMs based on drug annotations.   
 However, it may not be appropriate when there are **insufficient annotations** for the pharmacotranscriptomic datasets (PTDs).   
-Hence, we test the performance of SSMs based on **profile self-similarity**.  
+Hence, we test the performance of SSMs based on **drug self-retrieval**.  
 Briefly, we labeled these drugs from 1 to N (N being the order of drugs in one set).  
-For each drug profile, we extracted the top x up-regulated and top x down-regulated DEGs and defined them as a signature. This signature was then queried into one of the SS methods to obtain the matching scores of these drugs.  
+For each drug profile, we extracted the top x up-regulated and top x down-regulated DEGs and defined them as a signature. This signature was then queried into one of the SSMs to obtain the matching scores of these drugs.  
 We then ranked the drugs based on their scores.  
 To evaluate the robustness of these methods at different x values, three parameters were used:  
 **1. Correlation (R) of the input and top1 output for all drugs.**  

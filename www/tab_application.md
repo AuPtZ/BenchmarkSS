@@ -1,5 +1,4 @@
 ### Welcome to Application module! 
-#### For demo results, please go to the Job Center page.  
 In this module, you can apply Signature Search methods (SSMs) to query drugs based on the signature input.   
 **SSP assumes that input oncogenic signatures are statistically significant (p < 0.05) by default, ensuring their relevance for further analysis.**  
 Here we provide three ways to find promising drugs:  

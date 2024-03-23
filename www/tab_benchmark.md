@@ -3,20 +3,21 @@ In this module, you can evaluate Signature Search Methods (SSMs) based on signat
 The Benchmark module requires the following settings:  
 
 <div style="padding: 10px; text-align: center;">
-<img src="imgbm1.png" width = "70%" height = "30%" />
+<img src="imgbm1.png" width = "80%" height = "40%" />
 </div>
 
-**1. Select Drug profiles (L1000)**  
+**1. Select a pharmacotranscriptomic dataset (L1000)**  
 **2. Select SSMs to test (at least two)**  
-**3. A signature (header with gene and logFC) to perform test**  
+**3. A oncogenic signature (header with gene and logFC) to perform test**  
 **4. Drug annotations that users can download as a blank annotation table by clicking the download button**  
-
+**Notably, SSP assumes that input oncogenic signatures are statistically significant (p < 0.05) by default, ensuring their relevance for further analysis.**  
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm2.png" width = "50%" height = "30%" />
 </div>
 
-**Notably, we provide two types of drug annotation metrics (AUC and ES), and users need to select at least one metric to evaluate the performance of SSMs. It is impractical to annotate all drugs; however, the more annotations obtained, the more accurate the results will be.**  
-Generally, **AUC** represents the drug efficacy form the experiments and **ES** represents the drug efficacy from the clinical indication. These two different metrics could comprehensively evaluate the SSMs both in experiment and clinic.    
+**Notably, SSP use two types of drug annotation metrics (AUC and ES), and users need to select at least one metric to evaluate the performance of SSMs. It is impractical to annotate all drugs; however, the more annotations obtained, the more accurate the results will be.**  
+Generally, **AUC** represents the drug efficacy form the experiments and **ES** represents the drug efficacy from the FDA-approved clinical indication. These two different metrics could comprehensively evaluate the SSMs both in experiment and clinic.    
+**SSP also offers a primary annotated drug list in annotation module.**  
 
 **1. AUC**  
 If you have annotations for effective or ineffective L1000 drugs (generally based on whether the IC50 < 10μM), you can upload them in step 4a. The file should appear as follows (header with 'Compound.name' and 'Group'):  
@@ -43,7 +44,7 @@ It may take approximately 15 minutes to obtain the results, but you can close th
 </div>
 
 For more information, please visit **Info-Help** page.
-
+For users who want to obtain a primary annotation for quick test, please visit **Annotation** page.
 
 
 

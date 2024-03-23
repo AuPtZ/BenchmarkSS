@@ -180,7 +180,7 @@ ui <- tagList( # needed for shinyjs
                           popify(
                             shiny::strong(tagList("Step 4a: upload drug annotations (for AUC)",icon("circle-question"))),
                             title = NULL,
-                            content = paste("At least upload one type annotation in 4a or 4b, also you can upload both of them. A", 
+                            content = paste("At least upload one type annotation in 4a or 4b, also you can upload both of them. For AUC, we recommend upload a list of experimentally evaluated drugs (for example, IC50 < 10μM or IC50 > 10μM). A", 
                                             a(href = "demo/drug_annotation_AUC.txt", "demo drug annotation for AUC"),
                                             "is provided."
                             ),
@@ -202,7 +202,7 @@ ui <- tagList( # needed for shinyjs
                           popify(
                             shiny::strong(tagList("Step 4b: upload drug annotations (for ES)",icon("circle-question"))),
                             title = NULL,
-                            content = paste("At least upload one drug annotation in 4a or 4b, also you can upload both of them. A", 
+                            content = paste("At least upload one drug annotation in 4a or 4b, also you can upload both of them. For ES, we recommend upload a list of clinically effective drugs (for example, FDA-approved drugs). A", 
                                             a(href = "demo/drug_annotation_ES.txt", "demo drug annotation for ES"),
                                             "is provided."
                             ),
