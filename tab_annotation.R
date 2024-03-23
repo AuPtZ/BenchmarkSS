@@ -2,6 +2,7 @@
 ## annotation - common objects ----
 ###############################################.
 library(dplyr)
+library(tidyr)
 
 ### 交互相应区域
 
