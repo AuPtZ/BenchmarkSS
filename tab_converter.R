@@ -287,7 +287,7 @@ if(T){
                              header = input$header_check_ctd, 
                              stringsAsFactors = FALSE)
         
-        print(df_ctd)
+        # print(df_ctd)
         
         if ( !(ncol(df_ctd) %in% c(1,2)) ){
           sendSweetAlert(
@@ -303,7 +303,7 @@ if(T){
         
       }, error = function(e) {
         
-        print(e)
+        # print(e)
         
         sendSweetAlert(
           session = session,
