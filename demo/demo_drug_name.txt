@@ -1,15 +1,15 @@
-Compound.name
-Nifurtimox
-5-hydroxytryptophan
-Hemado
-sa3676
-AFDX-116
-Noretynodrel
-Dyphylline
-Hexestrol
-Zebularine
-7-hydroxy-PIPAT
-7,8-dihydro-L-biopterin
-Salmeterol
-Flumetasone
-Bupivacaine
+Compound.name	Group
+Nifurtimox	Effevtive
+5-hydroxytryptophan	Effevtive
+Hemado	Effevtive
+sa3676	Effevtive
+AFDX-116	Effevtive
+Noretynodrel	Effevtive
+Dyphylline	Ineffective
+Hexestrol	Ineffective
+Zebularine	Ineffective
+7-hydroxy-PIPAT	Ineffective
+7,8-dihydro-L-biopterin	Ineffective
+Salmeterol	Ineffective
+Flumetasone	Ineffective
+Bupivacaine	Ineffective

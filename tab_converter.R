@@ -28,8 +28,9 @@ if(T){
     
     if(judge_ctg()){
       isolate({
-        df_ctg <- read.table(file = textConnection(input$text_ctg), 
+        df_ctg <- read.delim(file = textConnection(input$text_ctg), 
                              header = input$header_check_ctg, 
+                             sep = "\t",
                              stringsAsFactors = FALSE)
         
         colnames(df_ctg) = c("Gene","Log2FC")
@@ -59,6 +60,9 @@ if(T){
             shiny::strong("You may check the input and output and download by click the button."),
             downloadButton(outputId = "download_ctg",
                            label = "Download Output",class = "btn-success"),
+            shiny::p(),
+            shiny::strong("Please note that output file only contains successfully mapped genes."),
+            shiny::p(),
             column(6, 
                    shiny::h4("Input Preview"),
                    renderDataTable(df_ctg)),
@@ -91,7 +95,7 @@ if(T){
     if(input$text_ctg != ""){
       
       tryCatch({
-        df_ctg <- read.table(file = textConnection(input$text_ctg), 
+        df_ctg <- read.delim(file = textConnection(input$text_ctg), 
                              row.names = NULL,
                              header = input$header_check_ctg, 
                              stringsAsFactors = FALSE)
@@ -134,7 +138,7 @@ if(T){
     },
     content = function(file) {
       # Write the dataset to the `file` that will be downloaded
-      rio::export(rv_ctg$df_ctg, file,format = "tsv",row.names = F)
+      rio::export(rv_ctg$df_ctg %>% na.omit(), file,format = "tsv",row.names = F)
       
     }
   )
@@ -180,11 +184,20 @@ if(T){
     if(judge_ctd()){
       
       isolate({
-        df_ctd <- read.table(file = textConnection(input$text_ctd), 
+        df_ctd <- read.delim(file = textConnection(input$text_ctd), 
                              header = input$header_check_ctd, 
+                             sep = "\t",
                              stringsAsFactors = FALSE)
         
-        colnames(df_ctd) = "inputlist"
+        if (ncol(df_ctd) == 1){
+          colnames(df_ctd) = "inputlist"
+        }
+        
+        if (ncol(df_ctd) == 2){
+          colnames(df_ctd) = c("inputlist","Group")
+        }
+        
+        
         
         df_ctd$inputlist <- as.character(df_ctd$inputlist)
         
@@ -195,20 +208,24 @@ if(T){
             
             
             rv_ctd$df_ctd = dplyr::left_join(df_ctd %>% 
-                                               transmute(inputlist, net_drug_name =  tolower(gsub("[- ]", "", inputlist))),
+                                               mutate(inputlist, net_drug_name =  tolower(gsub("[- ]", "", inputlist))),
                                              CMAP_druginfo,by = "net_drug_name") %>% 
-              dplyr::select(c("inputlist", "pert_iname"))  %>% distinct() 
+              dplyr::select(any_of(c("inputlist", "pert_iname","Group")))  %>% 
+              dplyr::rename("Compound.name" = "pert_iname") %>% distinct() 
+            
+
             
             
-            # print(rv_ctd$df_ctd)
-            colnames(rv_ctd$df_ctd) = c("inputlist","Compound.name")
+            
+            
           }else{
  
             # print(input$format_ctd)
             rv_ctd$df_ctd = left_join(df_ctd, CMAP_druginfo, by=c("inputlist" = input$format_ctd)) %>% 
-              dplyr::select(c("inputlist", "pert_iname"))  %>% distinct() 
+              dplyr::select(any_of(c("inputlist", "pert_iname","Group")))   %>% 
+              dplyr::rename("Compound.name" = "pert_iname") %>% distinct() 
 
-            colnames(rv_ctd$df_ctd) = c("inputlist","Compound.name")
+
             
           }
           
@@ -230,6 +247,8 @@ if(T){
             shiny::strong("You may check the input and output and download by click the button."),
             downloadButton(outputId = "download_ctd",
                            label = "Download Output",class = "btn-success"),
+            shiny::p(),
+            shiny::strong("Please note that output file only contains successfully mapped drugs."),
             shiny::p(),
 
             column(5, 
@@ -263,16 +282,18 @@ if(T){
     if(input$text_ctd != ""){
       
       tryCatch({
-        df_ctd <- read.table(file = textConnection(input$text_ctd), 
+        df_ctd <- read.delim(file = textConnection(input$text_ctd), 
                              row.names = NULL,
                              header = input$header_check_ctd, 
                              stringsAsFactors = FALSE)
         
-        if (ncol(df_ctd) != 1){
+        print(df_ctd)
+        
+        if ( !(ncol(df_ctd) %in% c(1,2)) ){
           sendSweetAlert(
             session = session,
             title = "Error...",
-            text = 'Please make sure your drug list is a one-column list!',
+            text = 'Please make sure your drug list is a one-column or two-column tab-separated list!',
             type = "error"
           )
           return(F)
@@ -281,6 +302,9 @@ if(T){
         return(T)
         
       }, error = function(e) {
+        
+        print(e)
+        
         sendSweetAlert(
           session = session,
           title = "Error...",
@@ -306,7 +330,7 @@ if(T){
     },
     content = function(file) {
       # Write the dataset to the `file` that will be downloaded
-      rio::export(rv_ctd$df_ctd[,"Compound.name", drop=F], file,format = "tsv",row.names = F)
+      rio::export(rv_ctd$df_ctd %>% dplyr::select(-inputlist) %>% na.omit(), file,format = "tsv",row.names = F)
       
     }
   )
