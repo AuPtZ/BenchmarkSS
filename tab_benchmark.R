@@ -263,8 +263,11 @@ observeEvent(input$runBM, {
       shiny::tagList(
         shiny::h3("Loading... Please wait."),
         shiny::h3("It may take 15~30 mins to get result."),
+        shiny::h3(paste0("As your uploaded signature has a maximum of ",get_topn(i.need.logfc)," in one direction (Up or Down).")),
+        shiny::h3("SSP will compute the topN from 10 to maximum."),
         shiny::h3(paste0("Your jobid is ",jobid_bm)),
         shiny::h3("Please remember it for retrieve results in Job Center."),
+
         tags$script(HTML("
                 $(document).on('shiny:visualchange', function(event) {
                   if (event.target.id === 'display_bm') {

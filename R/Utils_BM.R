@@ -16,7 +16,7 @@ get_auc_all_i <- function(topn=5,refMatrix,sig_input,IC50_drug,get_ss){
     dplyr::arrange(log2FC)
   sig1_dn = sig1_dn$Gene
   
-  
+  # save(refMatrix,file = "111.Rdata")
   
   res_dr_auc <- list(topn=topn)
   
@@ -26,6 +26,7 @@ get_auc_all_i <- function(topn=5,refMatrix,sig_input,IC50_drug,get_ss){
                               queryUp = na.omit(sig1_up[1:topn]) ,
                               queryDown = na.omit(sig1_dn[1:topn]),
                               topN = nrow(refMatrix)/2)
+    save(res_xsum_raw,file = "res_xsum_raw.Rdata")
     res_xsum_roc <- res_xsum_raw %>% process_raw1(drug_info = IC50_drug)
     auc_xsum <- as.numeric(res_xsum_roc$auc)/100
     res_dr_auc[["auc_xsum"]] <- auc_xsum
@@ -237,19 +238,18 @@ get_benchmark_i <- function(IC50_drug,FDA_drug, i.need.logfc ,sel_exp,sel_ss){
 
 get_dr_auc_i <- function(IC50_drug,i.need.logfc,sel_exp,sel_ss,cores){
   
-  
   load(paste0("data_preload/drugexp/",sel_exp))
   
-  IC50_GSE92742 <- exp_GSE92742[, colnames(exp_GSE92742) %in% IC50_drug$`Compound.name`]
+  IC50_GSE92742 <- exp_GSE92742[, colnames(exp_GSE92742) %in% IC50_drug$`Compound.name`,drop=F]
   
-  patch_auc_sum <- parallel::mclapply(seq(from=100, to=489, by=1),
+  patch_auc_sum <- parallel::mclapply(seq(from=10, to= get_topn(i.need.logfc) , by=1),
                                       get_auc_all,
                                       refMatrix = IC50_GSE92742,
                                       sig_input = i.need.logfc,
                                       IC50_drug = IC50_drug,
                                       get_ss = sel_ss,
                                       mc.cores = cores)
-  
+  # save(patch_auc_sum,file = "patch_auc_sum.Rdata")
   patch_auc_sum <- do.call(rbind, patch_auc_sum) %>% tibble::as_tibble() %>% 
     dplyr::transmute( across(where(is.list),unlist )) 
 
@@ -264,11 +264,10 @@ get_dr_auc_i <- function(IC50_drug,i.need.logfc,sel_exp,sel_ss,cores){
 }
 
 get_dr_es_i <- function(FDA_drug, i.need.logfc, sel_exp,sel_ss,cores){
-  
-  
+
   load(paste0("data_preload/drugexp/",sel_exp))
   
-  patch_es_sum <- parallel::mclapply(seq(from=100, to=489, by=1),
+  patch_es_sum <- parallel::mclapply(seq(from=10, to= get_topn(i.need.logfc), by=1),
                                      get_es_all,
                                      refMatrix = exp_GSE92742,
                                      sig_input = i.need.logfc,
@@ -296,20 +295,28 @@ get_dr_auc <- memoise::memoise(get_dr_auc_i,cache = local_cache_folder_BM)
 get_dr_es <- memoise::memoise(get_dr_es_i,cache = local_cache_folder_BM)
 
 
-process_raw1 <- function(res_ss_raw,drug_info){
-  res_ss <- res_ss_raw %>% rownames_to_column(var= "pert_iname") %>%
-    left_join(drug_info,by = c("pert_iname" = "Compound.name")) %>% 
-    dplyr::select(c("pert_iname","Group","Score")) %>% 
-    distinct(pert_iname, .keep_all = T) %>%
-    column_to_rownames(var="pert_iname") %>%
-    mutate(Group=factor(Group,level=c("Ineffective","Effevtive")))
-  roc1 <- roc(Group ~ Score, res_ss,
-              percent=TRUE,
-              ci=FALSE,
-              plot=FALSE,
-              print.auc=TRUE,
-              direction = ">",
-              quiet = TRUE)
+process_raw1 <- function(res_ss_raw, drug_info) {
+  roc1 <- tryCatch({
+    # 原有的函数内容
+    res_ss <- res_ss_raw %>% rownames_to_column(var = "pert_iname") %>%
+      left_join(drug_info, by = c("pert_iname" = "Compound.name")) %>%
+      dplyr::select(c("pert_iname", "Group", "Score")) %>%
+      distinct(pert_iname, .keep_all = TRUE) %>%
+      column_to_rownames(var = "pert_iname") %>%
+      mutate(Group = factor(Group, levels = c("Ineffective", "Effective")))
+    
+    roc(Group ~ Score, res_ss,
+        percent = TRUE,
+        ci = FALSE,
+        plot = FALSE,
+        print.auc = TRUE,
+        direction = ">",
+        quiet = TRUE)
+  }, error = function(e) {
+    # 错误处理：创建一个具有ROC值为0的对象
+    list(auc = 0)
+  })
+  
   return(roc1)
 }
 
@@ -416,3 +423,16 @@ draw_dr_es <- function(res_input){
     ) + theme_test() + ggsci::scale_color_npg()
   return(p2)
 }
+
+# 判断上调下调的基因数量，用于设置读取的topN的值,取最大值
+get_topn <- function(sig_input){
+  
+  n_up = sig_input %>%
+    dplyr::filter(log2FC > 0) %>% nrow()
+  
+  n_dn = sig_input %>%
+    dplyr::filter(log2FC < 0) %>% nrow()
+  
+  return(max(n_up, n_dn))
+}
+
