@@ -58,6 +58,19 @@ GSDC3 <- GSDC2 %>%
   dplyr::mutate(Group = if_else(`IC50 value` > 10, "Ineffective", "Effevtive")) %>% 
   dplyr::select(Compound.name, `IC50 value`, Group,  TCGA_DESC,  everything())
 
+
+# 取一下交集,确保药品都在CMAP当中，不然没有意义
+load("data_preload/drugconvertor/GSE92742_LINCS_drug_info.Rdata")
+
+bind_rows(
+  GSDC3[GSDC3$PubChem_Cid %in% unique(CMAP_druginfo$pubchem_cid),] ,
+  GSDC3[GSDC3$SMILEs %in% unique(CMAP_druginfo$canonical_smiles),] ,
+  GSDC3[GSDC3$InChIKeys %in% unique(CMAP_druginfo$inchi_key),] 
+) %>% distinct()
+
+
+
+
 GSDCIC50 = GSDC3
 save(GSDCIC50,file="data_preload/annotation/GSDCIC50.Rdata")
 
