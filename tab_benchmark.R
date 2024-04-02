@@ -353,17 +353,17 @@ judge_bm <- function(){
       sendSweetAlert(
         session = session,
         title = "Error...",
-        text = 'Please make sure your IC50 table contains column "Compound.name" and "Group" !',
+        text = 'Please make sure your AUC table contains column "Compound.name" and "Group" !',
         type = "error"
       )
       return(F)
     }
     
-    if( !all(unique(ic501$Group) == c("Effevtive","Ineffective")) ){
+    if(!all(sort(unique(ic501$Group)) == c("Effective","Ineffective")) ){
       sendSweetAlert(
         session = session,
         title = "Error...",
-        text = 'Please make sure your IC50 table column "Group" only contain "Effevtive" and "Ineffective" !',
+        text = 'Please make sure your AUC table column "Group" only contain "Effective" and "Ineffective" !',
         type = "error"
       )
       return(F)
@@ -384,11 +384,11 @@ output$dl_drug_ann_bm <- downloadHandler(
     load(paste0("data_preload/drugexp/",input$sel_experiment))
     # df_ann_export1 <- data.frame(
     #   "Compound.name" =   unique(sig_GSE92742$pert_iname),
-    #   "Group" = rep(c("Effevtive","Ineffective"), times=c(50,length(unique(sig_GSE92742$pert_iname)) - 50))
+    #   "Group" = rep(c("Effective","Ineffective"), times=c(50,length(unique(sig_GSE92742$pert_iname)) - 50))
     # )
     df_ann_export1 <- data.frame(
       "Compound.name" =   unique(sig_GSE92742$pert_iname),
-      "Group" = c("Effevtive","Ineffective",rep(NA,times=length(unique(sig_GSE92742$pert_iname)) - 2))
+      "Group" = c("Effective","Ineffective",rep(NA,times=length(unique(sig_GSE92742$pert_iname)) - 2))
     )
     
     rio::export(df_ann_export1, file,format = "tsv",row.names = F)

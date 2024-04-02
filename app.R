@@ -159,7 +159,7 @@ ui <- tagList( # needed for shinyjs
                             content = paste("oncogenic signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
                                           a(href = "demo/signature.txt", "demo signature file"),
                                           "is provided.<br>If you have other identifier (e.g. EntrezID), please go to",
-                                          as.character(strong(" convertor page"))," to convert your signature."
+                                          as.character(strong(" converter page"))," to convert your signature."
                             ),
                             trigger = "click",
                             placement = "right"
@@ -413,7 +413,7 @@ ui <- tagList( # needed for shinyjs
                               content = paste("oncogenic signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
                                               a(href = "demo/signature.txt", "demo signature file"),
                                               "is provided.<br>If you have other identifier (e.g. EntrezID), please go to",
-                                              as.character(strong(" convertor page"))," to convert your signature."
+                                              as.character(strong(" converter page"))," to convert your signature."
                               ),
                               trigger = "click",
                               placement = "right"
