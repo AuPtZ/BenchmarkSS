@@ -8,7 +8,7 @@ library(tidyr)
 ### 交互相应区域
 
 if(T){
-  load("data_preload/annotation/GSDCIC50.Rdata")
+  load("data_preload/annotation/GSDCIC50_update.Rdata")
   
   output$display_an_auc <- renderUI(initial_an_auc)
   

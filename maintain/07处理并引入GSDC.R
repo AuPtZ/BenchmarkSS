@@ -55,24 +55,35 @@ GSDC3 <- GSDC2 %>%
   group_by(DRUG_NAME,  TCGA_DESC,PubCHEM, SMILEs,InChIKeys) %>%
   summarize(IC50 = min(IC50)) %>% 
   dplyr::rename(Compound.name = DRUG_NAME, `IC50 value` = IC50, PubChem_Cid = PubCHEM) %>%
-  dplyr::mutate(Group = if_else(`IC50 value` > 10, "Ineffective", "Effevtive")) %>% 
+  dplyr::mutate(Group = if_else(`IC50 value` > 10, "Ineffective", "Effective")) %>% 
   dplyr::select(Compound.name, `IC50 value`, Group,  TCGA_DESC,  everything())
 
 
 # 取一下交集,确保药品都在CMAP当中，不然没有意义
 load("data_preload/drugconvertor/GSE92742_LINCS_drug_info.Rdata")
 
-bind_rows(
-  GSDC3[GSDC3$PubChem_Cid %in% unique(CMAP_druginfo$pubchem_cid),] ,
-  GSDC3[GSDC3$SMILEs %in% unique(CMAP_druginfo$canonical_smiles),] ,
-  GSDC3[GSDC3$InChIKeys %in% unique(CMAP_druginfo$inchi_key),] 
+# 先汇总GSDC3中PubChem_Cid，SMILEs，InChIKeys与CMAP_druginfo对应的pubchem_cid，canonical_smiles，inchi_key相同的行
+GSDC3_combined <- bind_rows(
+  GSDC3[GSDC3$PubChem_Cid %in% na.omit(unique(CMAP_druginfo$pubchem_cid)),],
+  GSDC3[GSDC3$SMILEs %in% na.omit(unique(CMAP_druginfo$canonical_smiles)),],
+  GSDC3[GSDC3$InChIKeys %in% na.omit(unique(CMAP_druginfo$inchi_key)),]
 ) %>% distinct()
 
+# 然后替换名字即可
+GSDC3_combined2 <- bind_rows(
+  GSDC3_combined %>%
+    inner_join(CMAP_druginfo, by = c("PubChem_Cid" = "pubchem_cid")) %>% 
+    mutate(Compound.name = pert_iname) %>% dplyr::select(colnames(GSDC3)) %>% distinct(),
+  GSDC3_combined %>%
+    inner_join(CMAP_druginfo, by = c("SMILEs" = "canonical_smiles")) %>% 
+    mutate(Compound.name = pert_iname) %>% dplyr::select(colnames(GSDC3)) %>% distinct(),
+  GSDC3_combined %>%
+    inner_join(CMAP_druginfo, by = c("InChIKeys" = "inchi_key")) %>% 
+    mutate(Compound.name = pert_iname) %>% dplyr::select(colnames(GSDC3)) %>% distinct()
+) %>% distinct()
 
-
-
-GSDCIC50 = GSDC3
-save(GSDCIC50,file="data_preload/annotation/GSDCIC50.Rdata")
+GSDCIC50 = GSDC3_combined2
+save(GSDCIC50,file="data_preload/annotation/GSDCIC50_update.Rdata")
 
 # 计算癌种的出现频次
 load("data_preload/annotation/GSDCIC50.Rdata")
