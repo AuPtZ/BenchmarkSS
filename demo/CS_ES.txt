@@ -11,6 +11,7 @@ dovitinib
 doxorubicin
 epirubicin
 erlotinib
+etoposide
 everolimus
 floxuridine
 gefitinib
