@@ -429,9 +429,9 @@ for (gg in file_list){
   }else{
     print(gg)
     load(paste0(dir_drug,gg))
-    res_topn <- parallel::mclapply(seq(from = 100, to = 480, by = 10),
+    res_topn <- parallel::mclapply(seq(from = 10, to = 90, by = 10),
                                    get_rb,refMatrix = exp_GSE92742,
-                                   threshold = 0.585, mc.cores = 39L,file_input_string = gg)
+                                   threshold = 0.585, mc.cores = 36L,file_input_string = gg)
     res_topn2 <- res_topn %>% do.call(rbind,.)
     save(res_topn2,file = paste0(dir_robust,gg))
     print(gg)
