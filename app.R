@@ -126,7 +126,7 @@ ui <- tagList( # needed for shinyjs
                           ),
                           
                           pickerInput("sel_experiment", label = NULL, 
-                                      choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
+                                      choices=drug_num_list1 , selected = "LINCS_HEPG2_10 µM_6 h.rdata"
                                       ),
                           downloadButton("dl_drug_ann_bm","Download Blank Annotation", class = "btn-success"),
                           
@@ -755,7 +755,7 @@ ui <- tagList( # needed for shinyjs
                                           shiny::br(),
                                           shiny::h3("Download curated pharmacotranscriptomic datasets (PTDs)"),
                                           pickerInput("sel_experiment_dl", label = "Select a specific PTD", 
-                                                      choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
+                                                      choices=drug_num_list1 , selected = "LINCS_HEPG2_10 µM_6 h.rdata"
                                           ),
                                           downloadButton("dl_drug_exp","Download PTD", class = "btn-success"),
                                           downloadButton("dl_drug_ann","Download Drug and Experiment info", class = "btn-success"),

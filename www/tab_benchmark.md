@@ -9,7 +9,7 @@ Please follow the steps below to perform job:
 **1. Select a pharmacotranscriptomic dataset (PTD).**  
 **2. Select at least two SSMs for testing**  
 **3. A oncogenic signature (OGS) represent a specific cancer.**   
-**4. Drug annotations indicating the drug's efficacy in experiments or its approval status in clinic (e.g., FDA-approved). **   
+**4. Drug annotations indicating the drug's efficacy in experiments or its approval status in clinic (e.g., FDA-approved).**   
 
 Please be aware that OGS and drug annotation files can be accessed through the help button adjacent to the **steps in the left panel**.    
 <div style="padding: 10px; text-align: center;">

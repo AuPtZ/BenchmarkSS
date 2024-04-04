@@ -3,6 +3,7 @@
 .RData
 .Ruserdata
 .gitattributes
+.html
 NULLprocessing/
 cache/BM/
 cache/SM/
