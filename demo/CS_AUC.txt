@@ -13,7 +13,7 @@ artesunate	Ineffective
 asiatic-acid	Ineffective
 AT-7519	Effective
 auranofin	Effective
-axitinib	Ineffective
+axitinib	Effective
 azacitidine	Effective
 AZD-5438	Effective
 AZD-6482	Effective
@@ -43,7 +43,7 @@ carprofen	Ineffective
 carvedilol	Ineffective
 cediranib	Effective
 celastrol	Effective
-celecoxib	Ineffective
+celecoxib	Effective
 CHIR-99021	Ineffective
 chlorambucil	Ineffective
 chloroquine	Ineffective
@@ -73,7 +73,7 @@ enzastaurin	Ineffective
 epirubicin	Effective
 ERK-inhibitor-11E	Effective
 erlotinib	Effective
-everolimus	Ineffective
+everolimus	Effective
 FK-866	Effective
 floxuridine	Effective
 fluconazole	Ineffective
@@ -84,7 +84,7 @@ fluvastatin	Effective
 foretinib	Effective
 GDC-0941	Effective
 gedunin	Ineffective
-gefitinib	Ineffective
+gefitinib	Effective
 geldanamycin	Effective
 gemcitabine	Effective
 genistein	Ineffective
@@ -128,11 +128,11 @@ omeprazole	Ineffective
 paclitaxel	Effective
 palbociclib	Effective
 parachlorophenol	Ineffective
-pazopanib	Ineffective
+pazopanib	Effective
 PCI-34051	Effective
 PD-0325901	Effective
 PD-173074	Effective
-pentamidine	Ineffective
+pentamidine	Effective
 perphenazine	Ineffective
 pevonedistat	Effective
 PF-562271	Effective
