@@ -756,8 +756,8 @@ ui <- tagList( # needed for shinyjs
                                           pickerInput("sel_experiment_dl", label = "Select a specific PTD", 
                                                       choices=drug_num_list1 , selected = "LINCS_A375_10 µM_6 h.rdata"
                                           ),
-                                          downloadButton("dl_drug_exp","Download Drug Profiles", class = "btn-success"),
-                                          downloadButton("dl_drug_ann","Download Drug Annotation", class = "btn-success"),
+                                          downloadButton("dl_drug_exp","Download PTD", class = "btn-success"),
+                                          downloadButton("dl_drug_ann","Download Drug and Experiment info", class = "btn-success"),
                                    ),
                                    column(2,
                                           # "sidebar2"

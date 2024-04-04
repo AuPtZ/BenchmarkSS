@@ -31,7 +31,14 @@ output$dl_drug_ann <- downloadHandler(
   },
   content = function(file) {
     load(paste0("data_preload/drugexp/",input$sel_experiment_dl))
-    rio::export(sig_GSE92742, file,format = "tsv",row.names = T)
+    load("data_preload/annotation/drug_GSE92742.Rdata")
+    
+    # 只保留必要的内容
+    sig_GSE92742 <- sig_GSE92742 %>% 
+      left_join(drug_GSE92742 %>% dplyr::select(-pert_iname), by = "pert_id") %>%
+      dplyr::select(pert_iname,cell_id,pert_idose,pert_itime,pubchem_cid,inchi_key,canonical_smiles)
+    
+    rio::export(sig_GSE92742, file, format = "tsv",row.names = T)
   }
 )
 
@@ -46,7 +53,11 @@ output$dl_demo <- downloadHandler(
                "demo/drug_annotation_AUC.txt",
                "demo/signature.txt",
                "demo/signature2.txt",
-               "demo/manual of SSP V2.pdf"),
+               "demo/manual of SSP V2.pdf",
+               "demo/CS_AUC.txt",
+               "demo/CS_ES.txt",
+               "demo/CS_OGS.txt"
+               ),
              mode = "cherry-pick")
   }
 )
