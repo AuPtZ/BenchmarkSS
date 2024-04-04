@@ -4,6 +4,6 @@ It is important to note that there may be instances where your job is unsuccessf
 In such cases, you need to resubmit your application.
 
 <div style="padding: 10px; text-align: center;">
-<img src="imginfo9.PNG" width = "50%" height = "50%" />
+<img src="imginfo9.PNG" width = "100%" height = "100%" />
 </div>
 

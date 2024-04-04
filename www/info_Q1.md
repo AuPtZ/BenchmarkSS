@@ -14,7 +14,7 @@ However, various studies have found that different SSMs exhibit varying performa
 Additionally, SSP webserver is deployed at a high performance servers for better user experience and we opensource all codes at [Gitee](https://gitee.com/auptz/benchmark-ss) or mirror repository [Github](https://gitee.com/auptz/benchmark-ss). Everyone could directly use or DIY own SSP webserver by interest.
 
 <div style="padding: 10px; text-align: center;">
-<img src="imginfo0.PNG" width = "50%" height = "50%" />
+<img src="imginfo0.PNG" width = "80%" height = "80%" />
 </div>
 
 

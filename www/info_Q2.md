@@ -1,57 +1,85 @@
 ### How to use Benchmark and interpret the results? 
 The **Benchmark** module aims to evaluate the performance of Signature Search Methods (SSMs) through pharmacotranscriptomic datasets and drug annotations. The results could tell us which method and topN (the number of gene used for SS) are the best.   
-The workflow can be described as following: First, user select a pharmacotranscriptomic dataset, a *m x n* matrix which m represents drug and n represents the gene. **In general, we recommend user to select a PTD with more drugs and highly related to cancer of interest**.  
-Then, download a blank annotation file with drug name and fill them manually. The principle of annotation is related to the disease you are studying, and we recommend at least 10 drugs
-For example, if you are researching liver cancer, you need to collect data on whether a drug is effective against liver cancer. These annotation can be obtained from clinical trials or cell experiments (IC50 < 10 μM). Next, upload a disease signature and annotation file(s). Finally, click the **RUN** button to get the result.  
-Hence, it is very easy to use Benchmark as it only requires **at most 3 files**, a Disease Signature (necessary), and Drug Annotations for **AUC** or **ES** (at least one of them, ). SSP supports file input in both **CSV** and **TXT** formats.  
-The demo files are provided on the **step**, you can click the question label **(?)** to show tips and download demo files.   
+In this module, you can evaluate Signature Search Methods (SSMs) based on signatures and well-annotated drugs in LINCS.  
+Please follow the steps below to perform job:   
 
 <div style="padding: 10px; text-align: center;">
-<img src="imginfoQ2_1.gif" width = "50%" height = "50%" />
+<img src="imgbm1.png" width = "80%" height = "40%" />
 </div>
 
-A Disease Signature is a two-column table starts with **Gene** and **log2FC**, although there is no requirement of p-value or adjust p-value, **we highly recommend user provides a significant signature, a gene list with p-value < 0.05**.  
-Drug annotations are labels indicating whether the drug is positive and/or negative in your selected drug profile set. You can download a drug list without drug annotation by click the **Download Blank Annotation**.
-For AUC, you need label drugs with whether **Positive** and **Negative** (**case sensitive**).  
-For ES, you just need provide the name of **Positive** drugs without labels.  
-Notably, you are not required to provide all drug annotations, but more annotations lead to more accurate results.  
+**1. Select a pharmacotranscriptomic dataset (PTD).**  
+**2. Select at least two SSMs for testing**  
+**3. A oncogenic signature (OGS) represent a specific cancer.**   
+**4. Drug annotations indicating the drug's efficacy in experiments or its approval status in clinic (e.g., FDA-approved). **   
+
+Please be aware that OGS and drug annotation files can be accessed through the help button adjacent to the **steps in the left panel**.    
+<div style="padding: 10px; text-align: center;">
+<img src="imgbm1.1.gif" width = "50%" height = "40%" />
+</div>
+
+
+OGS is a gene list header with **Gene** and **LogFC**. Notably, SSP accepts the genes in the format of **gene symbol** and assumes that input **OGS are statistically significant (p < 0.05)**, ensuring their relevance for further analysis.    
+Should your OGS contain genes formatted with alternative identifiers (such as EntrezID, Ensembl, UniProt, Gene name, etc.), proceed to the Converter page for the necessary conversion.    
+<div style="padding: 10px; text-align: center;">
+<img src="imgbm1.2.png" width = "30%" height = "30%" />
+</div>
+
+Drug annotations are commonly sourced from databases and resources such as ChEMBL, PubChem, scientific literature, clinical trials, and DrugBank. Users have two options: ① Download a blank annotation table and label it manually, or     
+<div style="padding: 10px; text-align: center;">
+<img src="imgbm2.png" width = "50%" height = "30%" />
+</div>
+② Independently compile annotations from various sources and upload them into the Converter module to get a format-compatible annotation file.   
+<div style="padding: 10px; text-align: center;">
+<img src="imgbm2.1.png" width = "50%" height = "30%" />
+</div>
+
+**Notably, the SSP employs two drug annotation metrics, AUC and ES, with users required to select at least one for the performance assessment of SSMs. Annotating every drug is impractical; nonetheless, an increased number of annotations leads to more precise outcomes.**  
+Typically, **AUC** reflects drug efficacy as determined by experimental data, while **ES** signifies drug efficacy based on FDA-approved clinical indications. These distinct metrics offer a comprehensive evaluation of SSMs, encompassing both experimental and clinical contexts.      
+**Additionally, the SSP provides a primary annotated drug list accessible through the Annotation Module.**  
+
+**1. AUC**  
+For annotations of L1000 drugs that are deemed effective or ineffective (typically based on whether IC50 values < 10μM), proceed with the upload during step 4a. The file should appear as follows (header with **Compound.name** and **Group**. Ensure that the file comprises a minimum of five drugs and clearly denotes both two categories of labels: 'effective' and 'ineffective'.):  
 
 <div style="padding: 10px; text-align: center;">
-<img src="imginfoQ2_2.png" width = "50%" height = "50%" />
+<img src="imgbm3.png" width = "30%" height = "30%" />
 </div>
 
-Do not forget to remove unlabeled drugs! The detailed procedure is provided in the **Benchmark** page.  
-The mean time of Benchmark is 15~30 mins, which is determined by the volume of pharmacotranscriptomic dataset.
+Subsequently, drug scores will be computed and ranked based on the confusion matrix using the Area Under the Curve **(AUC)**, with **a higher AUC signifying superior performance**.   
 
-Well, it is very easy to understand the results in Benchmark.  
-**For the Benchmark module, here are two types of results:**  
-If you upload a file for the AUC method, then you will get a result like this:  
+**2. ES**   
+Annotations for clinically efficacious drugs (determined by clinical data, such as those FDA-approved) can be uploaded during step 4b. The file format should be as follows:     
 
 <div style="padding: 10px; text-align: center;">
-<img src="imginfo1.PNG" width = "70%" height = "70%" />
-<img src="imginfo2.PNG" width = "70%" height = "70%" />
+<img src="imgbm4.png" width = "30%" height = "30%" />
 </div>
 
-If you upload a file for the ES method, then you will get a result like this:  
+
+SSP will calculate drug scores and determine the **enrichment score (ES)**, with **a lower ES indicating enhanced performance**.    
+Ultimately, initiate the process by clicking 'Run,' which will generate a job ID (**jobid**) prefixed with 'BEN'. Results are typically available within approximately 15~30 minutes, and a 'Quick Tip' will be provided to assist with result interpretation. Alternatively, you may close the page and retrieve the job ID in the **Job Center**  for future result retrieval.   
 
 <div style="padding: 10px; text-align: center;">
-<img src="imginfo3.PNG" width = "70%" height = "70%" />
+<img src="imgbm5.png" width = "40%" height = "30%" />
 </div>
 
-**So, it is very easy to find the best topN and method based on the signature and drug profiles.**
+#### Result interpretation
+In result of AUC, the image is a scatter plot depicting the results of the **Area Under the Curve (AUC)** for different **signature search methods (SSMs)** across various TopN values. AUC is a metric used to evaluate the performance of SSMs, typically in drug efficacy classification tasks. There are five methods represented by different colored dots: **CMap (red)**, **GSEA (blue)**, **XCos (green)**, **XSum (purple)**, and **ZhangScore (orange)**. The AUC results for each method at different TopN values are plotted with the corresponding colored dots, with a smooth trend line for each method indicating the change in AUC as TopN increases.   
+The vertical dashed line in the scatter plot indicates the position of the TopN value where the **maximum AUC** is achieved for one or more methods.  
+<div style="padding: 10px; text-align: center;">
+<img src="imginfoQ9_1.png" width = "80%" height = "80%" />
+</div>
 
-Notably, when ES and AUC are combined, users have to determine the best topN and method based on performance.
+In the corresponding table below, the row with the TopN value associated with the **maximum** is placed at the forefront, and the cell containing the **maximum value** is highlighted in yellow.  
+<div style="padding: 10px; text-align: center;">
+<img src="imginfoQ9_2.png" width = "80%" height = "80%" />
+</div>
 
-The best topN are required to be used in the **Application** module.
+In result of ES, the image is a scatter plot depicting the results of the **Enrichment Score (ES)** for different **signature search methods (SSMs)** across various TopN values. ES is a metric used to evaluate the performance of SSMs, typically in drug efficacy classification tasks. There are five methods represented by different colored dots: **CMap (red)**, **GSEA (blue)**, **XCos (green)**, **XSum (purple)**, and **ZhangScore (orange)**. The ES results for each method at different TopN values are plotted with the corresponding colored dots, with a smooth trend line for each method indicating the change in ES as TopN increases.   
+The vertical dashed line in the scatter plot indicates the position of the TopN value where the **minimum ES** is achieved for one or more methods.  
+<div style="padding: 10px; text-align: center;">
+<img src="imginfoQ9_3.png" width = "80%" height = "80%" />
+</div>
 
-
-
-
-
-
-
-
-
-
-
-
+In the corresponding table below, the row with the TopN value associated with the **minimum** is placed at the forefront, and the cell containing the **minimum value** is highlighted in yellow.  
+<div style="padding: 10px; text-align: center;">
+<img src="imginfoQ9_4.png" width = "80%" height = "80%" />
+</div>
