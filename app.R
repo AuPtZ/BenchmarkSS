@@ -61,7 +61,7 @@ ui <- tagList( # needed for shinyjs
                            column(6, class="landing-page-column",br(), #spacing
                                   lp_main_box(image_name= "landing_button_time_trend",
                                               button_name = 'jump_to_rb', title_box = "Robustness",
-                                              description = 'Evalutaion of Signature Search methods without annotation')),
+                                              description = 'Evalutaion of Signature Search methods based on drug self-retrieval')),
 
                          ),
 
@@ -716,7 +716,8 @@ ui <- tagList( # needed for shinyjs
                                                      includeMarkdown("www/info_Q8.md")
                                                      # uiOutput(outputId = "display_Q8") %>% withSpinner()
                                             ),
-                                            tabPanel("Q9: How to find the best topN and method?",
+                                            tabPanel("Q9: How to find the optimal topN and method?",
+                                                     shiny::h3("How to find the optimal topN and method?"),
                                                      includeMarkdown("www/info_Q9_bm_ES.md"),
                                                      includeMarkdown("www/info_Q9_bm_AUC.md"),
                                                      # uiOutput(outputId = "display_Q9") %>% withSpinner()
