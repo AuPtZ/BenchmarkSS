@@ -26,7 +26,7 @@ get_auc_all_i <- function(topn=5,refMatrix,sig_input,IC50_drug,get_ss){
                               queryUp = na.omit(sig1_up[1:topn]) ,
                               queryDown = na.omit(sig1_dn[1:topn]),
                               topN = nrow(refMatrix)/2)
-    save(res_xsum_raw,file = "res_xsum_raw.Rdata")
+    # save(res_xsum_raw,file = "res_xsum_raw.Rdata")
     res_xsum_roc <- res_xsum_raw %>% process_raw1(drug_info = IC50_drug)
     auc_xsum <- as.numeric(res_xsum_roc$auc)/100
     res_dr_auc[["auc_xsum"]] <- auc_xsum
