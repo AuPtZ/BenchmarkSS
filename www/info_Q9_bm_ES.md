@@ -8,3 +8,8 @@ In the corresponding table below, the row with the TopN value associated with th
 <div style="padding: 10px; text-align: center;">
 <img src="imginfoQ9_4.png" width = "80%" height = "80%" />
 </div>
+
+**if you only upload a annotation for ES, we recommend user select SSMs and topN with lowest scores for later query in Application module. If the SSM in result exhibits monotonic decrease, it is recommended to directly set the length of OGS to TopN for later query in Application module.**  
+**if you upload both annotation for AUC and ES, we recommend user select SSMs and topN with relative high scores in UC and low in ES for later query in Application module. For example, topN in the top 10 of result of ES and AUC is acceptable.**  
+**if you want to use SS_cross, it is important to note that we recommend each OGS be evaluated in the Benchmark module. If the optimal topN and SSM for two OGSs are identical or close (with high scores in the same topN or a high ranking in SSM), this indicates a strong match. If not, it is advisable to replace the OGSs.** 
+**if you want to use SS_all, just select the SSMs with high performance over minority in ES.**   

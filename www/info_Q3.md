@@ -28,4 +28,6 @@ Select a PTD to review the performance of SSMs, and a 'Quick Tip' will be availa
 
 
 As shown in the figure, a higher **performance score** indicates greater robustness, indicating that the method is more accurate.  
+**We recommend user select SSMs and topN with highest scores for later query in Application module. If the SSM in result exhibits monotonic increase, it is recommended to directly set the length of OGS to TopN for later query in Application module.**  
+**If the length of OGS is less than topN, please select the optimal SSMs and topN with the relative high scores between 10 and length of OGS. If the user want to select mutible SSMs for SS_all, the performance score over the average score is highly recommended.**  
 Robustness module may differ from that in the Benchmark module. Researchers are strongly encouraged to utilize the Benchmark module, in alignment with their specific fields of study. Should the number of topN genes from the Robustness module exceed the length of the OGS, it is recommended to assess whether the scores obtained from the Robustness module at the corresponding length are close to the optimal values. If not, consideration should be given to replacing the OGS.  
