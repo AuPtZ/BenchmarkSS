@@ -1,8 +1,4 @@
-# to get rank based on self loops
-# rio::export(exp_GSE92742,file = "demoLoop.txt",format = "tsv",row.names=T)
-# topn = 10
-# cpname = unique(loop1$compounds)[1]
-# threshold = 0
+# 试图抛弃计算res_top2的部分，加快并行的能力。
 
 library(dplyr)
 
