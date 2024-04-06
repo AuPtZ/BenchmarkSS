@@ -1,6 +1,12 @@
 ### How to query drug in Application and interpret the results?
 In this module, you can apply Signature Search methods (SSMs) to query promising drugs based on the OGS.   
-OGS is a gene list header with **Gene** and **LogFC**. Notably, SSP accepts the genes in the format of **gene symbol** and assumes that input **OGS are statistically significant (p < 0.05)**, ensuring their relevance for further analysis.    
+**A oncogenic signature (OGS)** is a gene list header with **Gene** and **Log2FC**. It typically consists of differentially expressed genes derived from sequencing samples of cell or animal experiments, or patient cohorts, such as GEO, TCGA and ICGC.    
+Notably, It should contains **at least 10 genes exhibiting a log2FC > 0 and 10 < 0**. In addition, SSP accepts the genes in the format of **gene symbol** and assumes that input genes in OGS are **statistically significant (adjust p < 0.05)**.   
+
+<div style="padding: 10px; text-align: center;">
+<img src="imgbm1.2.png" width = "30%" height = "30%" />
+</div>
+
 Should your OGS contain genes formatted with alternative identifiers (such as EntrezID, Ensembl, UniProt, Gene name, etc.), proceed to the Converter page for the necessary conversion.    
 
 Below are three approaches to identify promising drugs:    
