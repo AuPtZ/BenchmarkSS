@@ -120,7 +120,8 @@ ui <- tagList( # needed for shinyjs
                             content = paste(
                               "SSP contains datasets of nine tumor cell lines at ",
                               as.character(strong("diifferent concentration and treat time.")),
-                              "<br>In general, we recommend user to select a dataset with more drugs and highly related to cancer of interest"
+                              "<br>In general, we recommend user to select a dataset with more drugs and highly related to cancer of interest.",
+                              "<br> The blank annotation can be obtained by clicking the button provided below. Once filled out, the annotation file could be used in step 4."
                               ),
                             trigger = "click", placement = "right"
                           ),
@@ -156,7 +157,7 @@ ui <- tagList( # needed for shinyjs
                           popify(
                             shiny::strong(tagList("Step 3. upload oncogenic signature",icon("circle-question"))),
                             title = NULL,
-                            content = paste("oncogenic signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
+                            content = paste("oncogenic signature (OGS) is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
                                           a(href = "demo/signature.txt", "demo signature file"),
                                           "is provided.<br>If you have other identifier (e.g. EntrezID), please go to",
                                           as.character(strong(" converter page"))," to convert your signature."
@@ -182,7 +183,9 @@ ui <- tagList( # needed for shinyjs
                             title = NULL,
                             content = paste("At least upload one type annotation in 4a or 4b, also you can upload both of them. For AUC, we recommend upload a list of experimentally evaluated drugs (for example, IC50 < 10μM or IC50 > 10μM). A", 
                                             a(href = "demo/drug_annotation_AUC.txt", "demo drug annotation for AUC"),
-                                            "is provided."
+                                            "is provided.",
+                                            "<br>SSP accept drug name as input, if you have other identifier (e.g. PubchemCID), please go to",
+                                            as.character(strong(" converter page"))," to convert your annotation."
                             ),
                             trigger = "click",
                             placement = "right"
@@ -204,7 +207,9 @@ ui <- tagList( # needed for shinyjs
                             title = NULL,
                             content = paste("At least upload one drug annotation in 4a or 4b, also you can upload both of them. For ES, we recommend upload a list of clinically effective drugs (for example, FDA-approved drugs). A", 
                                             a(href = "demo/drug_annotation_ES.txt", "demo drug annotation for ES"),
-                                            "is provided."
+                                            "is provided.",
+                                            "<br>SSP accept drug name as input, if you have other identifier (e.g. PubchemCID), please go to",
+                                            as.character(strong(" converter page"))," to convert your annotation."
                             ),
                             trigger = "click",
                             placement = "right"
@@ -299,9 +304,9 @@ ui <- tagList( # needed for shinyjs
                               as.character(strong("Single Search")),
                               " is the traditional method to query promising drugs, just like GSEA.<br>",
                               as.character(strong("SS_all")),
-                              "query promising drugs integrating the results of all SS methods.<br>",
+                              "query promising drugs integrating the results of all SSMs.<br>",
                               as.character(strong("SS_corss")),
-                              " use two oncogenic signatures to query promising drugs with ploypharmacological effects."
+                              " use two oncogenic signatures to query promising drugs with consensus."
                             ),
                             trigger = "click", placement = "right"
                           ),
@@ -410,7 +415,7 @@ ui <- tagList( # needed for shinyjs
                             popify(
                               shiny::strong(tagList("Step 4. upload signature",icon("circle-question"))),
                               title = NULL,
-                              content = paste("oncogenic signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
+                              content = paste("Oncogenic signature (OGS) is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
                                               a(href = "demo/signature.txt", "demo signature file"),
                                               "is provided.<br>If you have other identifier (e.g. EntrezID), please go to",
                                               as.character(strong(" converter page"))," to convert your signature."
@@ -434,9 +439,13 @@ ui <- tagList( # needed for shinyjs
                             
                             # 上传signature (特殊情况)
                             popify(
-                              shiny::strong(tagList("Step 4a: upload signature 1",icon("circle-question"))),
+                              shiny::strong(tagList("Step 4a: upload OGS 1 and name it",icon("circle-question"))),
                               title = NULL,
-                              content = paste("annotation(name) for the below signature"),
+                              content = paste("oncogenic signature (OGS) is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
+                                              a(href = "demo/signature.txt", "demo signature file"),
+                                              "is provided.<br>If you have other identifier (e.g. EntrezID), please go to",
+                                              as.character(strong(" converter page"))," to convert your signature."
+                              ),
                               trigger = "click",
                               placement = "right"
                             ),
@@ -451,9 +460,13 @@ ui <- tagList( # needed for shinyjs
                             ),
                             
                             popify(
-                              shiny::strong(tagList("Step 4b: upload signature 2",icon("circle-question"))),
+                              shiny::strong(tagList("Step 4b: upload OGS 2 and name it",icon("circle-question"))),
                               title = NULL,
-                              content = paste("annotation(name) for the below signature"),
+                              content = paste("oncogenic signature (OGS) is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
+                                              a(href = "demo/signature2.txt", "demo signature file"),
+                                              "is provided.<br>If you have other identifier (e.g. EntrezID), please go to",
+                                              as.character(strong(" converter page"))," to convert your signature."
+                              ),
                               trigger = "click",
                               placement = "right"
                             ),
@@ -472,13 +485,13 @@ ui <- tagList( # needed for shinyjs
                             title = NULL,
                             content = paste("topN is determined by Benchmark or Robustness. <br>",
                                             "If this score is monotonically increasing in Benchmark and Robustness, ",
-                                            "we recommend setting topN to 150."),
+                                            "we recommend setting topN to length of OGS."),
                             trigger = "click",
                             placement = "right"
                           ),
                           
                           numericInput("sel_topn_sm", label = NULL, 
-                                       value = 150, min = 50, max = 489),
+                                       value = 150, min = 10, max = 489),
                           
                           shiny::br(),
                           actionButton("runSM", "Run", class = "btn-success"),
@@ -587,7 +600,7 @@ ui <- tagList( # needed for shinyjs
                                      ),
                                      selectInput("an_es_input","Please select cancer",
                                                  choices = disinfo_vector2,
-                                                 selected = "breast cancer"),
+                                                 selected = "BRCA"),
                                      # selectInput("an_es_input_type","Step 2. Select annotation type",
                                      #             choices = c("Area Under Curve(AUC)" = "AUC",
                                      #                         "Enrichment Score(ES)" = "ES"),
@@ -712,7 +725,7 @@ ui <- tagList( # needed for shinyjs
                                                      includeMarkdown("www/info_Q7.md")
                                                      # uiOutput(outputId = "display_Q7") %>% withSpinner()
                                             ),
-                                            tabPanel("Q8: How to query drugs if I have a drug signature?",
+                                            tabPanel("Q8: How to query drugs if I have other type signature?",
                                                      includeMarkdown("www/info_Q8.md")
                                                      # uiOutput(outputId = "display_Q8") %>% withSpinner()
                                             ),
@@ -915,9 +928,14 @@ server <- function(input, output, session) {
   
   # 重置
   observeEvent(input$btn_landing, {
-    updateTabsetPanel(session, "intabset", selected = "help")
+    showModal(modalDialog(
+      includeMarkdown("www/info_homepage.md"),
+      title = "Guidence for New User",
+      size = "l",
+      easyClose = T
+    ))
   })
-  
+
   # 保存当前的sessioninfo用于部署包
   # sI <- (.packages())
   # save(sI,file = "sessioninfo.rdata")
