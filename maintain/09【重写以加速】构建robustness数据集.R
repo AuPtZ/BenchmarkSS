@@ -2,6 +2,7 @@
 
 library(dplyr)
 
+
 XSumScore <- function(refMatrix, queryUp, queryDown,topN = 500, pval = F){
   
   # print("XSumScore is using")
@@ -386,8 +387,9 @@ get_rb <- function(topn,refMatrix,threshold,file_input_string){
   # (2) Mean of the difference scores between top1 and top2 in outputs.
   # (3) Standard deviation (SD) of the difference between scores of top1 and top2 in output.
   
-  res1 <- purrr::map(as.character(1:ncol(refMatrix)) , get_rank_sp, 
-                     refMatrix = refMatrix,threshold = threshold,topn = topn) %>% 
+  res1 <- parallel::mclapply(as.character(1:ncol(refMatrix)), get_rank_sp, 
+                             refMatrix = refMatrix, threshold = threshold, topn = topn, 
+                             mc.cores = 32L) %>% # 指定并行使用的核心数
     purrr::list_rbind() %>%
     tibble::rownames_to_column(var = "input_id") %>% 
     readr::type_convert()
@@ -425,9 +427,9 @@ for (gg in file_list){
   }else{
     print(gg)
     load(paste0(dir_drug,gg))
-    res_topn <- parallel::mclapply(seq(from = 10, to = 90, by = 10),
-                                   get_rb,refMatrix = exp_GSE92742,
-                                   threshold = 0.585, mc.cores = 36L,file_input_string = gg)
+    res_topn <- lapply(seq(from = 10, to = 90, by = 10),
+                       get_rb, refMatrix = exp_GSE92742,
+                       threshold = 0.585, file_input_string = gg)
     res_topn2 <- res_topn %>% do.call(rbind,.)
     save(res_topn2,file = paste0(dir_robust,gg))
     print(gg)
