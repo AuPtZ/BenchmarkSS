@@ -49,7 +49,7 @@ if(T){
   output$display_an_es <- renderUI(initial_an_es)
   
   output$display_an_es_tb <- renderDataTable(DrugReHub %>% 
-                                                dplyr::filter(Indication == input$an_es_input) %>%
+                                                dplyr::filter(ID == input$an_es_input) %>%
                                                 dplyr::arrange(PubChem_Cid),
                                               server = FALSE,
                                               options = list(scrollX = TRUE,
@@ -64,7 +64,7 @@ if(T){
       
       # 这里需要修改！
       rio::export(DrugReHub %>% ungroup() %>% 
-                    dplyr::filter(Indication == input$an_es_input) %>%
+                    dplyr::filter(ID == input$an_es_input) %>%
                     dplyr::select(Compound.name),
                   file,format = "tsv",row.names = F)
       # 这里需要修改！

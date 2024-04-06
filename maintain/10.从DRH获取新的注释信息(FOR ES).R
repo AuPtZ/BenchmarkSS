@@ -36,17 +36,32 @@ DrugReHub <- df %>%
   filter(n() > 5) %>%
   ungroup()
 
-DrugReHub <- DrugReHub %>% 
-  dplyr::select(pert_iname, indication,pubchem_cid,smiles,InChIKey) %>% 
+
+# 替换名字与GDSC保持一致
+name_mapping <- rio::import("data_preload/annotation/name_mapping.txt")
+
+
+DrugReHub <- DrugReHub %>% left_join(name_mapping,by="indication") %>% 
+  dplyr::select(pert_iname,ID,newname, pubchem_cid,smiles,InChIKey) %>% 
   rename( "Compound.name"= "pert_iname",
-          "Indication" = "indication",
+          "Indication" = "newname",
           "PubChem_Cid" = "pubchem_cid",
           "SMILEs"= "smiles" ,
           "InChIKeys" = "InChIKey"
          )
 
-disinfo_vector2 = unique(DrugReHub$Indication)
 
-save(DrugReHub,file = "data_preload/annotation/DrugReHub.Rdata")
+
+disinfo_vector2 <- setNames(unique(DrugReHub$ID), unique(DrugReHub$Indication))
+
+
+
+freq = as.data.frame(table(DrugReHub$Indication)) %>% left_join(DrugReHub[,c("ID","Indication")] %>% distinct(), by = c("Var1"="Indication"))
+
+
+rio::export(freq,file = "S2.xlsx")
+
+DrugReHub <- DrugReHub %>% dplyr::select(-Indication)
+
+save(DrugReHub, file = "data_preload/annotation/DrugReHub.Rdata")
 save(disinfo_vector2,file = "data_preload/annotation/disinfo_vector2.Rdata")
-

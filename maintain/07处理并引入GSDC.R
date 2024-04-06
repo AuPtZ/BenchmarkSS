@@ -29,7 +29,7 @@ for (i in 1:nrow(GSDC_drug_info)){
 save(GSDC_drug_info,file = "data_preload/annotation/GSDC_drug_info_full.Rdata")
 
 
-
+load("data_preload/annotation/GSDC_drug_info_full.Rdata")
 # 处理GSDC数据库的IC50数据，
 GSDC_drug_info2 = GSDC_drug_info %>% dplyr::select(c("Name","PubCHEM","SMILEs", "InChIKeys")) %>% distinct()
 # 筛选名字重复但是pubchemcid不重复的
@@ -82,11 +82,11 @@ GSDC3_combined2 <- bind_rows(
     mutate(Compound.name = pert_iname) %>% dplyr::select(colnames(GSDC3)) %>% distinct()
 ) %>% distinct()
 
-GSDCIC50 = GSDC3_combined2
+GSDCIC50 = bind_rows(GSDC3_combined2, GSDC3 %>% dplyr::filter(!(PubChem_Cid %in% unique(GSDC3_combined2$PubChem_Cid))) )
 save(GSDCIC50,file="data_preload/annotation/GSDCIC50_update.Rdata")
 
 # 计算癌种的出现频次
-load("data_preload/annotation/GSDCIC50.Rdata")
+load("data_preload/annotation/GSDCIC50_update.Rdata")
 disinfo = rio::import("data_preload/annotation/disinfo.txt")
 unique_ids <- unique(GSDCIC50$TCGA_DESC)
 
