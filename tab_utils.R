@@ -197,7 +197,7 @@ write_in_db <- function(Jobid, Submitted_time, module_name,
     # print("写入一个表1")
     # print(Jobid)
     # print(table_res)
-    save(table_res,Jobid,file = "X1.rdata")
+    # save(table_res,Jobid,file = "X1.rdata")
     dbWriteTable(con_res, Jobid, table_res)
     # print("增加一个表1")
     dbAppendTable(con_res, "res", df1)
@@ -283,7 +283,7 @@ observeEvent(input$intro_res_sm_all, {
 
 # FOR EACH PAGE
 observeEvent(input$runBENdemo,{
-  load("demo/BEN1709818230GTS.rdata")
+  load("demo/BEN1712624574ZFX.rdata")
   output$display_bm <- renderUI({res_plot(job_info)})
 })
 observeEvent(input$runAPPdemo1,{
@@ -300,7 +300,7 @@ observeEvent(input$runAPPdemo3,{
 })
 # FOR JOB PAGE
 observeEvent(input$runjcBENdemo,{
-  load("demo/BEN1709818230GTS.rdata")
+  load("demo/BEN1712624574ZFX.rdata")
   output$display_jc <- renderUI({res_plot(job_info)})
 })
 observeEvent(input$runjcAPPdemo1,{

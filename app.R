@@ -73,8 +73,8 @@ ui <- tagList( # needed for shinyjs
                                   br(), #spacing
                                   
                                   lp_main_box(image_name= "landing_button_data_table",
-                                              button_name = 'jump_to_sm', title_box = "Application",
-                                              description = 'Query drugs using Signature Search methods'),
+                                              button_name = 'jump_to_sm', title_box = "Application (Query Drugs)",
+                                              description = 'Drugs repurposing using Signature Search methods'),
                                   
                            ),
                            
@@ -82,7 +82,7 @@ ui <- tagList( # needed for shinyjs
                            column(6, class="landing-page-column", br(), #spacing
                                   lp_main_box(image_name= "landing_button_other_profile",
                                               button_name = 'jump_to_an', title_box = "Annotation",
-                                              description = 'Obtain annotation of Drugs'),
+                                              description = 'Obtain preliminary annotation of Drugs from GSDC and DRH'),
                                   
                            ),
                          ),
@@ -413,7 +413,7 @@ ui <- tagList( # needed for shinyjs
                             condition = "input.sel_model_sm == 'SS_all' | input.sel_model_sm == 'singlemethod'" ,
                             
                             popify(
-                              shiny::strong(tagList("Step 4. upload signature",icon("circle-question"))),
+                              shiny::strong(tagList("Step 4. upload oncogenic signature",icon("circle-question"))),
                               title = NULL,
                               content = paste("Oncogenic signature (OGS) is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
                                               a(href = "demo/signature.txt", "demo signature file"),
@@ -517,7 +517,7 @@ ui <- tagList( # needed for shinyjs
                       sidebarLayout( 
                         sidebarPanel(  width = 4,
                           id = "job_page",
-                          textInput("jobid_input", label = "Input Jobid", value = "BEN1709818230GTS"),
+                          textInput("jobid_input", label = "Input Jobid", value = "BEN1712624574ZFX"),
                           shiny::br(),
                           actionButton("jobid_get","Retrieve", class = "btn-success"),
                           actionButton("reset_jc","Reset"),
@@ -529,16 +529,7 @@ ui <- tagList( # needed for shinyjs
                           actionButton("runjcAPPdemo3", "demo(SS_cross)"),
                           shiny::p(
                             br(),
-                            "Here we provide some jobid for demo result presentation.",
-                            br(),
-                            strong("BEN1709818230GTS")," for Benchmark(Both AUC and ES)",
-                            br(),
-                            strong("APP1709824554ILK")," for Application(Single method)",
-                            br(),
-                            strong("APP1709818711RFU")," for Application(SS_all)",
-                            br(),
-                            strong("APP1709818670ZIA")," for Application(SS_cross)", # APP1673762652RIC
-                            br(),
+                            # "Here we provide some jobid for demo result presentation.",
                             strong("Please be aware that the \"Quick Tip\" button may become unresponsive when you're viewing identical result types across two different modules, such as seeing AUC in both the Job Center and Benchmark, or SS_all in both the Job Center and Application."),
                             strong("In such cases, kindly use the \"Reset\" button within the respective module to reactivate the \"Quick Tip\" functionality in the other module.")
                           )
@@ -739,10 +730,10 @@ ui <- tagList( # needed for shinyjs
                                                      includeMarkdown("www/info_Q10.md")
                                                      # uiOutput(outputId = "display_Q10") %>% withSpinner()
                                             ),
-                                            tabPanel("Q11: Q&A collection from reviewers.",
-                                                     includeMarkdown("www/info_Q11.md")
-                                                     # uiOutput(outputId = "display_Q11") %>% withSpinner()
-                                            ),
+                                            # tabPanel("Q11: Q&A collection from reviewers.",
+                                            #          includeMarkdown("www/info_Q11.md")
+                                            #          # uiOutput(outputId = "display_Q11") %>% withSpinner()
+                                            # ),
                                             widths = c(4,8)
                                           ),
                                    ),

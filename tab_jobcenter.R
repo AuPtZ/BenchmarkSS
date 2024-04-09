@@ -52,7 +52,7 @@ observeEvent(input$jobid_get, {
       job_info =  read_from_db(input$jobid_input)
       # save(job_info,file = paste0("demo/",input$jobid_input,".rdata"))
       # print(paste0("job_info is",job_info))
-      
+
       if(length(job_info) <= 1){
         shinyWidgets::sendSweetAlert(
           session = session,
@@ -68,7 +68,7 @@ observeEvent(input$jobid_get, {
       req(job_info$yourmodule)
       
       res_plot(job_info)
-
+      # save(job_info,file = "demo/BEN1712624574ZFX.rdata")
       
     }) # isolate end
   })
