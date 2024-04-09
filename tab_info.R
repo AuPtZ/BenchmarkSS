@@ -4,7 +4,7 @@ output$dl_manual_pdf <- downloadHandler(
     return("manual of SSP.pdf")
   },
   content = function(file) {
-    file.copy("demo/manual of SSP V2.pdf", file)
+    file.copy("demo/manual of SSP V5.pdf", file)
 
   }
 )
