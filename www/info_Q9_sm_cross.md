@@ -4,7 +4,7 @@ Q3: both scores <0,
 Q4: Score~sig1~ <0 but Score~sig2~ >0).  
 Finally, It compute an integrated score (Score~sum~) by taking the square root of the absolute values:
 $$ 
-Score_{overall} =  \\sqrt{ abs(Score_{sig1} \\times Score_{sig2}) }
+Score_{sum} =  \\sqrt{ abs(Score_{sig1} \\times Score_{sig2}) }
 $$
 
 

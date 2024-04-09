@@ -8,7 +8,7 @@ In result of SS_all, here is a scatter plot with colored dots representing Top10
 In the corresponding table below, Here are four columns:  
 **Name**: the name of drugs ranked by Score.    
 **Score**: the score computed by SS_cross.    
-**Freq**: the number of SSM where the drugs are enriched in up (score of SSM > 0) or down (score of SSM < 0).  
+**Freq**: the number of SSM where the drugs are enriched in up (score of SSM > 0) or down (score of SSM < 0). In the plot, it corresponds to the "method," where the number of methods is represented by the size of the bubbles.  
 **Method**:  the name SSM where the drugs are enriched.  
 <div style="padding: 10px; text-align: center;">
 <img src="imginfoQ9_13.png" width = "80%" height = "80%" />
