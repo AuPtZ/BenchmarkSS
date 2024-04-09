@@ -23,7 +23,7 @@ df <- dbGetQuery(con, "SELECT * FROM 'res'")
 
 
 # Tables to keep
-keep_tables <- c('res', 'BEN1709818230GTS_AUC', 'BEN1709818230GTS_ES','APP1709818670ZIA')
+keep_tables <- c('res', 'BEN1712576850WMY_AUC', 'BEN1712576850WMY_ES','APP1712602690ATM')
 
 # Remove tables not in keep_tables
 for (table in tables) {

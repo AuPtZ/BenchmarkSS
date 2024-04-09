@@ -389,7 +389,7 @@ get_rb <- function(topn,refMatrix,threshold,file_input_string){
   
   res1 <- parallel::mclapply(as.character(1:ncol(refMatrix)), get_rank_sp, 
                              refMatrix = refMatrix, threshold = threshold, topn = topn, 
-                             mc.cores = 32L) %>% # 指定并行使用的核心数
+                             mc.cores = 64L) %>% # 指定并行使用的核心数
     purrr::list_rbind() %>%
     tibble::rownames_to_column(var = "input_id") %>% 
     readr::type_convert()
