@@ -234,12 +234,25 @@ get_ss_cross_res <- memoise::memoise(get_ss_cross_res_i,cache = local_cache_fold
 
 get_pval <- function(res_raw, drug_profile_null){
   
-  library(RSQLite)
-  conn <- dbConnect(RSQLite::SQLite(), "data_preload/nulldistribution/Nulldistribution.db")
+  # library(RSQLite)
+  # conn <- dbConnect(RSQLite::SQLite(), "data_preload/nulldistribution/Nulldistribution.db")
+  # 
+  # nulldistribution <- tbl(conn,drug_profile_null) %>% 
+  #   as_tibble() %>% 
+  #   rename_with(~make.names(., unique = TRUE))
   
-  nulldistribution <- tbl(conn,drug_profile_null) %>% 
+  load(paste0("NULLprocessing/NULLscore/",drug_profile_null))
+  
+  print((paste0("load nulldata is ", drug_profile_null)))
+  colnames(nulldistribution) <- 1:ncol(nulldistribution)
+  
+  ddd <- nulldistribution[,1:(ncol(nulldistribution) - 1)] %>% 
+    rownames_to_column(var = "drugname")
+  
+  nulldistribution <- ddd  %>% 
     as_tibble() %>% 
     rename_with(~make.names(., unique = TRUE))
+  save(nulldistribution,res_raw,file = "savemylife.Rdata")
   # nulldistribution <- nulldistribution %>% rename( "Score"= "Score.0")
   res_raw <- res_raw %>% rownames_to_column(var = "drugname")  %>% 
     inner_join(nulldistribution, by = "drugname") %>%
