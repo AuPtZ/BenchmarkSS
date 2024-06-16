@@ -3,21 +3,18 @@ The Robustness module enables the evaluation of signature search methods (SSMs) 
 In the **Benchmark module**, we tested SSMs based on drug annotations.  
 However, the drug repurposing of a rare cancer subtype can be challenging by insufficient drug annotations within pharmacotranscriptomic datasets (PTDs).   
 Hence, we test the performance of SSMs based on **drug self-retrieval**.  
-Briefly, we labeled these drugs from 1 to N (N being the order of drugs in one set).  
-For each drug profile, we extracted the top x up-regulated and top x down-regulated DEGs and defined them as a signature. This signature was then queried into one of the SSMs to obtain the matching scores of these drugs.  
-We then ranked the drugs based on their scores.  
-To evaluate the robustness of these methods at different x values, three parameters were used:  
-**1. Correlation (R) of the input and top1 output for all drugs.**  
-**2. The mean of the difference scores between the top 1 and top 2 outputs.**  
-**3. The standard deviation (SD) of the difference between the scores of the top 1 and top 2 outputs.**  
-Finally, the drug retrieval performance score can be expressed by the following formula:
+Drugs within the same pharmacotranscriptomic dataset in the LINCS L1000 dataset were assigned labels ranging from **1 to n**. For each drug, the top x up-regulated and top x down-regulated **(topN)** differentially expressed genes were extracted from its gene expression profile to form a signature.    
+These signatures were then used to query one of the five SSMs, yielding **drug-drug metrics across all drugs**. Subsequently, by **varying topN and SSM, we obtained drug-drug metrics for each drug's signature derived from its expression profile under different SSMs and topN values within dataset**. We then identified the top two scoring drug-drug metrics. To assess the robustness of these methods across various topN values, we employed three parameters:   
+**1. The correlation (R) between the input label and the top-ranked output label for all drugs, for example, drug1 input with drug1 top-ranked output, for specific topN and SSM.**   
+**2. The mean difference between the top two scores (Score~top1~ – Score~top2~) across outputs for a specific topN and SSM.**   
+**3. Standard deviation (SD) of all difference of top1 and top2 (Score~top1~ – Score~top2~) across outputs for a specific topN and SSM.**   
+Finally, the Performance score can be expressed by the following formula:  
 
 $$ 
 performance \ score = \frac{Mean × R}{SD} 
 $$
 
-A satisfactory performance is achieved if the method **accurately returns the input drug (stronger correlation)** and **distinguishes well between drugs (more significant difference score) and maintains good stability (lower SD)**.  
-In this study, we tested performance scores for the cases of x at 10, 20, 30 ... 480, respectively.   
+SSM and topN can be considered to have achieved satisfactory performance **if they can accurately identify the input active drug (stronger correlation), effectively differentiate between drugs (higher difference score), and demonstrate good stability (lower SD).** Hence, **a higher score means a better SSM and a suitable topN.** In this study, performance scores were evaluated for x values ranging from 10 to 480 in increments of 10.   
 
 Select a PTD to review the performance of SSMs, and a 'Quick Tip' will be available for result interpretation.  
 

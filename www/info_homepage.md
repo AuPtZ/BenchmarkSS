@@ -4,7 +4,7 @@
 SSP is structured around **three primary modules** and **four auxiliary modules**. You can access the respective modules by clicking on the navigation bar buttons or the module buttons on the home page.    
    
 <div style="padding: 10px; text-align: center;">
-<img src="imginfohomepage1.PNG" width = "100%" height = "100%" />
+<img src="imginfohomepage1.png" width = "100%" height = "100%" />
 </div>
 
 Each module is accompanied by a detailed guide on the right panel.   

@@ -375,10 +375,10 @@ ui <- tagList( # needed for shinyjs
                             ),
                             
                             popify(
-                              shiny::strong(tagList("Step 2b: Select direct to show:",icon("circle-question"))),
+                              shiny::strong(tagList("Step 2b: Select direction:",icon("circle-question"))),
                               title = NULL,
                               content = paste(
-                                "SS_all only compare the drugs in same direction. Down is default for oncogenic signature. Other type signature is not recommended."
+                                "SS_all only compare the drugs in same direction (scores both > 0 or < 0). Down is default for oncogenic signature. Other type signature is not recommended."
                               ),
                               trigger = "click", placement = "right"
                             ),
@@ -481,7 +481,7 @@ ui <- tagList( # needed for shinyjs
                           ),
                           # 设定使用排序多少的内容进行计算？
                           popify(
-                            shiny::strong(tagList("Step 5. Set read gene num(topN)",icon("circle-question"))),
+                            shiny::strong(tagList("Step 5. Set topN",icon("circle-question"))),
                             title = NULL,
                             content = paste("topN is determined by Benchmark or Robustness. <br>",
                                             "If this score is monotonically increasing in Benchmark and Robustness, ",
