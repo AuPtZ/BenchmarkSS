@@ -2,6 +2,8 @@
 
 SSP accepts annotation of **drug name**, and **the identifier of drug is drug name**. However, as there are other type of drug identifier (such as **PubChem Cid** and **InChIKeys**), The Converter page (for Drug) is introduced to provide an easy way to convert drugs to a compatible format.  
 On this page, you can upload your drug list, and view the converted drug names immediately.  
+**Please note that the Converter module only returns drugs that are within the PTDs.**  
+
 
 Here are some tips:  
 1. Converter accepts signature file with **no more than 1000 rows**.  

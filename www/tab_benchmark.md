@@ -26,13 +26,13 @@ Generally, it is advisable for users to select a PTD rich in drugs and closely r
 Utilizing multiple datasets is also recommended for users to enhance the reliability of the outcomes.  Drugs that are consistently ranked highly across different concentrations and treatment durations within PTDs have a higher likelihood of being effective.   
 
 **A oncogenic signature (OGS)** is a gene list header with **Gene** and **Log2FC**. It typically consists of differentially expressed genes derived from sequencing samples of cell or animal experiments, or patient cohorts, such as GEO, TCGA and ICGC.    
-Notably, It should contains **at least 10 genes exhibiting a log2FC > 0 and 10 < 0**. In addition, SSP accepts the genes in the format of **gene symbol** and assumes that input genes in OGS are **statistically significant (adjust p < 0.05)**.   
+The oncogenic signature should contain **at least 10 genes exhibiting a log2FC > 0 and 10 genes exhibiting a log2FC < 0**. Notably, the genes provided by user should be in the format of gene symbol and are **statistically significant (adjust p-value < 0.05 or FDR < 0.05)**, ensuring the significance of further analysis. 
 
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm1.2.png" width = "30%" height = "30%" />
 </div>
 
-Should your OGS contain genes formatted with alternative identifiers (such as EntrezID, Ensembl, UniProt, Gene name, etc.), proceed to the Converter page for the necessary conversion.    
+Should your OGS contain genes formatted with alternative identifiers (such as EntrezID, Ensembl, UniProt, Gene name, etc.), proceed to the Converter page for the necessary conversion. **Please note that the Converter module only returns genes that are within the PTDs.**  
 
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm1.3.png" width = "50%" height = "50%" />
@@ -43,7 +43,7 @@ Should your OGS contain genes formatted with alternative identifiers (such as En
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm2.png" width = "50%" height = "30%" />
 </div>
-② Independently compile annotations from various sources and upload them into the Converter module to get a format-compatible annotation file.   
+② Independently compile annotations from various sources and upload them into the Converter module to get a format-compatible annotation file. **Please note that the Converter module only returns drugs that are within the PTDs.**   
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm2.1.png" width = "50%" height = "50%" />
 </div>

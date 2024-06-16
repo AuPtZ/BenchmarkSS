@@ -378,7 +378,7 @@ ui <- tagList( # needed for shinyjs
                               shiny::strong(tagList("Step 2b: Select direct to show:",icon("circle-question"))),
                               title = NULL,
                               content = paste(
-                                "SS_all only compare the drugs in same direction."
+                                "SS_all only compare the drugs in same direction. Down is default for oncogenic signature. Other type signature is not recommended."
                               ),
                               trigger = "click", placement = "right"
                             ),

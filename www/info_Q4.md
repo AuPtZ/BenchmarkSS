@@ -17,7 +17,7 @@ Below are three approaches to identify promising drugs:
 
 As shown in the picture:   
 1. **Single method** : This approach queries drugs using a single SSM, adhering to the conventional method. Typically, a filter for differentially expressed genes (DEGs) is applied using abs(log2FC) > ±1.  
-2. **SS_cross** : This approach queries drugs using two signatures and ranks them based on overall scores (Score~Sum~). SS_Cross is designed to discover drugs with consensus between two OGS. if the OGS is related to specific pharmacological effects(for example, two OGS were generated from experiment treated with different drugs), these drugs prioritizing in results may be polypharmacological.  
+2. **SS_cross** : This approach queries drugs using two signatures and ranks them based on overall scores (Score~Sum~). The purpose of SS_cross is to identify drugs that exhibit same strong response across two distinct oncogenic signatures. This aligns with the current practice in omics data mining, where findings typically require validation across multiple datasets.  
 3. **SS_all** : This approach queries drugs across various SSMs and ranks them uniformly (either up or down) using Robust Rank Aggregation (RRA). SS_All considers all selected SSMs to identify the **greatest common drugs**.
 
 **Each approach entails distinct steps:**  
@@ -34,7 +34,7 @@ For the **Single Method**, the following four steps are required:
 
 For **SS_cross**, step ③ differs:  
 Two OGS files, along with their respective names, are necessary; the name of the first signature corresponds to the X-axis, while the second corresponds to the Y-axis in the resulting figure.     
-
+Other type signature is not recommended. **For more details, please refer to the help page, specifically Question 8.**   
 <div style="padding: 10px; text-align: center;">
 <img src="imgsm3.png" width = "70%" height = "70%" />
 </div>

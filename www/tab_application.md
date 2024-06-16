@@ -1,7 +1,7 @@
 ### Welcome to the Application module! 
 In this module, you can apply Signature Search methods (SSMs) to query promising drugs based on the OGS.   
 **A oncogenic signature (OGS)** is a gene list header with **Gene** and **Log2FC**. It typically consists of differentially expressed genes derived from sequencing samples of cell or animal experiments, or patient cohorts, such as GEO, TCGA and ICGC.    
-Notably, It should contains **at least 10 genes exhibiting a log2FC > 0 and 10 < 0**. In addition, SSP accepts the genes in the format of **gene symbol** and assumes that input genes in OGS are **statistically significant (adjust p < 0.05)**.   
+The oncogenic signature should contain **at least 10 genes exhibiting a log2FC > 0 and 10 genes exhibiting a log2FC < 0**. Notably, the genes provided by user should be in the format of gene symbol and are **statistically significant (adjust p-value < 0.05 or FDR < 0.05)**, ensuring the significance of further analysis. 
 
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm1.2.png" width = "30%" height = "30%" />
@@ -17,7 +17,7 @@ Below are three approaches to identify promising drugs:
 
 As shown in the picture:   
 1. **Single method** : This approach queries drugs using a single SSM, adhering to the conventional method. Typically, a filter for differentially expressed genes (DEGs) is applied using abs(log2FC) > ±1.  
-2. **SS_cross** : This approach queries drugs using two signatures and ranks them based on overall scores (Score~Sum~). SS_Cross is designed to discover drugs with consensus between two OGS. if the OGS is related to specific pharmacological effects(for example, two OGS were generated from experiment treated with different drugs), these drugs prioritizing in results may be polypharmacological.  
+2. **SS_cross** : This approach queries drugs using two signatures and ranks them based on overall scores (Score~Sum~). The purpose of SS_cross is to identify drugs that exhibit same strong response across two distinct oncogenic signatures. This aligns with the current practice in omics data mining, where findings typically require validation across multiple datasets.    
 3. **SS_all** : This approach queries drugs across various SSMs and ranks them uniformly (either up or down) using Robust Rank Aggregation (RRA). SS_All considers all selected SSMs to identify the **greatest common drugs**.
 
 **Each approach entails distinct steps:**  
@@ -40,7 +40,7 @@ Two OGS files, along with their respective names, are necessary; the name of the
 </div>
 
 For **SS_all**, step ① varies:    
-You may choose a selection of SSMs and a ranking direction for the drugs. Generally, if an oncogenic signature is uploaded, select **'down'**.   
+You may choose a selection of SSMs and a ranking direction for the drugs. Generally, if an oncogenic signature is uploaded, select **'down'**.Other type signature is not recommended. **For more details, please refer to the help page, specifically Question 8.**    
 
 <div style="padding: 10px; text-align: center;">
 <img src="imgsm4.png" width = "70%" height = "70%" />
