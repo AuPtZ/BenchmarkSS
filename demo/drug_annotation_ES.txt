@@ -1,4 +1,4 @@
-Compound.name
+Compound_name
 axitinib
 belinostat
 brivanib

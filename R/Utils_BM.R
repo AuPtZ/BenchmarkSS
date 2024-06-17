@@ -240,7 +240,7 @@ get_dr_auc_i <- function(IC50_drug,i.need.logfc,sel_exp,sel_ss,cores){
   
   load(paste0("data_preload/drugexp/",sel_exp))
   
-  IC50_GSE92742 <- exp_GSE92742[, colnames(exp_GSE92742) %in% IC50_drug$`Compound.name`,drop=F]
+  IC50_GSE92742 <- exp_GSE92742[, colnames(exp_GSE92742) %in% IC50_drug$`Compound_name`,drop=F]
   
   patch_auc_sum <- parallel::mclapply(seq(from=10, to= get_topn(i.need.logfc) , by=1),
                                       get_auc_all,
@@ -271,7 +271,7 @@ get_dr_es_i <- function(FDA_drug, i.need.logfc, sel_exp,sel_ss,cores){
                                      get_es_all,
                                      refMatrix = exp_GSE92742,
                                      sig_input = i.need.logfc,
-                                     drug_sig = FDA_drug$`Compound.name`,
+                                     drug_sig = FDA_drug$`Compound_name`,
                                      get_ss = sel_ss,
                                      mc.cores = cores)
   
@@ -299,7 +299,7 @@ process_raw1 <- function(res_ss_raw, drug_info) {
   roc1 <- tryCatch({
     # 原有的函数内容
     res_ss <- res_ss_raw %>% rownames_to_column(var = "pert_iname") %>%
-      left_join(drug_info, by = c("pert_iname" = "Compound.name")) %>%
+      left_join(drug_info, by = c("pert_iname" = "Compound_name")) %>%
       dplyr::select(c("pert_iname", "Group", "Score")) %>%
       distinct(pert_iname, .keep_all = TRUE) %>%
       column_to_rownames(var = "pert_iname") %>%

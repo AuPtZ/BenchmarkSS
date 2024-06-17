@@ -336,11 +336,11 @@ judge_bm <- function(){
   # 读取文件以后判定
   if(!is.null(input$file_FDA)){
     fda1 <-  rio::import(input$file_FDA$datapath)
-    if(!all(c("Compound.name" ) %in% colnames(fda1))){
+    if(!all(c("Compound_name" ) %in% colnames(fda1))){
       sendSweetAlert(
         session = session,
         title = "Error...",
-        text = 'Please make sure your FDA table contains column "Compound.name" !',
+        text = 'Please make sure your FDA table contains column "Compound_name" !',
         type = "error"
       )
       return(F)
@@ -349,11 +349,11 @@ judge_bm <- function(){
   
   if(!is.null(input$file_IC50)){
     ic501 <-  rio::import(input$file_IC50$datapath)
-    if(!all(c("Compound.name","Group" ) %in% colnames(ic501))){
+    if(!all(c("Compound_name","Group" ) %in% colnames(ic501))){
       sendSweetAlert(
         session = session,
         title = "Error...",
-        text = 'Please make sure your AUC table contains column "Compound.name" and "Group" !',
+        text = 'Please make sure your AUC table contains column "Compound_name" and "Group" !',
         type = "error"
       )
       return(F)
@@ -383,11 +383,11 @@ output$dl_drug_ann_bm <- downloadHandler(
   content = function(file) {
     load(paste0("data_preload/drugexp/",input$sel_experiment))
     # df_ann_export1 <- data.frame(
-    #   "Compound.name" =   unique(sig_GSE92742$pert_iname),
+    #   "Compound_name" =   unique(sig_GSE92742$pert_iname),
     #   "Group" = rep(c("Effective","Ineffective"), times=c(50,length(unique(sig_GSE92742$pert_iname)) - 50))
     # )
     df_ann_export1 <- data.frame(
-      "Compound.name" =   unique(sig_GSE92742$pert_iname),
+      "Compound_name" =   unique(sig_GSE92742$pert_iname),
       "Group" = c("Effective","Ineffective",rep(NA,times=length(unique(sig_GSE92742$pert_iname)) - 2))
     )
     

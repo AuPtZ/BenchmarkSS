@@ -1,4 +1,4 @@
-Compound.name	Group
+Compound_name	Group
 Nifurtimox	Effevtive
 5-hydroxytryptophan	Effevtive
 Hemado	Effevtive

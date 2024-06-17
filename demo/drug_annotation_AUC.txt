@@ -1,4 +1,4 @@
-Compound.name	Group
+Compound_name	Group
 afatinib	Effective
 amonafide	Effective
 amperozide	Ineffective

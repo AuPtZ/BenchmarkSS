@@ -211,7 +211,7 @@ if(T){
                                                mutate(inputlist, net_drug_name =  tolower(gsub("[- ]", "", inputlist))),
                                              CMAP_druginfo,by = "net_drug_name") %>% 
               dplyr::select(any_of(c("inputlist", "pert_iname","Group")))  %>% 
-              dplyr::rename("Compound.name" = "pert_iname") %>% distinct() 
+              dplyr::rename("Compound_name" = "pert_iname") %>% distinct() 
             
 
             
@@ -223,7 +223,7 @@ if(T){
             # print(input$format_ctd)
             rv_ctd$df_ctd = left_join(df_ctd, CMAP_druginfo, by=c("inputlist" = input$format_ctd)) %>% 
               dplyr::select(any_of(c("inputlist", "pert_iname","Group")))   %>% 
-              dplyr::rename("Compound.name" = "pert_iname") %>% distinct() 
+              dplyr::rename("Compound_name" = "pert_iname") %>% distinct() 
 
 
             
@@ -232,7 +232,7 @@ if(T){
           
         }, error = function(e) {
 
-          rv_ctd$df_ctd$Compound.name <- NA
+          rv_ctd$df_ctd$Compound_name <- NA
         }
         )
         
@@ -241,7 +241,7 @@ if(T){
         output$display_ctd <-  renderUI({ # renderUI 
           tagList(
             shiny::h3("Result"),
-            shiny::strong(paste(round(sum(!is.na(rv_ctd$df_ctd$Compound.name))/nrow(df_ctd) *100,digits = 1) ,
+            shiny::strong(paste(round(sum(!is.na(rv_ctd$df_ctd$Compound_name))/nrow(df_ctd) *100,digits = 1) ,
                                 "% were successfully mapped. More than 100% mapped means there may be cross-mapping." )),
             shiny::p(),
             shiny::strong("You may check the input and output and download by click the button."),

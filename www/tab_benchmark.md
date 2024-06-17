@@ -52,7 +52,7 @@ Should your OGS contain genes formatted with alternative identifiers (such as En
 
 *1. AUC*: The AUC aims to assess whether the SSM can effectively distinguish between effective and ineffective drugs. This metric is applicable to drug annotations derived from large-scale experimental screenings, such as determining drug efficacy based on whether IC~50~ value < 10μM.     
 We recommend that the file comprises at least **50 drugs** and **clearly denotes both two categories of labels: 'Effective' and 'Ineffective'.)**.    
-The file should appear as follows (header with **Compound.name** and **Group**) and upload in step 4a:    
+The file should appear as follows (header with **Compound_name** and **Group**) and upload in step 4a:    
 
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm3.png" width = "30%" height = "30%" />

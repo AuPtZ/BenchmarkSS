@@ -1,4 +1,4 @@
-Compound.name	Group
+Compound_name	Group
 ABT-737	Effective
 acetylcysteine	Ineffective
 afatinib	Effective

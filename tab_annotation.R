@@ -29,7 +29,7 @@ if(T){
 
         rio::export(GSDCIC50 %>% ungroup() %>% 
                       dplyr::filter(TCGA_DESC == input$an_auc_input) %>%
-                      dplyr::select(c(Compound.name,Group)),
+                      dplyr::select(c(Compound_name,Group)),
                     file,format = "tsv",row.names = F)
 
     }
@@ -65,7 +65,7 @@ if(T){
       # 这里需要修改！
       rio::export(DrugReHub %>% ungroup() %>% 
                     dplyr::filter(ID == input$an_es_input) %>%
-                    dplyr::select(Compound.name),
+                    dplyr::select(Compound_name),
                   file,format = "tsv",row.names = F)
       # 这里需要修改！
       
