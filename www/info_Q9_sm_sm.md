@@ -8,8 +8,8 @@ In the corresponding table below, Here are four columns:
 **Name**: Drug name in pharmacotranscriptomic dataset (PTD).     
 **Score**: Score of drugs computed by SSM.
 **Scale_score**:  Score are scaled from -1 to 1 for better comparison.  
-**pvalue**: p value of drugs computed by SSM using a null distribution. For every PTD and SSM, we construct a corresponding null distribution by randomly sampling gene expression values and gene names from the PTD data. This process is iterated to generate 2000 null signatures, which are then scored using corresponding SSM.
-**p.adjust**: adjust p value of drugs computed by SSM. 
+**P_value**: p value of drugs computed by SSM using a null distribution. For every PTD and SSM, we construct a corresponding null distribution by randomly sampling gene expression values and gene names from the PTD data. This process is iterated to generate 2000 null signatures, which are then scored using corresponding SSM.
+**P_adjust**: adjust p value of drugs computed by SSM. 
 **Direction**: the drug show potential to input signature. In breif, <0 means "down" and >0 means "up".
 
 <div style="padding: 10px; text-align: center;">

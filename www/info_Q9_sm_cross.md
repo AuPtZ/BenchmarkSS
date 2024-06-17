@@ -16,11 +16,11 @@ In result of SS_all, here is a scatter plot with colored dots representing drugs
 In the corresponding table below, Here are four columns:  
 **Name**: the name of drugs ranked by ScoreSum.  
 **ScoreSum**: The metric ScoreSum is defined as the arithmetic square root of the product of the absolute values of two scores.  
-**pvalue**: the nominpal p value based on the two p values of drugs compute by SSM. We use Fisher's method to combine the two pvalue and get a nominal p value.  
-**Scale_score.x** and **Scale_score.y**: two scores of drugs compute by SSM.  
+**P_value**: the nominpal p value based on the two p values of drugs compute by SSM. We use Fisher's method to combine the two pvalue and get a nominal p value.  
+**Scale_score_x** and **Scale_score_y**: two scores of drugs compute by SSM.  
 
 <div style="padding: 10px; text-align: center;">
-<img src="imginfoQ9_13.png" width = "80%" height = "80%" />
+<img src="imginfoQ9_16.png" width = "80%" height = "80%" />
 </div>
 
 Generally, Since SSP accepts input of oncogenic signatures, which represent the status of different cancer cohorts or oncogenic processes, each quadrant in SS_cross carries a distinct interpretation: **Q1 (both >0) signifies drugs that are agonistic to two oncogenic signatures, Q2 (x-axis <0 but y-axis >0) and Q4 (x-axis <0 but y-axis >0) denote drugs that are agonistic to one oncogenic signature but potentially therapeutic for another. Q3 (both <0) represents drugs that may be therapeutically beneficial against oncogenic signatures**. Consequently, **drugs in Q3 are recommended for repurposing**.   

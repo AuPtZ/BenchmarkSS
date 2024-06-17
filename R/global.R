@@ -150,9 +150,13 @@ rename_col_rules <- c("XSum" = "auc_xsum",
                       "XCos" = "cos",
                       "Name" = "name",
                       "ScoreSum" = "cal_label",
-                      "pvalue" = "nominal_padj",
+                      "P_value" = "nominal_padj",
                       "Block" = "block",
-                      "Method" = "method"
+                      "Method" = "method",
+                      "P_adjust" = "p.adjust",
+                      "Scale_score_x" = "Scale_score.x",
+                      "Scale_score_y" = "Scale_score.y",
+                      "P_value" = "pvalue"
                       
                     
 )
