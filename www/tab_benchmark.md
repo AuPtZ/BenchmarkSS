@@ -43,7 +43,7 @@ Should your OGS contain genes formatted with alternative identifiers (such as En
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm2.png" width = "50%" height = "30%" />
 </div>
-② Independently compile annotations from various sources and upload them into the Converter module to get a format-compatible annotation file. **Please note that the Converter module only returns drugs that are within the PTDs.**   
+② Independently compile annotations from various sources and upload them into the Converter module to get a format-compatible annotation file. **Please note that the Converter module only returns drugs that are within the PTDs. In the current version, we have adopted the established practice of utilizing the 978 landmark genes from the LINCS L1000 database, as seen in prior research (PMID:28699633,35191375).**      
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm2.1.png" width = "50%" height = "50%" />
 </div>
