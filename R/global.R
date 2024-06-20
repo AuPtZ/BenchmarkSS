@@ -36,6 +36,7 @@ library(memoise)
 load("data_preload/others/drug_num_list1.rdata") # 读取数据内容
 load("data_preload/annotation/disinfo_vector.Rdata")
 load("data_preload/annotation/disinfo_vector2.Rdata")
+load("data_preload/others/landmark.rdata")
 
 #Creating big boxes for main tabs in the landing page (see ui for formatting css)
 lp_main_box <- function(title_box, image_name, button_name, description) {

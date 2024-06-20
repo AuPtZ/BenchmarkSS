@@ -44,6 +44,8 @@ if(T){
             OrgDb = org.Hs.eg.db,
             drop = F
           )$SYMBOL
+          # print(landmark)
+          rv_ctg$df_ctg <- rv_ctg$df_ctg[rv_ctg$df_ctg$Gene %in% landmark,]
           
         }, error = function(e) {
           rv_ctg$df_ctg$Gene <- NA
