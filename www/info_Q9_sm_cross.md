@@ -1,4 +1,4 @@
-SS_cross evaluate the polypharmacological effect of drugs. It computes the scores of drugs for two disparate OGS Score~sig1~ and Score~sig2~ via a specific SSM. Then these drugs are classified into four quadrant. (Q1: both scores >0, 
+SS_cross evaluate the polypharmacological effect of drugs. It computes the scores of drugs for two disparate oncogenic signature Score~sig1~ and Score~sig2~ via a specific SSM. Then these drugs are classified into four quadrant. (Q1: both scores >0, 
 Q2: Score~sig1~ >0 but Score~sig2~ <0, 
 Q3: both scores <0, 
 Q4: Score~sig1~ <0 but Score~sig2~ >0).  
@@ -8,7 +8,7 @@ Score_{sum} =  \\sqrt{ abs(Score_{sig1} \\times Score_{sig2}) }
 $$
 
 
-In result of SS_all, here is a scatter plot with colored dots representing drugs from pharmacotranscriptomic dataset (PTD). These drugs are denoted in four quadrants: **Q1 (both >0) colored pink**,**Q2 (x-axis <0 but y-axis >0) colored dark Khaki**, **Q3(both <0) colored green**, **Q4 (x-axis <0 but y-axis >0) colored dark Cyan**, notably, if a drug has a score of zero, it would be on the axis and colored grey.  
+In result of SS_all, here is a scatter plot with colored dots representing drugs from pharmacotranscriptomic dataset. These drugs are denoted in four quadrants: **Q1 (both >0) colored pink**,**Q2 (x-axis <0 but y-axis >0) colored dark Khaki**, **Q3(both <0) colored green**, **Q4 (x-axis <0 but y-axis >0) colored dark Cyan**, notably, if a drug has a score of zero, it would be on the axis and colored grey.  
 <div style="padding: 10px; text-align: center;">
 <img src="imginfoQ9_11.gif" width = "80%" height = "80%" />
 </div>

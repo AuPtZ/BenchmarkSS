@@ -1,6 +1,6 @@
 ### Q&A collection from reviewers
-#### 1. How the oncogenic signatures (OGS) were determined ?
-In SSP, oncogenic signatures (OGS) is defined as a gene list with log2FC, which is derived from gene expression profile from tumor cell lines or cancer patient cohorts. 
+#### 1. How the oncogenic signatures were determined ?
+In SSP, oncogenic signatures is defined as a gene list with log2FC, which is derived from gene expression profile from tumor cell lines or cancer patient cohorts. 
 We recommend utilizing sequencing data from patient cohorts, such as **ICGC/TCGA/GEO**, or from cell lines, and employing differential expression analysis to obtain the signature (with log2FC). 
 
 #### 2. How the user should go about selecting a drug profile?

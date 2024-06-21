@@ -157,7 +157,7 @@ ui <- tagList( # needed for shinyjs
                           popify(
                             shiny::strong(tagList("Step 3. upload oncogenic signature",icon("circle-question"))),
                             title = NULL,
-                            content = paste("oncogenic signature (OGS) is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
+                            content = paste("oncogenic signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
                                           a(href = "demo/signature.txt", "demo signature file"),
                                           "is provided.<br>If you have other identifier (e.g. EntrezID), please go to",
                                           as.character(strong(" converter page"))," to convert your signature."
@@ -415,7 +415,7 @@ ui <- tagList( # needed for shinyjs
                             popify(
                               shiny::strong(tagList("Step 4. upload oncogenic signature",icon("circle-question"))),
                               title = NULL,
-                              content = paste("Oncogenic signature (OGS) is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
+                              content = paste("Oncogenic signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
                                               a(href = "demo/signature.txt", "demo signature file"),
                                               "is provided.<br>If you have other identifier (e.g. EntrezID), please go to",
                                               as.character(strong(" converter page"))," to convert your signature."
@@ -439,9 +439,9 @@ ui <- tagList( # needed for shinyjs
                             
                             # 上传signature (特殊情况)
                             popify(
-                              shiny::strong(tagList("Step 4a: upload OGS 1 and name it",icon("circle-question"))),
+                              shiny::strong(tagList("Step 4a: upload oncogenic signature 1 and name it",icon("circle-question"))),
                               title = NULL,
-                              content = paste("oncogenic signature (OGS) is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
+                              content = paste("oncogenic signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
                                               a(href = "demo/signature.txt", "demo signature file"),
                                               "is provided.<br>If you have other identifier (e.g. EntrezID), please go to",
                                               as.character(strong(" converter page"))," to convert your signature."
@@ -460,9 +460,9 @@ ui <- tagList( # needed for shinyjs
                             ),
                             
                             popify(
-                              shiny::strong(tagList("Step 4b: upload OGS 2 and name it",icon("circle-question"))),
+                              shiny::strong(tagList("Step 4b: upload oncogenic signature 2 and name it",icon("circle-question"))),
                               title = NULL,
-                              content = paste("oncogenic signature (OGS) is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
+                              content = paste("oncogenic signature is a gene list (gene symbol) with log2FC, derived from gene expression profile from cell lines or patient cohorts. A", 
                                               a(href = "demo/signature2.txt", "demo signature file"),
                                               "is provided.<br>If you have other identifier (e.g. EntrezID), please go to",
                                               as.character(strong(" converter page"))," to convert your signature."
@@ -485,7 +485,7 @@ ui <- tagList( # needed for shinyjs
                             title = NULL,
                             content = paste("topN is determined by Benchmark or Robustness. <br>",
                                             "If this score is monotonically increasing in Benchmark and Robustness, ",
-                                            "we recommend setting topN to length of OGS."),
+                                            "we recommend setting topN to length of oncogenic signature."),
                             trigger = "click",
                             placement = "right"
                           ),
@@ -757,11 +757,11 @@ ui <- tagList( # needed for shinyjs
                                           downloadButton("dl_demo","Download Demo", class = "btn-success"),
                                           downloadButton("dl_script","Download Script", class = "btn-success"),
                                           shiny::br(),
-                                          shiny::h3("Download curated pharmacotranscriptomic datasets (PTDs)"),
-                                          pickerInput("sel_experiment_dl", label = "Select a specific PTD", 
+                                          shiny::h3("Download curated pharmacotranscriptomic datasets"),
+                                          pickerInput("sel_experiment_dl", label = "Select a specific pharmacotranscriptomic dataset", 
                                                       choices=drug_num_list1 , selected = "LINCS_HEPG2_10 µM_6 h.rdata"
                                           ),
-                                          downloadButton("dl_drug_exp","Download PTD", class = "btn-success"),
+                                          downloadButton("dl_drug_exp","Download pharmacotranscriptomic dataset", class = "btn-success"),
                                           downloadButton("dl_drug_ann","Download Drug and Experiment info", class = "btn-success"),
                                    ),
                                    column(2,

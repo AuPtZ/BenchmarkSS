@@ -8,12 +8,12 @@ Please follow the steps below to perform job:
 
 **1. Select a pharmacotranscriptomic dataset (PTD).**  
 **2. Select at least two SSMs for testing**  
-**3. Upload a oncogenic signature (OGS) representing a specific cancer.**   
+**3. Upload a oncogenic signature representing a specific cancer.**   
 **4. Upload at least one type Drug annotation file indicating the drug's efficacy in experiments or its approval status in clinic (e.g., FDA-approved).**    
 
 
 #### Demo file provided   
-Please be aware that OGS and drug annotation files can be accessed through the help button adjacent to the **steps in the left panel**.    
+Please be aware that oncogenic signature and drug annotation files can be accessed through the help button adjacent to the **steps in the left panel**.    
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm1.1.gif" width = "50%" height = "40%" />
 </div>
@@ -25,14 +25,14 @@ The SSP incorporates PTDs encompassing nine tumor cell lines across various conc
 Generally, it is advisable for users to select a PTD rich in drugs and closely related to the cancer of interest. PTDs obtained at 6 hours with 10μM or at 24 hours with 10μM are commonly recommended.  
 Utilizing multiple datasets is also recommended for users to enhance the reliability of the outcomes.  Drugs that are consistently ranked highly across different concentrations and treatment durations within PTDs have a higher likelihood of being effective.   
 
-**A oncogenic signature (OGS)** is a gene list header with **Gene** and **Log2FC**. It typically consists of differentially expressed genes derived from sequencing samples of cell or animal experiments, or patient cohorts, such as GEO, TCGA and ICGC.    
+**A oncogenic signature** is a gene list header with **Gene** and **Log2FC**. It typically consists of differentially expressed genes derived from sequencing samples of cell or animal experiments, or patient cohorts, such as GEO, TCGA and ICGC.    
 The oncogenic signature should contain **at least 10 genes exhibiting a log2FC > 0 and 10 genes exhibiting a log2FC < 0**. Notably, the genes provided by user should be in the format of gene symbol and are **statistically significant (adjust p-value < 0.05 or FDR < 0.05)**, ensuring the significance of further analysis. 
 
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm1.2.png" width = "30%" height = "30%" />
 </div>
 
-Should your OGS contain genes formatted with alternative identifiers (such as EntrezID, Ensembl, UniProt, Gene name, etc.), proceed to the Converter page for the necessary conversion. **Please note that the Converter module only returns genes that are within the PTDs.**  
+Should your oncogenic signature contain genes formatted with alternative identifiers (such as EntrezID, Ensembl, UniProt, Gene name, etc.), proceed to the Converter page for the necessary conversion. **Please note that the Converter module only returns genes that are within the PTDs.**  
 
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm1.3.png" width = "50%" height = "50%" />

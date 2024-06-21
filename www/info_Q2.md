@@ -7,13 +7,13 @@ Please follow the steps below to perform job:
 <img src="imgbm1.png" width = "80%" height = "40%" />
 </div>
 
-**1. Select a pharmacotranscriptomic dataset (PTD).**  
+**1. Select a pharmacotranscriptomic dataset.**  
 **2. Select at least two SSMs for testing**  
-**3. Upload a oncogenic signature (OGS) representing a specific cancer.**   
+**3. Upload a oncogenic signature representing a specific cancer.**   
 **4. Upload at least one type Drug annotation file indicating the drug's efficacy in experiments or its approval status in clinic (e.g., FDA-approved).**    
 
 #### Demo file provided   
-Please be aware that OGS and drug annotation files can be accessed through the help button adjacent to the **steps in the left panel**.    
+Please be aware that oncogenic signature and drug annotation files can be accessed through the help button adjacent to the **steps in the left panel**.    
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm1.1.gif" width = "50%" height = "40%" />
 </div>
@@ -21,19 +21,19 @@ SSP also offer a package of demo files in Info-data page.
 
 
 #### Details of each step
-**Pharmacotranscriptomic dataset (PTD)**, originally sourced from LINCS L1000 (GSE92742), is presented in an n × m matrix where n represents the drug names and m denotes a list of gene symbols along with their corresponding log2FC values.   
-The SSP incorporates PTDs encompassing nine tumor cell lines across various concentrations and treatment durations.     
-Generally, it is advisable for users to select a PTD rich in drugs and closely related to the cancer of interest. PTDs obtained at 6 hours with 10μM or at 24 hours with 10μM are commonly recommended.  
-Utilizing multiple datasets is also recommended for users to enhance the reliability of the outcomes.  Drugs that are consistently ranked highly across different concentrations and treatment durations within PTDs have a higher likelihood of being effective.   
+**Pharmacotranscriptomic dataset**, originally sourced from LINCS L1000 (GSE92742), is presented in an n × m matrix where n represents the drug names and m denotes a list of gene symbols along with their corresponding log2FC values.   
+The SSP incorporates pharmacotranscriptomic datasets encompassing nine tumor cell lines across various concentrations and treatment durations.     
+Generally, it is advisable for users to select a pharmacotranscriptomic dataset rich in drugs and closely related to the cancer of interest. pharmacotranscriptomic datasets obtained at 6 hours with 10μM or at 24 hours with 10μM are commonly recommended.  
+Utilizing multiple datasets is also recommended for users to enhance the reliability of the outcomes.  Drugs that are consistently ranked highly across different concentrations and treatment durations within pharmacotranscriptomic datasets have a higher likelihood of being effective.   
 
-**A oncogenic signature (OGS)** is a gene list header with **Gene** and **Log2FC**. It typically consists of differentially expressed genes derived from sequencing samples of cell or animal experiments, or patient cohorts, such as GEO, TCGA and ICGC.    
+**A oncogenic signature** is a gene list header with **Gene** and **Log2FC**. It typically consists of differentially expressed genes derived from sequencing samples of cell or animal experiments, or patient cohorts, such as GEO, TCGA and ICGC.    
 The oncogenic signature should contain **at least 10 genes exhibiting a log2FC > 0 and 10 genes exhibiting a log2FC < 0**. Notably, the genes provided by user should be in the format of gene symbol and are **statistically significant (adjust p-value < 0.05 or FDR < 0.05)**, ensuring the significance of further analysis.    
 
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm1.2.png" width = "30%" height = "30%" />
 </div>
 
-Should your OGS contain genes formatted with alternative identifiers (such as EntrezID, Ensembl, UniProt, Gene name, etc.), proceed to the Converter page for the necessary conversion.    
+Should your oncogenic signature contain genes formatted with alternative identifiers (such as EntrezID, Ensembl, UniProt, Gene name, etc.), proceed to the Converter page for the necessary conversion.    
 
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm1.3.png" width = "50%" height = "50%" />
@@ -93,9 +93,9 @@ In the corresponding table below, the row with the TopN value associated with th
 <img src="imginfoQ9_2.png" width = "80%" height = "80%" />
 </div>
 
-**if you only upload a annotation for AUC, we recommend user select SSMs and topN with highest scores for later query in Application module. If the SSM in result exhibits monotonic increase, it is recommended to directly set the length of OGS to TopN for later query in Application module.**  
+**if you only upload a annotation for AUC, we recommend user select SSMs and topN with highest scores for later query in Application module. If the SSM in result exhibits monotonic increase, it is recommended to directly set the length of oncogenic signature to TopN for later query in Application module.**  
 **if you upload both annotation for AUC and ES, we recommend user select SSMs and topN with relative high scores in both AUC and ES for later query in Application module. For example, topN in the top 10 of result ES and AUC is acceptable.**  
-**if you want to use SS_cross, it is important to note that we recommend each OGS be evaluated in the Benchmark module. If the optimal topN and SSM for two OGSs are identical or close (with high scores in the same topN or a high ranking in SSM), this indicates a strong match. If not, it is advisable to replace the OGSs.** 
+**if you want to use SS_cross, it is important to note that we recommend each oncogenic signature be evaluated in the Benchmark module. If the optimal topN and SSM for two oncogenic signatures are identical or close (with high scores in the same topN or a high ranking in SSM), this indicates a strong match. If not, it is advisable to replace the oncogenic signatures.** 
 **if you want to use SS_all, just select the SSMs with high performance over minority in AUC.**   
 
 
@@ -110,8 +110,8 @@ In the corresponding table below, the row with the TopN value associated with th
 <img src="imginfoQ9_4.png" width = "80%" height = "80%" />
 </div>
 
-**if you only upload a annotation for ES, we recommend user select SSMs and topN with lowest scores for later query in Application module. If the SSM in result exhibits monotonic decrease, it is recommended to directly set the length of OGS to TopN for later query in Application module.**  
-**if you only upload a annotation for ES, we recommend user select SSMs and topN with lowest scores for later query in Application module. If the SSM in result exhibits monotonic decrease, it is recommended to directly set the length of OGS to TopN for later query in Application module.**  
+**if you only upload a annotation for ES, we recommend user select SSMs and topN with lowest scores for later query in Application module. If the SSM in result exhibits monotonic decrease, it is recommended to directly set the length of oncogenic signature to TopN for later query in Application module.**  
+**if you only upload a annotation for ES, we recommend user select SSMs and topN with lowest scores for later query in Application module. If the SSM in result exhibits monotonic decrease, it is recommended to directly set the length of oncogenic signature to TopN for later query in Application module.**  
 **if you upload both annotation for AUC and ES, we recommend user select SSMs and topN with relative high scores in UC and low in ES for later query in Application module. For example, topN in the top 10 of result of ES and AUC is acceptable.**  
-**if you want to use SS_cross, it is important to note that we recommend each OGS be evaluated in the Benchmark module. If the optimal topN and SSM for two OGSs are identical or close (with high scores in the same topN or a high ranking in SSM), this indicates a strong match. If not, it is advisable to replace the OGSs.** 
+**if you want to use SS_cross, it is important to note that we recommend each oncogenic signature be evaluated in the Benchmark module. If the optimal topN and SSM for two oncogenic signatures are identical or close (with high scores in the same topN or a high ranking in SSM), this indicates a strong match. If not, it is advisable to replace the oncogenic signatures.** 
 **if you want to use SS_all, just select the SSMs with high performance over minority in ES.**   

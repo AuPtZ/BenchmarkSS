@@ -1,13 +1,13 @@
 ### How to query drug in Application and interpret the results?
-In this module, you can apply Signature Search methods (SSMs) to query promising drugs based on the OGS.   
-**A oncogenic signature (OGS)** is a gene list header with **Gene** and **Log2FC**. It typically consists of differentially expressed genes derived from sequencing samples of cell or animal experiments, or patient cohorts, such as GEO, TCGA and ICGC.    
-Notably, It should contains **at least 10 genes exhibiting a log2FC > 0 and 10 < 0**. In addition, SSP accepts the genes in the format of **gene symbol** and assumes that input genes in OGS are **statistically significant (adjust p < 0.05)**.   
+In this module, you can apply Signature Search methods (SSMs) to query promising drugs based on the oncogenic signature.   
+**A oncogenic signature** is a gene list header with **Gene** and **Log2FC**. It typically consists of differentially expressed genes derived from sequencing samples of cell or animal experiments, or patient cohorts, such as GEO, TCGA and ICGC.    
+Notably, It should contains **at least 10 genes exhibiting a log2FC > 0 and 10 < 0**. In addition, SSP accepts the genes in the format of **gene symbol** and assumes that input genes in oncogenic signature are **statistically significant (adjust p < 0.05)**.   
 
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm1.2.png" width = "30%" height = "30%" />
 </div>
 
-Should your OGS contain genes formatted with alternative identifiers (such as EntrezID, Ensembl, UniProt, Gene name, etc.), proceed to the Converter page for the necessary conversion.    
+Should your oncogenic signature contain genes formatted with alternative identifiers (such as EntrezID, Ensembl, UniProt, Gene name, etc.), proceed to the Converter page for the necessary conversion.    
 
 Below are three approaches to identify promising drugs:    
 
@@ -24,7 +24,7 @@ As shown in the picture:
 
 For the **Single Method**, the following four steps are required:  
 ① Choose the desired SSM,  
-② Select a pharmacotranscriptomic dataset (PTD),  
+② Select a pharmacotranscriptomic dataset,  
 ③ Upload the **signature file (header with 'Gene' and 'log2FC')**, and  
 ④ Determine the number of top genes (topN) to utilize, with guidance provided by the Benchmark or Robustness modules.  
 
@@ -33,7 +33,7 @@ For the **Single Method**, the following four steps are required:
 </div>
 
 For **SS_cross**, step ③ differs:  
-Two OGS files, along with their respective names, are necessary; the name of the first signature corresponds to the X-axis, while the second corresponds to the Y-axis in the resulting figure.     
+Two oncogenic signature files, along with their respective names, are necessary; the name of the first signature corresponds to the X-axis, while the second corresponds to the Y-axis in the resulting figure.     
 Other type signature is not recommended. **For more details, please refer to the help page, specifically Question 8.**   
 <div style="padding: 10px; text-align: center;">
 <img src="imgsm3.png" width = "70%" height = "70%" />
@@ -55,16 +55,16 @@ Ultimately, initiate the process by clicking 'Run,' which will generate a job ID
 #### Result interpretation
 
 The single method is a classic drug repurposing method. One oncogenic signature and one signature search method (SSM) are required to retrieve drugs. 
-In result of SS_all, here is a lollipop with colored dots representing Top10 drugs from pharmacotranscriptomic dataset (PTD). For better readability, we use logP to color the dot.  
+In result of SS_all, here is a lollipop with colored dots representing Top10 drugs from pharmacotranscriptomic dataset. For better readability, we use logP to color the dot.  
 <div style="padding: 10px; text-align: center;">
 <img src="imginfoQ9_14.gif" width = "80%" height = "80%" />
 </div>
 
 In the corresponding table below, Here are four columns:  
-**Name**: Drug name in pharmacotranscriptomic dataset (PTD).     
+**Name**: Drug name in pharmacotranscriptomic dataset.     
 **Score**: Score of drugs computed by SSM.  
 **Scale_score**:  Score are scaled from -1 to 1 for better comparison.   
-**P_value**: p value of drugs computed by SSM using a null distribution. For every PTD and SSM, we construct a corresponding null distribution by randomly sampling gene expression values and gene names from the PTD data. This process is iterated to generate 2000 null signatures, which are then scored using corresponding SSM.  
+**P_value**: p value of drugs computed by SSM using a null distribution. For every pharmacotranscriptomic dataset and SSM, we construct a corresponding null distribution by randomly sampling gene expression values and gene names from the pharmacotranscriptomic dataset. This process is iterated to generate 2000 null signatures, which are then scored using corresponding SSM.  
 **P_adjust**: adjust p value of drugs computed by SSM.   
 **Direction**: the drug show potential to input signature. In breif, <0 means "down" and >0 means "up".
 
@@ -73,7 +73,7 @@ In the corresponding table below, Here are four columns:
 </div>
 
 Generally, Since SSP accepts input of oncogenic signatures, **drugs with score >0 may be agonistic to cancer, drugs with score <0 may be therapeutically beneficial against cancer.**    
-Of note, table reordered the drugs by absolute value of Scores, rather than scaled scores, so that the top drugs may be sometimes polarized in up (>0) or down (<0). It is used when evaluate the overall response of signature. For example, if drugs of a specific PTD response to the oncogenic signature with mainly positive scores, the concentration and treat time may be inappropriate for further investigation.  
+Of note, table reordered the drugs by absolute value of Scores, rather than scaled scores, so that the top drugs may be sometimes polarized in up (>0) or down (<0). It is used when evaluate the overall response of signature. For example, if drugs of a specific pharmacotranscriptomic dataset response to the oncogenic signature with mainly positive scores, the concentration and treat time may be inappropriate for further investigation.  
 
 SS_all compute signature across various signature search methods (SSMs) and generated prioritized drugs in same direction (up or down, it depends on user's choice). Subsequently, these drugs along with their respective ranks are incorporated into the [Robust Rank Aggregation (RRA)](https://doi.org/10.1093/bioinformatics/btr709) methodology. RRA is used to discern drugs that exhibit a consistently superior ranking compared to what would be expected under the null hypothesis of uncorrelated inputs. It further assigns a significance score for each drug, thereby providing a rigorous statistical basis for the prioritization.  
 The RRA compute the significance of each drug, just like p-value and we convert it into score by logP.  
@@ -93,7 +93,7 @@ In the corresponding table below, Here are four columns:
 Generally, a drug with more SSMs enriched and the higher score are more promising.  
 
 
-SS_cross evaluate the polypharmacological effect of drugs. It computes the scores of drugs for two disparate OGS Score~sig1~ and Score~sig2~ via a specific SSM. Then these drugs are classified into four quadrant: 
+SS_cross evaluate the polypharmacological effect of drugs. It computes the scores of drugs for two disparate oncogenic signature Score~sig1~ and Score~sig2~ via a specific SSM. Then these drugs are classified into four quadrant: 
 Q1: both scores >0,   
 Q2: Score~sig1~ >0 but Score~sig2~ <0,   
 Q3: both scores <0,   
@@ -103,7 +103,7 @@ $$
 Score_{sum} =  \\sqrt{ abs(Score_{sig1} \\times Score_{sig2}) }
 $$
 
-In result of SS_all, here is a scatter plot with colored dots representing drugs from pharmacotranscriptomic dataset (PTD). These drugs are denoted in four quadrants: **Q1 (both >0) colored pink**,**Q2 (x-axis <0 but y-axis >0) colored dark Khaki**, **Q3(both <0) colored green**, **Q4 (x-axis <0 but y-axis >0) colored dark Cyan**, notably, if a drug has a score of zero, it would be on the axis and colored grey.  
+In result of SS_all, here is a scatter plot with colored dots representing drugs from pharmacotranscriptomic dataset. These drugs are denoted in four quadrants: **Q1 (both >0) colored pink**,**Q2 (x-axis <0 but y-axis >0) colored dark Khaki**, **Q3(both <0) colored green**, **Q4 (x-axis <0 but y-axis >0) colored dark Cyan**, notably, if a drug has a score of zero, it would be on the axis and colored grey.  
 <div style="padding: 10px; text-align: center;">
 <img src="imginfoQ9_11.gif" width = "80%" height = "80%" />
 </div>

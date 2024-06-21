@@ -1,13 +1,13 @@
 ### Welcome to the Application module! 
-In this module, you can apply Signature Search methods (SSMs) to query promising drugs based on the OGS.   
-**A oncogenic signature (OGS)** is a gene list header with **Gene** and **Log2FC**. It typically consists of differentially expressed genes derived from sequencing samples of cell or animal experiments, or patient cohorts, such as GEO, TCGA and ICGC.    
+In this module, you can apply Signature Search methods (SSMs) to query promising drugs based on the oncogenic signature.   
+**A oncogenic signature** is a gene list header with **Gene** and **Log2FC**. It typically consists of differentially expressed genes derived from sequencing samples of cell or animal experiments, or patient cohorts, such as GEO, TCGA and ICGC.    
 The oncogenic signature should contain **at least 10 genes exhibiting a log2FC > 0 and 10 genes exhibiting a log2FC < 0**. Notably, the genes provided by user should be in the format of gene symbol and are **statistically significant (adjust p-value < 0.05 or FDR < 0.05)**, ensuring the significance of further analysis. 
 
 <div style="padding: 10px; text-align: center;">
 <img src="imgbm1.2.png" width = "30%" height = "30%" />
 </div>
 
-Should your OGS contain genes formatted with alternative identifiers (such as EntrezID, Ensembl, UniProt, Gene name, etc.), proceed to the Converter page for the necessary conversion.    
+Should your oncogenic signature contain genes formatted with alternative identifiers (such as EntrezID, Ensembl, UniProt, Gene name, etc.), proceed to the Converter page for the necessary conversion.    
 
 Below are three approaches to identify promising drugs:    
 
@@ -33,7 +33,7 @@ For the **Single Method**, the following four steps are required:
 </div>
 
 For **SS_cross**, step ③ differs:  
-Two OGS files, along with their respective names, are necessary; the name of the first signature corresponds to the X-axis, while the second corresponds to the Y-axis in the resulting figure.     
+Two oncogenic signature files, along with their respective names, are necessary; the name of the first signature corresponds to the X-axis, while the second corresponds to the Y-axis in the resulting figure.     
 
 <div style="padding: 10px; text-align: center;">
 <img src="imgsm3.png" width = "70%" height = "70%" />
