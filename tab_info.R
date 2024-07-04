@@ -53,7 +53,7 @@ output$dl_demo <- downloadHandler(
                "demo/drug_annotation_AUC.txt",
                "demo/signature.txt",
                "demo/signature2.txt",
-               "demo/manual of SSP V2.pdf",
+               "demo/manual of SSP V5.pdf",
                "demo/CS_AUC.txt",
                "demo/CS_ES.txt",
                "demo/CS_OGS.txt"
